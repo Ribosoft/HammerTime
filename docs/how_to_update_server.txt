@@ -1,0 +1,9 @@
+These steps should be followed anytime new commits need to be updated on the server.
+
+1- Login into the server
+2- Then type in the following commands:
+	cd ../hammer
+	sudo git pull origin master (credentials needed)
+	./src/node_modules/forever/forever stopall
+	./src/node_modules/forever/forever start src/app.js
+

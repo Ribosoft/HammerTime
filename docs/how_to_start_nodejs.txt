@@ -1,0 +1,10 @@
+TO get started in node.js, use the following resources:
+http://stackoverflow.com/questions/2353818/how-do-i-get-started-with-node-js
+
+The following link builds up a sample app:
+http://shapeshed.com/creating-a-basic-site-with-node-and-express/
+The source code for this example can be found here:
+https://github.com/shapeshed/express_example
+
+This website allows you to literally execute samples:
+https://runnable.com/express/UPZkpYdZ6hcgAABA
