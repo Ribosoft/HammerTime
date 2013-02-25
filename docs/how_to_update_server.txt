@@ -4,6 +4,6 @@ These steps should be followed anytime new commits need to be updated on the ser
 2- Then type in the following commands:
 	cd ../hammer
 	sudo git pull origin master (credentials needed)
-	./src/node_modules/forever/forever stopall
-	./src/node_modules/forever/forever start src/app.js
+	./src/node_modules/forever/bin/forever stopall
+	./src/node_modules/forever/bin/forever start src/app.js
 
