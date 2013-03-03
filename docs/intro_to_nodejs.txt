@@ -1,4 +1,4 @@
-TO get started in node.js, use the following resources:
+To get started in node.js, use the following resources:
 http://stackoverflow.com/questions/2353818/how-do-i-get-started-with-node-js
 
 The following link builds up a sample app:
