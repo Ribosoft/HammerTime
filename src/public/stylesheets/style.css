@@ -1,7 +1,12 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #f7f7f7;
 }
-a {
-  color: #00b7ff;
+.main {
+  width: 75%;
+  margin: 0 auto;
+  background-color: #fff;
+}
+#wrapper-page {
+  min-height: 65%;
 }
