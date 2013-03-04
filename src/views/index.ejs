@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js">
   <head>
     <title><%= title %></title>
+    <link rel='stylesheet' href='../stylesheets/reset.css' />
     <link rel='stylesheet' href='../stylesheets/style.css' />
+    <link rel="icon" type="image/png" href="../images/favicon.png" />
+    <script src="../js/modernizr-2.6.2-custom.js"></script>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <header id="header" class="main">
+        <div id="site-icon">
+            <img src="../images/icon.png" alt="Site icon"/>
+        </div>
+        <div id="header-right">
+            <div id="site-title"></div>
+        </div>
+    </header>
+    <div id="wrapper-page" class="main"></div>
+    <footer id="footer" class="main"></footer>
   </body>
 </html>
