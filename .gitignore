@@ -1,1 +1,3 @@
+#Files not to be committed into git
+/src/public/stylesheets/style.css
 /src/nbproject/

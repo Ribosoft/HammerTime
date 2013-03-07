@@ -1,11 +1,47 @@
 body
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
-  background-color: #F7F7F7
+  font: 14px TitilliumText25L400wt, Helvetica, Arial, sans-serif
+  background-color: #F2F2F2
+
+box-shadow()
+    -webkit-box-shadow arguments
+    -moz-box-shadow arguments
+    box-shadow arguments
 
 .main
   width 75%
-  margin 0 auto
+  margin 2.5% auto 0
   background-color white
+  box-shadow 0 0 5px rgba(0, 0, 0, 0.4)
+  border-bottom 1px solid #DDDDDD
+
 
 #wrapper-page
     min-height 65%
+    overflow hidden
+
+
+.half
+    width 47.5%
+
+.column
+    float left
+    margin-right 2.5%
+    
+.step
+    margin 2.5%
+    overflow auto
+
+.step.hidden
+    display none
+    
+#copyright 
+    padding 1%
+   
+h3
+    font 24px gentium_book-bold,Helvetica, Arial, sans-serif
+    
+h4.step-description
+    font 12px gentium-regular,Helvetica, Arial, sans-serif
+
+.step textarea
+    width 100%
