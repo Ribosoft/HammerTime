@@ -1,5 +1,5 @@
 body
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+  font: 14px TitilliumText25L400wt, Helvetica, Arial, sans-serif
   background-color: #F2F2F2
 
 box-shadow()
@@ -21,14 +21,27 @@ box-shadow()
 
 
 .half
-    width 50%
+    width 47.5%
 
-.left-column, .right-column
+.column
     float left
+    margin-right 2.5%
     
 .step
-    margin 5%
+    margin 2.5%
+    overflow auto
+
+.step.hidden
+    display none
     
 #copyright 
     padding 1%
+   
+h3
+    font 24px gentium_book-bold,Helvetica, Arial, sans-serif
     
+h4.step-description
+    font 12px gentium-regular,Helvetica, Arial, sans-serif
+
+.step textarea
+    width 100%
