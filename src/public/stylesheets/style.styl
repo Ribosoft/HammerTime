@@ -7,6 +7,15 @@ box-shadow()
     -moz-box-shadow arguments
     box-shadow arguments
 
+transition()
+    -webkit-transition arguments
+    -moz-transition arguments
+    transition arguments
+
+/* On Firefox, this will remove the dotted gray outline */
+input[type="button"]::-moz-focus-inner
+  border 0
+
 .main
   width 75%
   margin 2.5% auto 0
@@ -19,13 +28,21 @@ box-shadow()
     min-height 65%
     overflow hidden
 
-
 .half
-    width 47.5%
+    width 40%
 
 .column
     float left
     margin-right 2.5%
+    min-height 100%
+
+#middle-column
+    width 10%
+    text-align center
+    height 400px
+
+#middle-column em
+    font-size: 18px
     
 .step
     margin 2.5%
@@ -38,10 +55,69 @@ box-shadow()
     padding 1%
    
 h3
-    font 24px gentium_book-bold,Helvetica, Arial, sans-serif
+    font 36px gentium_book-bold,Helvetica, Arial, sans-serif
+    margin-bottom 10px
     
 h4.step-description
-    font 12px gentium-regular,Helvetica, Arial, sans-serif
+    font 18px gentium-regular,Helvetica, Arial, sans-serif
+    margin-bottom 10px
 
-.step textarea
+.step textarea,
+.step input
     width 100%
+    vertical-align middle
+    overflow auto
+    background-color #FFFFFF;
+    border 1px solid #CCCCCC;
+    border-radius 3px 3px 3px 3px
+    color #555555
+    height auto
+    box-shadow 0 1px 1px rgba(0, 0, 0, 0.075) inset
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+
+.step input[type="button"]
+    box-shadow 1px 1px 0px 1px rgba(0, 0, 0, 0.15)
+
+.step textarea:focus,
+.step input:focus
+    border-color rgba(82, 168, 236, 0.8)
+    box-shadow 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 168, 236, 0.6)
+    outline 0 none
+
+#drop-zone
+    border 4px dashed #DDDDDD;
+    vertical-align center
+
+/* Might need to change these values using @media queries */
+#step1 textarea
+    height 400px
+
+#step1 #drop-zone
+    height 396px
+
+.filler
+    height 30%
+    width 100%
+    float: left
+
+#drop-zone-content
+    margin auto
+    width 35%
+    text-align center
+
+#drop-zone-content em
+    font-size: 16px
+
+.step-footer
+    clear both
+    width 100%
+    min-height 20%
+    overflow hidden
+
+.step-footer > input[type="button"]
+    float right
+    display inline-block
+    max-width 10%
+    min-height 100%
+    margin-right 5%
+    
