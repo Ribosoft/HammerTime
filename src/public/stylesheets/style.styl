@@ -54,13 +54,13 @@ input[type="button"]::-moz-focus-inner
 #copyright 
     padding 1%
    
+.step-header
+    margin-bottom 20px
 h3
     font 36px gentium_book-bold,Helvetica, Arial, sans-serif
-    margin-bottom 10px
     
 h4.step-description
     font 18px gentium-regular,Helvetica, Arial, sans-serif
-    margin-bottom 10px
 
 .step textarea,
 .step input
@@ -76,7 +76,13 @@ h4.step-description
     transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
 
 .step input[type="button"]
-    box-shadow 1px 1px 0px 1px rgba(0, 0, 0, 0.15)
+    box-shadow 0px 1px 1px 1px rgba(0, 0, 0, 0.15)
+    color #000
+
+.step input.inner-button
+    width 70%
+    margin 0 auto
+    display block
 
 .step textarea:focus,
 .step input:focus
@@ -109,15 +115,26 @@ h4.step-description
     font-size: 16px
 
 .step-footer
+    padding 2.5% 0 1%
     clear both
     width 100%
-    min-height 20%
+    height 50px
     overflow hidden
 
-.step-footer > input[type="button"]
+.step-footer input.outer-button
     float right
     display inline-block
     max-width 10%
-    min-height 100%
+    min-height 70%
     margin-right 5%
-    
+
+.step-footer input.submit
+    color #FFFFFF;
+    background: #67B0EF; 
+    background: -moz-linear-gradient(center top , #67B0EF, #2B5EA4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#67B0EF), color-stop(100%,#2B5EA4)); 
+    background: -webkit-linear-gradient(top, #67B0EF 0%,#2B5EA4 100%); 
+    background: -ms-linear-gradient(top, #67B0EF 0%, #2B5EA4 100%); 
+    background: linear-gradient(to bottom, #67B0EF 0%, #2B5EA4 100%);
+    /*filter progid:DXImageTransform.Microsoft.gradient( startColorstr='#67B0EF', endColorstr='#2B5EA4',GradientType=0 ); /* IE6-9 */*/
+    text-shadow 0 -1px 0 #003366
