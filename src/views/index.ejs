@@ -6,7 +6,9 @@
     <link rel='stylesheet' href='../stylesheets/fonts.css' />
     <link rel='stylesheet' href='../stylesheets/style.css' />
     <link rel="icon" type="image/png" href="../images/favicon.png" />
-    <script src="../js/modernizr-2.6.2-custom.js"></script>
+    <!--<script src="../js/modernizr-2.6.2-custom.js"></script> -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <!--<script src="../js/jquery.placeholder.min.js?v=2.0.7"></script>-->
   </head>
   <body>
     <header id="header" class="main">
@@ -20,12 +22,25 @@
     <div id="wrapper-page" class="main">
         <div class="step" id="step1">
             <h3 class="step-title">Step 1</h3>
-            <h4 class="step-description">Lorem Ipsum Step 1</h4>
+            <h4 class="step-description">Copy-paste a sequence, or select a text file to upload your sequence</h4>
             <div class="half column">
-            <textarea rows="30"></textarea>
+            <textarea placeholder="Paste your sequence here..."></textarea>
+            </div>
+            <div class="column" id="middle-column">
+                <div class="filler"></div>
+                <p>Or</p>
             </div>
             <div class="half column">
-                <div id="drop-zone">Drop your file here</div>
+                <div id="drop-zone">
+                    <div class="filler"></div>
+                    <div id="drop-zone-content">
+                        <p>Drop your file here<br/> or <input class="inner-button" type="button" value="Select file"/></p>
+                    </div>
+                </div>
+            </div>
+            <div class="step-footer">
+                <input type="button" class="submit" value="Submit"/>
+                <input type="button" class="reset" value="Reset"/>
             </div>
         </div>
         <div class="step hidden" id="step2">
