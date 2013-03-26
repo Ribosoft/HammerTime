@@ -10,6 +10,7 @@
     <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>-->
     <!--<script src="../js/jquery.placeholder.min.js?v=2.0.7"></script>-->
     <script src="../js/client.js"></script>
+	 <script src="../js/jqueryfull.js"></script>
   </head>
   <body>
     <header id="header" class="main">
@@ -24,9 +25,17 @@
         <div class="step" id="step1">
             <div class="step-header">
                 <h3 class="step-title">Step 1</h3>
-                <h4 class="step-description">Copy-paste a sequence, or select a text file to upload your sequence</h4>
+                <h4 class="step-description">Copy-paste a sequence, or select a text file to upload your sequence.</h4>
             </div>
-            <div class="half column">
+			<div id="accession">
+            <textarea placeholder="Accession number"></textarea>
+            </div>
+			
+			<div class="accession-footer">
+			<input id="submit_ACN" class="submit outer-button" type="button" value="Check">
+			</div>
+            
+			<div class="half column">
             <textarea placeholder="Paste your sequence here..."></textarea>
             </div>
             <div class="column" id="middle-column">
