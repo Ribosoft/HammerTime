@@ -1,79 +1,16 @@
-<!DOCTYPE html>
-<html class="no-js">
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='../stylesheets/reset.css' />
-    <link rel='stylesheet' href='../stylesheets/fonts.css' />
-    <link rel='stylesheet' href='../stylesheets/style.css' />
-    <link rel="icon" type="image/png" href="../images/favicon.png" />
-    <!--<script src="../js/modernizr-2.6.2-custom.js"></script> -->
-    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>-->
-    <!--<script src="../js/jquery.placeholder.min.js?v=2.0.7"></script>-->
-    <script src="../js/client.js"></script>
-	 <script src="../js/jqueryfull.js"></script>
-  </head>
-  <body>
-    <header id="header" class="main">
-        <div id="site-icon">
-            <img src="../images/icon.png" alt="Site icon"/>
-        </div>
-        <div id="header-right">
-            <div id="site-title"></div>
-        </div>
-    </header>
+    <% include header %>
     <div id="wrapper-page" class="main">
         <div class="step" id="step1">
-            <div class="step-header">
-                <h3 class="step-title">Step 1</h3>
-                <h4 class="step-description">Copy-paste a sequence, or select a text file to upload your sequence.</h4>
-            </div>
-			<div id="accession">
-            <textarea placeholder="Accession number"></textarea>
-            </div>
-			
-			<div class="accession-footer">
-			<input id="submit_ACN" class="submit outer-button" type="button" value="Check">
-			</div>
-            
-			<div class="half column">
-            <textarea placeholder="Paste your sequence here..."></textarea>
-            </div>
-            <div class="column" id="middle-column">
-                <div class="filler"></div>
-                <p>Or</p>
-            </div>
-            <div class="half column">
-                <div id="drop-zone">
-                    <div class="filler"></div>
-                    <div id="drop-zone-content">
-                        <p>Drop your file here<br/> or <input class="inner-button" type="button" value="Select file"/></p>
-                    </div>
-                </div>
-            </div>
-            <div class="step-footer">
-                <input type="button" class="submit outer-button" id="submit1" value="Submit"/>
-                <input type="button" class="reset outer-button" value="Reset"/>
-            </div>
+            <% include steps/step1 %>
         </div>
         <div class="step hidden" id="step2">
-            <h3 class="step-title">Step 2</h3>
-            <h4 class="step-description">Lorem Ipsum Step 2</h4>
-            <p class="step-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <% include steps/step2 %>
         </div>
         <div class="step hidden" id="step3">
-            <h3 class="step-title">Step 3</h3>
-            <h4 class="step-description">Lorem Ipsum Step 3</h4>
-            <p class="step-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <% include steps/step3 %>
         </div>
         <div class="step hidden" id="step4">
-            <h3 class="step-title">Step 4</h3>
-            <h4 class="step-description">Lorem Ipsum Step 4</h4>
-            <p class="step-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <% include steps/step4 %>
         </div>
-
     </div>
-    <footer id="footer" class="main">
-        <div id="copyright">Created by Gabriel Belmonte and Anas Ambri </div>
-    </footer>
-  </body>
-</html>
+    <% include footer %>
