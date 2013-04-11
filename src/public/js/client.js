@@ -123,6 +123,7 @@ function ClearErrors()
 */
 function CleanInput( input )
 {
+	//FASTA
 	input = input.toUpperCase();
 	input = input.trim();
 	var fastaComment = input.indexOf('>');
@@ -145,6 +146,7 @@ function CleanInput( input )
 		fastaComment = input.indexOf('>');
 		fastaComment2 = input.indexOf(';');
 	} while(fastaComment != -1 || fastaComment2 != -1);
+	//END FASTA
 	console.log(input);
 	return input;
 }
