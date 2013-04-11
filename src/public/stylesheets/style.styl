@@ -1,6 +1,12 @@
+/* Colors */
+$color2 = rgba(186, 197, 221, 0.85) /*For background*/
+$subtitle1 = rgb(236, 182, 60) /*For subtitle text */
+$subtitle2 = #DD8A44  /*For subtitle text */
+
 body
   font: 14px TitilliumText25L400wt, Helvetica, Arial, sans-serif
-  background-color: #F2F2F2
+  /* background-color: $color2 #F2F2F2*/
+  background: url('../images/square_bg.png') $color2 repeat;
 
 box-shadow()
     -webkit-box-shadow arguments
@@ -12,6 +18,40 @@ transition()
     -moz-transition arguments
     transition arguments
 
+border-radius()
+    -webkit-border-radius arguments
+    -moz-border-radius arguments
+    border-radius arguments
+
+/* Left side of the header */
+#header
+    overflow hidden
+#header-left
+    width 70%
+    float left 
+
+#site-image
+    width 450px
+    image-rendering:optimizeQuality
+
+#header-subtext
+    color $subtitle1 /*or subtitle2 */
+    font-size 21px
+    font-family gentium_book-italic
+    position relative
+    bottom 40px
+    left 125px
+
+/* Right side of the header */
+#header-right
+    width 27.5%
+    float left
+    padding 2% 2.5% 0 0
+    &>a
+        margin-right 5%
+        float right
+        
+
 /* On Firefox, this will remove the dotted gray outline */
 input[type="button"]::-moz-focus-inner
   border 0
@@ -22,6 +62,7 @@ input[type="button"]::-moz-focus-inner
   background-color white
   box-shadow 0 0 5px rgba(0, 0, 0, 0.4)
   border-bottom 1px solid #DDDDDD
+  border-radius 5px
 
 
 #wrapper-page
@@ -33,7 +74,6 @@ input[type="button"]::-moz-focus-inner
 
 .column
     float left
-    min-height 100%
 
 #middle-column
     width 10%
@@ -63,7 +103,7 @@ h4.step-description
 
 .step textarea,
 .step input
-    width 100%
+    width 80%
     vertical-align middle
     overflow auto
     background-color #FFFFFF;
@@ -79,7 +119,7 @@ h4.step-description
     color #000
 
 .step input.inner-button
-    width 70%
+    width 50%
     margin 0 auto
     display block
 
@@ -89,21 +129,39 @@ h4.step-description
     box-shadow 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 168, 236, 0.6)
     outline 0 none
 
+$step1-content-ht = 396px
+
+
 #drop-zone
-    border 4px dashed #DDDDDD;
+    border-width 4px
+    border dashed #DDDDDD;
     vertical-align center
+    height $step1-content-ht - (@border-width)*2
 
 /* Might need to change these values using @media queries */
-#step1 textarea
-    height 400px
+#step1 
+    & textarea
+        height 400px
+        width 95%
+    .column
+        height $step1-content-ht
 
-#step1 #drop-zone
-    height 396px
+.substep-description
+    text-align center
+    margin-bottom 5%
+
+#accession
+    margin-bottom 5%
 
 .filler
-    height 30%
+    height 5%
     width 100%
     float: left
+
+#drop
+    & .filler
+        height 170px
+
 
 #drop-zone-content
     margin auto
@@ -114,8 +172,13 @@ h4.step-description
     font-size: 16px
 
 #sequence-wrap
-    padding 5% 10%
+    width 90%
+    margin 0 auto
     clear both
+    & *
+        float left
+    & p
+        width 2%
 
 /* Footer of a step */
 .step-footer
