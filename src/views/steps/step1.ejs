@@ -4,23 +4,29 @@
 <div class="step-content full-width">
     <div class="third column" id="accession">
         <div class="filler"></div>
+        <p class="substep-description">Search for sequence number</p>
         <input id="accession" type="text" placeholder="Accession number"></input>
-        <input id="submit_ACN" class="submit outer-button" type="button" value="Search">
+        <input id="submit_ACN" class="submit inner-button" type="button" value="Search">
     </div>
     <div class="bar-separator column"></div>
     <div class="third column">
         <div class="filler"></div>
+        <p class="substep-description">Select a file with your sequence</p>
         <input class="inner-button" type="button" value="Select file"/>
     </div>
     <div class="bar-separator column"></div>
-    <div class="third column" id="drop-zone">
+    <div class="third column" id="drop">
         <div class="filler"></div>
-        <div id="drop-zone-content">
-            <p>Drop your file here</p>
+        <div id="drop-zone">
+            <div id="drop-zone-content">
+                <p>Drop your file here</p>
+            </div>
         </div>
     </div>
     <div id="sequence-wrap">
+        <p>5'-</p>
         <textarea id="sequence-display" placeholder="Paste your sequence here..."></textarea>
+        <p>-3'</p>
     </div>
 </div>
 <div class="step-footer full-width">
