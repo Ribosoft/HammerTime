@@ -1,30 +1,29 @@
-<div class="step-header">
-    <h3 class="step-title">Step 1</h3>
-    <h4 class="step-description">Copy-paste a sequence, or select a text file to upload your sequence.</h4>
+<div class="step-header full-width">
+    <h3 class="step-title">Step 1: Selecting the sequence</h3>
 </div>
-<div id="accession">
-    <textarea placeholder="Accession number"></textarea>
-</div>
-<div class="accession-footer">
-    <input id="submit_ACN" class="submit outer-button" type="button" value="Check">
-</div>
-
-<div class="half column" >
-    <textarea id="sequenceDisplay" placeholder="Paste your sequence here..."></textarea>
-</div>
-<div class="column" id="middle-column">
-    <div class="filler"></div>
-    <p>Or</p>
-</div>
-<div class="half column">
-    <div id="drop-zone">
+<div class="step-content full-width">
+    <div class="third column" id="accession">
+        <div class="filler"></div>
+        <input id="accession" type="text" placeholder="Accession number"></input>
+        <input id="submit_ACN" class="submit outer-button" type="button" value="Search">
+    </div>
+    <div class="bar-separator column"></div>
+    <div class="third column">
+        <div class="filler"></div>
+        <input class="inner-button" type="button" value="Select file"/>
+    </div>
+    <div class="bar-separator column"></div>
+    <div class="third column" id="drop-zone">
         <div class="filler"></div>
         <div id="drop-zone-content">
-<p>Drop your file here<br/> or <input class="inner-button" type="button" value="Select file"/></p>
+            <p>Drop your file here</p>
         </div>
     </div>
+    <div id="sequence-wrap">
+        <textarea id="sequence-display" placeholder="Paste your sequence here..."></textarea>
+    </div>
 </div>
-<div class="step-footer">
+<div class="step-footer full-width">
     <input type="button" class="submit outer-button" id="submit1" value="Submit"/>
     <input type="button" class="reset outer-button" value="Reset"/>
 </div>
