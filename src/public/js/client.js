@@ -1,3 +1,23 @@
+//Add functionality to native string, cause it sucks
+String.prototype.indexOfMultiple=function(Arr) 
+{
+	var indexs = new Array();
+	//Make an array of the multiple first instances of Arr[ii]
+	for(var ii = 0; ii < Arr.length ; ++ii)
+	{
+		indexs.push(this.indexOf(Arr[ii]));
+	}
+	
+	var min = this.length;//The first instance of an element in *this cannot be at an index greater than length (e.g. this is a big number)
+	for(var ii = 0; ii < indexs.length; ++ii)
+	{
+		if(indexs[ii] != -1 && indexs[ii] < min)
+			min = indexs[ii];
+	}
+	return min;
+}
+
+
 //Fetch from database
 function FetchAccessionNumberSequence()
 {
@@ -34,30 +54,32 @@ function loadInputToDisplay(str){
 }
 
 //File drop
-var fileLoader = function() {
+function FileLoader() {
     var reader = new FileReader();
     var file;
-    return {
-        readFile: function(fileToRead) {
-            reader.readAsText(fileToRead);
-            $('.head').text(file.name.substr(0, file.name.length - 4));
-            reader.onload = function() {
-                loadInputToDisplay(reader.result);
-            };
-        },
-        handleFileSelect: function(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
-            file = evt.dataTransfer.files[0]; // file object uploaded
-            fileLoader.ReadFile(file);
-        },
-        handleDragOver: function(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
-            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-        }
-    };
-};
+	var selfRef = this;
+    this.readFile = function(fileToRead) {
+		reader.readAsText(fileToRead);
+		reader.onload = function() {
+			loadInputToDisplay(reader.result);
+		};
+	}
+    this.handleFileSelect = function(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+		
+		file = evt.dataTransfer.files[0]; // file object uploaded
+		selfRef.readFile(file);
+	}
+    this.handleDragOver = function(evt) {
+		evt.stopPropagation();
+		evt.preventDefault();
+		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+	}
+}
+
+var fileLoader = new FileLoader();
+
 
 
 
@@ -66,30 +88,6 @@ function ValidateInput(input)
 	var badInput = false;
 	var Problems = '';
 	var isRNA = true;
-	for(var ii = 0; ii < input.length; ++ii)
-	{
-		if(input[ii] ==' ')
-			continue;
-		if(input[ii] == 'T')
-		{
-			isRNA = false;
-			break;
-		}
-	}
-	for(var ii = 0; ii < input.length; ++ii)
-	{
-		if(input[ii] ==' ')
-			continue;
-		if((isRNA && input[ii] =='T') || (!isRNA && input[ii] == 'U'))
-		{
-			Problems = "Inconsistent input (T and U): Check that your input is either DNA or RNA";
-			badInput = true;
-			break;
-		}
-	}
-	
-	if(badInput)
-		return {"ok" : false , "error" :Problems};
 		
 	for(var ii = 0; ii < input.length; ++ii)
 	{
@@ -101,6 +99,32 @@ function ValidateInput(input)
 			badInput = true;
 			break;
 			
+		}
+	}
+	
+	if(badInput)
+		return {"ok" : false , "error" :Problems};
+		
+		for(var ii = 0; ii < input.length; ++ii)
+	{
+		if(input[ii] ==' ')
+			continue;
+		if(input[ii] == 'T')
+		{
+			isRNA = false;
+			break;
+		}
+	}
+	for(var ii = 0; ii < input.length; ++ii)
+	{
+		if(input[ii] ==' ' || input[ii] == '\n')
+			continue;
+		if((isRNA && input[ii] =='T') || (!isRNA && input[ii] == 'U'))
+		{
+			console.log("@" + ii + ":" + input[ii]);
+			Problems = "Inconsistent input (T and U): Check that your input is either DNA or RNA";
+			badInput = true;
+			break;
 		}
 	}
 	
@@ -126,26 +150,27 @@ function CleanInput( input )
 	//FASTA
 	input = input.toUpperCase();
 	input = input.trim();
-	var fastaComment = input.indexOf('>');
-	var fastaComment2 = input.indexOf(';');
+	var fastaCommentStart = input.indexOfMultiple(['>' , ';']);
 	do
 	{
 		
-		if(fastaComment != -1 || fastaComment2 != -1)
+		if(fastaCommentStart != -1 )
 		{
-			var firstFastaComment = (fastaComment > fastaComment2? fastaComment2:fastaComment);
 			var endofFastaComment =  input.indexOf('\n');
-			if(endofFastaComment > firstFastaComment)
+			if(endofFastaComment > fastaCommentStart)
 			{
 				if( endofFastaComment != -1 )
 				{
 					input = input.substr( input.indexOf('\n') + 1);
 				}
 			}
+			else //This means the comment is not terminated by a new-line. The entire thing is garbage. The validator will scream
+			{ //Or is preceeded by a line break, which means it is not proper FASTA
+				break;
+			}
 		}
-		fastaComment = input.indexOf('>');
-		fastaComment2 = input.indexOf(';');
-	} while(fastaComment != -1 || fastaComment2 != -1);
+		fastaCommentStart = input.indexOfMultiple(['>' , ';']);
+	} while(fastaCommentStart != -1 );
 	//END FASTA
 	console.log(input);
 	return input;
@@ -168,12 +193,14 @@ function SubmitInput()
 	}
 }
 
+
+
 window.onload = function() {
     var button1 = document.getElementById("submit1");
     $('#submit_ACN').click(FetchAccessionNumberSequence);
 	$('#submit1').click(SubmitInput);
 	
-	//TODO: BROKEN
+	
     var dropZone = document.getElementById('drop-zone');
     dropZone.addEventListener('dragover', fileLoader.handleDragOver, false);
     dropZone.addEventListener('drop', fileLoader.handleFileSelect, false);
