@@ -1,0 +1,32 @@
+
+*** Primary Color:
+
+   var. 1 = #23A8A8 = rgb(35,168,168)
+   var. 2 = #337E7E = rgb(51,126,126)
+   var. 3 = #0B6D6D = rgb(11,109,109)
+   var. 4 = #56D3D3 = rgb(86,211,211)
+   var. 5 = #77D3D3 = rgb(119,211,211)
+
+*** Secondary Color A:
+
+   var. 1 = #3755B8 = rgb(55,85,184)
+   var. 2 = #41528A = rgb(65,82,138)
+   var. 3 = #122A78 = rgb(18,42,120)
+   var. 4 = #6883DC = rgb(104,131,220)
+   var. 5 = #879BDC = rgb(135,155,220)
+
+*** Secondary Color B:
+
+   var. 1 = #FFC035 = rgb(255,192,53)
+   var. 2 = #BF9C4D = rgb(191,156,77)
+   var. 3 = #A67811 = rgb(166,120,17)
+   var. 4 = #FFD067 = rgb(255,208,103)
+   var. 5 = #FFDC90 = rgb(255,220,144)
+
+*** Complementary Color:
+
+   var. 1 = #FF9035 = rgb(255,144,53)
+   var. 2 = #BF814D = rgb(191,129,77)
+   var. 3 = #A65411 = rgb(166,84,17)
+   var. 4 = #FFAC67 = rgb(255,172,103)
+   var. 5 = #FFC290 = rgb(255,194,144)
