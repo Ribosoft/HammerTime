@@ -1,3 +1,5 @@
+@import 'nib'
+
 /* Colors */
 $color2 = rgba(186, 197, 221, 0.85) /*For background*/
 $subtitle1 = rgb(236, 182, 60) /*For subtitle text */
@@ -5,8 +7,13 @@ $subtitle2 = #DD8A44  /*For subtitle text */
 
 body
   font: 14px TitilliumText25L400wt, Helvetica, Arial, sans-serif
-  /* background-color: $color2 #F2F2F2*/
-  background: url('../images/square_bg.png') $color2 repeat;
+  // background-color: $color2 #F2F2F2
+  background: url('../images/background.jpg') no-repeat;
+  background-size: 75% 35%;
+  background-position: 200% 0%;
+
+
+  //background: url('../images/square_bg.png') $color2 repeat;
 
 box-shadow()
     -webkit-box-shadow arguments
@@ -23,12 +30,22 @@ border-radius()
     -moz-border-radius arguments
     border-radius arguments
 
-/* Left side of the header */
+/* Header */
 #header
     overflow hidden
+
+/* Top of the header */
+#header-links, #footer
+    background-color #346F82;
+    width 100%
+    padding 1% 2.5% 0 0
+    overflow hidden
+    &>a
+        margin-right 5%
+        float right
+        
 #header-left
     width 70%
-    float left 
 
 #site-image
     width 450px
@@ -41,16 +58,6 @@ border-radius()
     position relative
     bottom 40px
     left 125px
-
-/* Right side of the header */
-#header-right
-    width 27.5%
-    float left
-    padding 2% 2.5% 0 0
-    &>a
-        margin-right 5%
-        float right
-        
 
 /* On Firefox, this will remove the dotted gray outline */
 input[type="button"]::-moz-focus-inner
@@ -197,11 +204,6 @@ $step1-content-ht = 396px
 
 .step-footer input.submit
     color #FFFFFF;
-    background: #67B0EF; 
-    background: -moz-linear-gradient(center top , #67B0EF, #2B5EA4) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#67B0EF), color-stop(100%,#2B5EA4)); 
-    background: -webkit-linear-gradient(top, #67B0EF 0%,#2B5EA4 100%); 
-    background: -ms-linear-gradient(top, #67B0EF 0%, #2B5EA4 100%); 
-    background: linear-gradient(to bottom, #67B0EF 0%, #2B5EA4 100%);
-    /*filter progid:DXImageTransform.Microsoft.gradient( startColorstr='#67B0EF', endColorstr='#2B5EA4',GradientType=0 ); /* IE6-9 */*/
+    background: #67B0EF;
+    background: linear-gradient(top, #67B0EF, #2B5EA4); 
     text-shadow 0 -1px 0 #003366
