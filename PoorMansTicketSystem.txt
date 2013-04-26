@@ -1,0 +1,10 @@
+Priorities:
+----------
+Meh	Lil'	Kinda	Rather	Super
+
+How Important	Who	When		What		
+Meh		Gab	Next week	Get the button to reformat the input to make it look pretty (3 base-sets then space , all caps)		
+Kinda		Gab	Next week	Clear Problem Statement of the objectives and terminology		
+Kinda		Anas	Next week	Setup HTML form to upload files to UNAfold and HTML for output		
+Kinda		Anas	Next week	Clear ids from CSS		
+Rather		Anas	Next week	Finish up all HTML pages, so we get to the tweaking		
