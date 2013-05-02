@@ -17,6 +17,36 @@ String.prototype.indexOfMultiple=function(Arr)
 	return min;
 }
 
+String.prototype.replaceAt=function(index,string, len) 
+{
+if(len == undefined)
+	len = 1;
+
+  return this.substr(0, index) + string + this.substr(index+len);
+
+}
+
+String.prototype.replaceAll = function(find,replace)
+{
+	return this.replace(new RegExp(find, 'g'), replace);
+}
+
+
+//pads left
+String.prototype.PadLeft = function(padString, length) {
+	var str = this;
+    while (str.length < length)
+        str = padString + str;
+    return str;
+}
+ 
+//pads right
+String.prototype.PadRight = function(padString, length) {
+	var str = this;
+    while (str.length < length)
+        str = str + padString;
+    return str;
+}
 
 //Fetch from database
 function FetchAccessionNumberSequence()
@@ -172,6 +202,8 @@ function CleanInput( input )
 		fastaCommentStart = input.indexOfMultiple(['>' , ';']);
 	} while(fastaCommentStart != -1 );
 	//END FASTA
+	
+	input = input.replace(/ +?/g, '');
 	console.log(input);
 	return input;
 }
@@ -190,10 +222,85 @@ function SubmitInput()
 	else
 	{
 		$('#sequence-display').attr('style', "border-color: rgba(30, 240, 30, 0.8) ;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(30, 240, 30, 0.6) ;outline: 0 none");
+		var csites = FindCutsites (input);
+		var candidates = CreateCandidates(input, csites);
+		ShowCandidatesAndAnnealing(candidates);
 	}
 }
 
+function FindCutsites( seq )
+{
+	var loc = new Array();
+	res = -1;
+	do
+	{
+		res = seq.indexOf("GUC", res + 1);
+		if(res !== -1)
+			loc.push(res);
+	}
+	while (res !== -1);
+	return loc;
+}
 
+function PrintSequenceWithCutSitesHighlited(seq,cutSites)
+{
+	var htmlInsert ="";
+	var last = 0;
+	for(var ii = 0; ii < cutSites.length; ++ii)
+	{
+		htmlInsert += seq.substr(last, cutSites[ii]);
+		htmlInsert += "<b><span class='cut-site'>GUC</span></b>";
+		last = cutSites[ii]+3;
+	}
+	htmlInsert+= seq.substr (last);
+	$('.displayUpdate').html( htmlInsert );
+}
+
+function CreateCandidates (seq, cutSites)
+{
+	var Candidates = new Array();
+	//Per cutsite
+	
+	for(var ii = 0 ; ii < cutSites.length;++ii)
+	{
+		var firstCutsiteCands = new Array();
+		for(var jj = 7; jj < 12; ++jj)
+		{
+			var start = cutSites[ii] - jj;
+			if(start < 0)
+				continue;
+			for(var kk = 7; kk < 12; ++kk)
+			{
+				var end = cutSites[ii]+3+kk;
+				var length = end - start;
+				if(end >= seq.length)
+					continue;
+				firstCutsiteCands.push(seq.substr(start,length));
+				
+			}
+		}
+		Candidates.push(firstCutsiteCands);
+	}
+	return Candidates;
+}
+
+function ShowCandidatesAndAnnealing(cands)
+{
+	var res = "";
+	var consRes = "";
+	for(var ii = 0; ii < cands.length; ++ii)
+	{
+		res += "<p>Cut site number " + ii + "</p>";
+		consRes += "Cut site number " + ii + "\n";
+		for(var jj = 0; jj < cands[ii].length; ++jj)
+		{
+			res += "<p>\t"+cands[ii][jj] + "\t"+ tm_Base_Stacking(cands[ii][jj].replaceAll('U','T'),200,50,0)+'</p>';
+			consRes += "\t"+cands[ii][jj] + "\t"+ tm_Base_Stacking(cands[ii][jj].replaceAll('U','T'),200,50,0)+'\n';
+		}
+	}
+	console.log(consRes)
+	$('.displayUpdate').html(res);
+}
 
 window.onload = function() {
     var button1 = document.getElementById("submit1");

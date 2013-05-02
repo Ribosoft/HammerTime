@@ -66,8 +66,7 @@ function tm_Base_Stacking($c,$conc_primer,$conc_salt,$conc_mg){
 			$s+=$array_s[$subc];
         }
         $tm=((1000*$h)/($s+(1.987*Math.log($conc_primer/2000000000))))-273.15;
-        console.log( "Tm: "+$tm+" &deg;C");
-        console.log("Enthalpy: "+$h+"\nEntropy:  "+$s);
+       return  "Tm: "+$tm.toFixed(3)+" &deg;C\t" +"Enthalpy: "+$h.toFixed(3)+"\tEntropy:  "+$s.toFixed(3);
 }
 
 function Mol_wt($primer)
@@ -84,44 +83,44 @@ function Mol_wt($primer)
 	}
 }
 function CountCG($c){
-        $cg=substr_count($c,"G")+substr_count($c,"C");
-        return $cg;
-        }
+	$cg=substr_count($c,"G")+substr_count($c,"C");
+	return $cg;
+}
 
 function CountATCG($c){
-        $cg=substr_count($c,"A")+substr_count($c,"T")+substr_count($c,"G")+substr_count($c,"C");
-        return $cg;
-        }
+	$cg=substr_count($c,"A")+substr_count($c,"T")+substr_count($c,"G")+substr_count($c,"C");
+	return $cg;
+}
 
 
 function Tm_min($primer){
-        $primer_len=strlen($primer);
-        $primer2=preg_replace("/A|T|Y|R|W|K|M|D|V|H|B|N/","A",$primer);
-        $n_AT=substr_count($primer2,"A");
-        $primer2=preg_replace("/C|G|S/","G",$primer);
-        $n_CG=substr_count($primer2,"G");
+	$primer_len=strlen($primer);
+	$primer2=preg_replace("/A|T|Y|R|W|K|M|D|V|H|B|N/","A",$primer);
+	$n_AT=substr_count($primer2,"A");
+	$primer2=preg_replace("/C|G|S/","G",$primer);
+	$n_CG=substr_count($primer2,"G");
 
-                if ($primer_len > 0) {
-                        if ($primer_len < 14) {
-                                return round(2 * ($n_AT) + 4 * ($n_CG));
-                        }else{
-                                return round(64.9 + 41*(($n_CG-16.4)/$primer_len),1);
-                        }
-                }
+	if ($primer_len > 0) {
+			if ($primer_len < 14) {
+					return round(2 * ($n_AT) + 4 * ($n_CG));
+			}else{
+					return round(64.9 + 41*(($n_CG-16.4)/$primer_len),1);
+			}
+	}
 }
 
 function Tm_max($primer){
-        $primer_len=strlen($primer);
-        $primer=primer_max($primer);
-        $n_AT=substr_count($primer,"A");
-        $n_CG=substr_count($primer,"G");
-                if ($primer_len > 0) {
-                        if ($primer_len < 14) {
-                                return round(2 * ($n_AT) + 4 * ($n_CG));
-                        }else{
-                                return round(64.9 + 41*(($n_CG-16.4)/$primer_len),1);
-                        }
-                }
+	$primer_len=strlen($primer);
+	$primer=primer_max($primer);
+	$n_AT=substr_count($primer,"A");
+	$n_CG=substr_count($primer,"G");
+	if ($primer_len > 0) {
+			if ($primer_len < 14) {
+					return round(2 * ($n_AT) + 4 * ($n_CG));
+			}else{
+					return round(64.9 + 41*(($n_CG-16.4)/$primer_len),1);
+			}
+	}
 }
 
 function primer_min($primer){
