@@ -119,6 +119,9 @@ border-radius()
         height 100%
         color $color16
         
+#footer
+    margin-top 2.5%
+
 #header-left
     width 70%
 
@@ -145,7 +148,6 @@ input[type="button"]::-moz-focus-inner
   box-shadow 0 0 5px rgba(0, 0, 0, 0.4)
   border-bottom 1px solid #DDDDDD
   border-radius 5px
-  background: url('../images/square_bg.jpg') no-repeat;
 
 
 #wrapper-page
@@ -158,6 +160,11 @@ input[type="button"]::-moz-focus-inner
 
 .column
     float left
+    margin-bottom 2.5%
+
+.bar-separator
+    background-color $color16
+    width 2px
 
 #middle-column
     width 10%
@@ -220,8 +227,8 @@ $step1-content-ht = 396px
 #drop-zone
     border-width 4px
     border dashed #DDDDDD;
-    vertical-align center
-    height $step1-content-ht - (@border-width)*2
+    background-color: white
+    height $step1-content-ht - (@border-width)*10
 
 /* Might need to change these values using @media queries */
 #step1 
@@ -243,22 +250,10 @@ $step1-content-ht = 396px
     width 100%
     float: left
 
-#drop
-    & .filler
-        height 170px
-
-
-#drop-zone-content
-    margin auto
-    width 35%
-    text-align center
-
-#drop-zone-content em
-    font-size: 16px
-
 #sequence-wrap
     width 90%
-    margin 0 auto
+    margin 5% auto 0
+
     clear both
     & *
         float left
