@@ -79,13 +79,8 @@ $color20 = #FFC290;
 
 body
   font: 14px TitilliumText25L400wt, Helvetica, Arial, sans-serif
-  // background-color: $color2 #F2F2F2
   background: url('../images/background.jpg') no-repeat;
-  background-size: 75% 35%;
-  background-position: 200% 0%;
-
-
-  //background: url('../images/square_bg.png') $color2 repeat;
+  background-position: 160% 0
 
 box-shadow()
     -webkit-box-shadow arguments
@@ -106,16 +101,27 @@ border-radius()
 #header
     overflow hidden
 
+#step1
+    background-color: #F0F0F0;
+
 /* Top of the header */
 #header-links, #footer
-    background-color #346F82;
+    background-color $color16;
     width 100%
-    padding 1% 2.5% 0 0
+    padding 1% 0 0
     overflow hidden
     &>a
         margin-right 5%
         float right
+        display block
+    &>a:hover
+        background-color $color7
+        height 100%
+        color $color16
         
+#footer
+    margin-top 2.5%
+
 #header-left
     width 70%
 
@@ -149,10 +155,16 @@ input[type="button"]::-moz-focus-inner
     overflow hidden
 
 .third
-    width 32%
+    width 30%
+    margin-left 2%
 
 .column
     float left
+    margin-bottom 2.5%
+
+.bar-separator
+    background-color $color16
+    width 2px
 
 #middle-column
     width 10%
@@ -163,7 +175,7 @@ input[type="button"]::-moz-focus-inner
     font-size: 18px
     
 .step
-    margin 2.5%
+    padding 2.5%
     overflow auto
 
 .step.hidden
@@ -176,6 +188,7 @@ input[type="button"]::-moz-focus-inner
     margin-bottom 20px
 h3
     font 36px gentium_book-bold,Helvetica, Arial, sans-serif
+    color: #012139
     
 h4.step-description
     font 18px gentium-regular,Helvetica, Arial, sans-serif
@@ -214,8 +227,8 @@ $step1-content-ht = 396px
 #drop-zone
     border-width 4px
     border dashed #DDDDDD;
-    vertical-align center
-    height $step1-content-ht - (@border-width)*2
+    background-color: white
+    height $step1-content-ht - (@border-width)*10
 
 /* Might need to change these values using @media queries */
 #step1 
@@ -237,22 +250,10 @@ $step1-content-ht = 396px
     width 100%
     float: left
 
-#drop
-    & .filler
-        height 170px
-
-
-#drop-zone-content
-    margin auto
-    width 35%
-    text-align center
-
-#drop-zone-content em
-    font-size: 16px
-
 #sequence-wrap
     width 90%
-    margin 0 auto
+    margin 5% auto 0
+
     clear both
     & *
         float left
