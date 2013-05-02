@@ -79,13 +79,8 @@ $color20 = #FFC290;
 
 body
   font: 14px TitilliumText25L400wt, Helvetica, Arial, sans-serif
-  // background-color: $color2 #F2F2F2
   background: url('../images/background.jpg') no-repeat;
-  background-size: 75% 35%;
-  background-position: 200% 0%;
-
-
-  //background: url('../images/square_bg.png') $color2 repeat;
+  background-position: 160% 0
 
 box-shadow()
     -webkit-box-shadow arguments
@@ -106,15 +101,23 @@ border-radius()
 #header
     overflow hidden
 
+#step1
+    background-color: #F0F0F0;
+
 /* Top of the header */
 #header-links, #footer
-    background-color #346F82;
+    background-color $color16;
     width 100%
-    padding 1% 2.5% 0 0
+    padding 1% 0 0
     overflow hidden
     &>a
         margin-right 5%
         float right
+        display block
+    &>a:hover
+        background-color $color7
+        height 100%
+        color $color16
         
 #header-left
     width 70%
@@ -142,6 +145,7 @@ input[type="button"]::-moz-focus-inner
   box-shadow 0 0 5px rgba(0, 0, 0, 0.4)
   border-bottom 1px solid #DDDDDD
   border-radius 5px
+  background: url('../images/square_bg.jpg') no-repeat;
 
 
 #wrapper-page
@@ -149,7 +153,8 @@ input[type="button"]::-moz-focus-inner
     overflow hidden
 
 .third
-    width 32%
+    width 30%
+    margin-left 2%
 
 .column
     float left
@@ -163,7 +168,7 @@ input[type="button"]::-moz-focus-inner
     font-size: 18px
     
 .step
-    margin 2.5%
+    padding 2.5%
     overflow auto
 
 .step.hidden
@@ -176,6 +181,7 @@ input[type="button"]::-moz-focus-inner
     margin-bottom 20px
 h3
     font 36px gentium_book-bold,Helvetica, Arial, sans-serif
+    color: #012139
     
 h4.step-description
     font 18px gentium-regular,Helvetica, Arial, sans-serif
