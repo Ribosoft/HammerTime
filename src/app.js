@@ -5,6 +5,7 @@
 
 var express = require('express'),
         stylus = require ('stylus'),
+        db = require('./db'),
         routes = require('./routes'),
         http = require('http'),
         nib = require('nib'),
