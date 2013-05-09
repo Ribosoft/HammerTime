@@ -3,6 +3,24 @@ function substr_count (str, substr)
 	return str.split(substr).length - 1;
 }
 
+
+//primer, and salt concentration (Na + K) in mM
+//Primer must containt no spaces and have T bases. (DNA)
+function tm_Salt_Adjusted(str, conc_salt)
+{
+	var c = 0;
+	for(var ii = 0; ii < str.length; ++ii)
+	{
+		if(str[ii] == 'G' || str[ii] == 'C')
+			c++;
+	}
+	
+	var percentGC = 100*c/str.length;
+	
+	return 81.5+7.209288*Math.log(conc_salt/1000)+0.41*percentGC-675/str.length;
+}
+
+//Params: Primer string, concentration of primer in nM, concentration of salt in mM (Na + K ), concentration of Mg in mM
 function tm_Base_Stacking($c,$conc_primer,$conc_salt,$conc_mg){
 
         if (CountATCG($c)!= $c.length){console.log( "The oligonucleotide is not valid");return;}
