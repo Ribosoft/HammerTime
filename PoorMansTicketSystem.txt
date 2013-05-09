@@ -4,11 +4,11 @@ Meh	Lil'	Kinda	Rather	Super
 
 How Important		Who		When				What		
 Meh					Gab		For second HTML		Get the button to reformat the input to make it look pretty (3 base-sets then space , all caps)		
-Kinda				Gab		Next week			Clear Problem Statement of the objectives and terminology
+Kinda				Gab		Next week			Clear Problem Statement of the objectives and terminology DONE
 Kinda				Anas	Next week			Setup HTML form to upload files to UNAfold and HTML for output		
 Kinda				Anas	Next week			Clear ids from CSS
 Rather				Anas	Next week			Finish up all HTML pages, so we get to the tweaking		
-Rather				Gab		Next week			Read the paper on gibs free energy and how it relates to getting the thing hooked on.
-Rather				Gab		Next Week			Get the level 2 annealing temperature set up
-Rather				Gab		Next Week			Remove the C in GUC from Annealing T calculation
+Rather				Gab		Next week			Read the paper on gibs free energy and how it relates to getting the thing hooked on. 
+Rather				Gab		Next Week			Get the level 2 annealing temperature set up      DONE
+Rather				Gab		Next Week			Remove the C in GUC from Annealing T calculation  DONE
 Kinda				Anas	Two Weeks			Modular pop-up for error display and stuff
