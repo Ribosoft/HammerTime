@@ -13,7 +13,8 @@ var Request = new Schema({
     // 4 : processed
     //TODO figure out when & how to flush database 
     //(maybe add a state)
-    status : { type: Number, min: 0, max: 4, default:0 }
+    status : { type: Number, min: 0, max: 4, default:0 },
+    sequence : String
 });
  
 mongoose.model( 'Request', Request );

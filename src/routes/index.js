@@ -1,6 +1,8 @@
 //Use this to add utilities functions
-var utils = require('utils');
-var mongoose = require('mongoose');
+var utils = require('utils'),
+    url = require('url'),
+    mongoose = require('mongoose');
+
 var Request = mongoose.model('Request');
 
 exports.index = function(req, res){
@@ -9,13 +11,26 @@ exports.index = function(req, res){
 
 exports.design = function(req, res){
     var id = utils.generateUID();
+    //TODO SUPER IMPORTANT
+    //do validation on req.sequence before adding to db
+    var sequence = url.parse(req.url,true).query.sequence;
+    
+    //Yes, this is super lame input validation
+    if(!sequence)
+    {
+        //Should return an error that would be handled at client level
+        console.log("Error, redirecting to index");
+        res.render('index', { title: 'Ribosoft'});
+    }
+    
     new Request({
         uuid : id,
-        status : 1
+        status : 1,
+        sequence : sequence
     }).save(function(err, todo, count){
         if(err)
         {
-            //Need better error handling
+            //Should return an error that would be handled at client level
             console.log("Error, redirecting to index");
             res.render('index', { title: 'Ribosoft'});
         }
