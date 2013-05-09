@@ -5,8 +5,8 @@
 
 var express = require('express'),
         stylus = require ('stylus'),
+        db = require('./db'),
         routes = require('./routes'),
-        user = require('./routes/user'),
         http = require('http'),
         nib = require('nib'),
         path = require('path');
@@ -35,8 +35,13 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+//All the routes.* functions are defined in routes/index.js
 app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/design', routes.design);
+app.get(/^\/design\/(.*)/, routes.design_page);
+app.get(/^\/summary\/(.*)/, routes.summary_page);
+app.get(/^\/processing\/(.*)/, routes.processing_page);
+app.get(/^\/results\/(.*)/, routes.results_page);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

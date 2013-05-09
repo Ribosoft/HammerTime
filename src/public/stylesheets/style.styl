@@ -1,31 +1,10 @@
 @import 'nib'
 
 /* Colors */
-$color2 = rgba(186, 197, 221, 0.85) /*For background*/
-$subtitle1 = rgb(236, 182, 60) /*For subtitle text */
-$subtitle2 = #DD8A44  /*For subtitle text */
-
-/*Palette*/
-$color1 = #23A8A8;
-$color2 = #337E7E;
-$color3 = #0B6D6D;
-$color4 = #56D3D3;
-$color5 = #77D3D3;
-$color6 = #3755B8;
-$color7 = #41528A;
-$color8 = #122A78;
-$color9 = #6883DC;
-$color10 = #879BDC;
-$color11 = #FFC035;
-$color12 = #BF9C4D;
-$color13 = #A67811;
-$color14 = #FFD067;
-$color15 = #FFDC90;
-$color16 = #FF9035;
-$color17 = #BF814D;
-$color18 = #A65411;
-$color19 = #FFAC67;
-$color20 = #FFC290;
+$color_main_bg = #F0F0F0
+$color_text_large = #012139
+$color_highlight = #FF9035
+$color_anchor = #41528A
 
 .color-palette
     width 100%
@@ -36,51 +15,10 @@ $color20 = #FFC290;
         height 100%
         float left
 
-#color1
-    background-color $color1
-#color2
-    background-color $color2
-#color3
-    background-color $color3
-#color4
-    background-color $color4
-#color5
-    background-color $color5
-#color6
-    background-color $color6
-#color7
-    background-color $color7
-#color8
-    background-color $color8
-#color9
-    background-color $color9
-#color10
-    background-color $color10
-#color11
-    background-color $color11
-#color12
-    background-color $color12
-#color13
-    background-color $color13
-#color14
-    background-color $color14
-#color15
-    background-color $color15
-#color16
-    background-color $color16
-#color17
-    background-color $color17
-#color18
-    background-color $color18
-#color19
-    background-color $color19
-#color20
-    background-color $color20
-
 body
   font: 14px TitilliumText25L400wt, Helvetica, Arial, sans-serif
   background: url('../images/background.jpg') no-repeat;
-  background-position: 160% 0
+  background-position: 225% -5%
 
 box-shadow()
     -webkit-box-shadow arguments
@@ -102,11 +40,11 @@ border-radius()
     overflow hidden
 
 #step1
-    background-color: #F0F0F0;
+    background-color: $color_main_bg;
 
 /* Top of the header */
 #header-links, #footer
-    background-color $color16;
+    background-color $color_highlight;
     width 100%
     padding 1% 0 0
     overflow hidden
@@ -115,9 +53,9 @@ border-radius()
         float right
         display block
     &>a:hover
-        background-color $color7
+        background-color 
         height 100%
-        color $color16
+        color $color_anchor
         
 #footer
     margin-top 2.5%
@@ -163,7 +101,6 @@ input[type="button"]::-moz-focus-inner
     margin-bottom 2.5%
 
 .bar-separator
-    background-color $color16
     width 2px
 
 #middle-column
@@ -188,7 +125,7 @@ input[type="button"]::-moz-focus-inner
     margin-bottom 20px
 h3
     font 36px gentium_book-bold,Helvetica, Arial, sans-serif
-    color: #012139
+    color: $color_text_large
     
 h4.step-description
     font 18px gentium-regular,Helvetica, Arial, sans-serif
