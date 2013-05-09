@@ -1,3 +1,15 @@
+var GLOBAL_PARAMETERS = 
+{
+	"left_arm_min" : 8,
+	"right_arm_min" : 8,
+	"left_arm_max" : 10,
+	"right_arm_max" : 10,
+	"Mg_ion_mM": 1,
+	"salt_ion_mM":150, //[Na]+[K]
+	"oligomer_mM":200
+}
+
+
 //Add functionality to native string, cause it sucks
 String.prototype.indexOfMultiple=function(Arr) 
 {
@@ -14,9 +26,41 @@ String.prototype.indexOfMultiple=function(Arr)
 		if(indexs[ii] != -1 && indexs[ii] < min)
 			min = indexs[ii];
 	}
+	if(min == this.length)
+		min = -1;
 	return min;
 }
 
+String.prototype.replaceAt=function(index,string, len) 
+{
+if(len == undefined)
+	len = 1;
+
+  return this.substr(0, index) + string + this.substr(index+len);
+
+}
+
+String.prototype.replaceAll = function(find,replace)
+{
+	return this.replace(new RegExp(find, 'g'), replace);
+}
+
+
+//pads left
+String.prototype.PadLeft = function(padString, length) {
+	var str = this;
+    while (str.length < length)
+        str = padString + str;
+    return str;
+}
+ 
+//pads right
+String.prototype.PadRight = function(padString, length) {
+	var str = this;
+    while (str.length < length)
+        str = str + padString;
+    return str;
+}
 
 //Fetch from database
 function FetchAccessionNumberSequence()
@@ -88,6 +132,10 @@ function ValidateInput(input)
 	var badInput = false;
 	var Problems = '';
 	var isRNA = true;
+	
+	if(input == "")
+		return {"ok" : false , "error" : "Empty Input: Is your FASTA comment terminated by a new line?"};
+	
 		
 	for(var ii = 0; ii < input.length; ++ii)
 	{
@@ -143,8 +191,9 @@ function ClearErrors()
 
 /**
 * Formats input from FASTA / other formats into plain string
-*
+*	
 */
+
 function CleanInput( input )
 {
 	//FASTA
@@ -166,15 +215,19 @@ function CleanInput( input )
 			}
 			else //This means the comment is not terminated by a new-line. The entire thing is garbage. The validator will scream
 			{ //Or is preceeded by a line break, which means it is not proper FASTA
+				input = "";
 				break;
 			}
 		}
 		fastaCommentStart = input.indexOfMultiple(['>' , ';']);
 	} while(fastaCommentStart != -1 );
 	//END FASTA
+	
+	input = input.replace(/[ \t\r\n]+/g, '');//This removes all white-space from the returned string
 	console.log(input);
 	return input;
 }
+
 function SubmitInput()
 {
 	ClearErrors();
@@ -190,10 +243,97 @@ function SubmitInput()
 	else
 	{
 		$('#sequence-display').attr('style', "border-color: rgba(30, 240, 30, 0.8) ;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(30, 240, 30, 0.6) ;outline: 0 none");
+		var csites = FindCutsites (input);
+		var candidates = CreateCandidates(input, csites);
+		ShowCandidatesAndAnnealing(candidates);
 	}
 }
 
+function FindCutsites( seq )
+{
+	var loc = new Array();
+	res = -1;
+	do
+	{
+		res = seq.indexOf("GUC", res + 1);
+		if(res !== -1)
+			loc.push(res);
+	}
+	while (res !== -1);
+	return loc;
+}
 
+function PrintSequenceWithCutSitesHighlited(seq,cutSites)
+{
+	var htmlInsert ="";
+	var last = 0;
+	for(var ii = 0; ii < cutSites.length; ++ii)
+	{
+		htmlInsert += seq.substr(last, cutSites[ii]);
+		htmlInsert += "<b><span class='cut-site'>GUC</span></b>";
+		last = cutSites[ii]+3;
+	}
+	htmlInsert+= seq.substr (last);
+	$('.displayUpdate').html( htmlInsert );
+}
+var cc;
+function CreateCandidates (seq, cutSites)
+{
+	var Candidates = new Array();
+	//Per cutsite
+	//Load params
+	var lamin = GLOBAL_PARAMETERS.left_arm_min;
+	var ramin = GLOBAL_PARAMETERS.right_arm_min;
+	var lamax = GLOBAL_PARAMETERS.left_arm_max;
+	var ramax = GLOBAL_PARAMETERS.right_arm_max;
+	
+	for(var ii = 0 ; ii < cutSites.length;++ii)
+	{
+		var firstCutsiteCands = new Array();
+		for(var jj = lamin; jj < lamax; ++jj)
+		{
+			var start = cutSites[ii] - jj;
+			if(start < 0)
+				continue;
+			for(var kk = ramin; kk < ramax; ++kk)
+			{
+				var end = cutSites[ii]+3+kk;
+				var length = end - start;
+				if(end >= seq.length)
+					continue;
+				firstCutsiteCands.push({"seq" : seq.substr(start,length), "cut":(jj+2)});
+				
+			}
+		}
+		Candidates.push(firstCutsiteCands);
+	}
+	cc = Candidates;
+	return Candidates;
+}
+
+function ShowCandidatesAndAnnealing(cands)
+{
+	var res = "";
+	var consRes = "";
+	for(var ii = 0; ii < cands.length; ++ii)
+	{
+		res += "<p>Cut site number " + ii + "</p>";
+		consRes += "Cut site number " + ii + "\n";
+		for(var jj = 0; jj < cands[ii].length; ++jj)
+		{
+			var currentSeq = cands[ii][jj].seq;
+			console.log(currentSeq);
+			var c_pos = cands[ii][jj].cut;
+			currentSeq = currentSeq.substr(0,c_pos)+currentSeq.substr(c_pos+1,currentSeq.length-c_pos-1);//REMOVE non-annealing C from comupation
+			console.log(currentSeq);
+			var computationalResult = tm_Base_Stacking(cands[ii][jj].seq.replaceAll('U','T'),GLOBAL_PARAMETERS.oligomer_mM,GLOBAL_PARAMETERS.salt_ion_mM,GLOBAL_PARAMETERS.Mg_ion_mM);
+			res += "<p>\t"+cands[ii][jj].seq + "\t"+ computationalResult+'</p>';
+			consRes += "\t"+cands[ii][jj].seq + "\t"+ computationalResult+'\n';
+		}
+	}
+	console.log(consRes)
+	$('.displayUpdate').html(res);
+}
 
 window.onload = function() {
     var button1 = document.getElementById("submit1");
