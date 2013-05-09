@@ -67,9 +67,6 @@ function FetchAccessionNumberSequence()
 {
 	ClearErrors();
     var sequence = $("#accession").find("input").val();
-    //var url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id="+
-    //sequence + "&rettype=fasta&retmode=text";
-    console.log("sequence accession # " + sequence);
     var url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi";
     $.ajax({
         type: "GET",
@@ -228,6 +225,7 @@ function CleanInput( input )
 	return input;
 }
 
+
 function SubmitInput()
 {
 	ClearErrors();
@@ -336,9 +334,8 @@ function ShowCandidatesAndAnnealing(cands)
 }
 
 window.onload = function() {
-    var button1 = document.getElementById("submit1");
     $('#submit_ACN').click(FetchAccessionNumberSequence);
-	$('#submit1').click(SubmitInput);
+    $('#submit1').click(SubmitInput);
 	
 	
     var dropZone = document.getElementById('drop-zone');

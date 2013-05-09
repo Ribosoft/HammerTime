@@ -4,13 +4,10 @@ var mongoose = require('mongoose');
 var Request = mongoose.model('Request');
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Ribosot'});
+  res.render('index', { title: 'Ribosoft'});
 };
 
 exports.design = function(req, res){
-    //Create a unique ID for the sequence
-    //Save ID in database
-    //Redirect to /design/{ID}
     var id = utils.generateUID();
     new Request({
         uuid : id,
@@ -20,7 +17,7 @@ exports.design = function(req, res){
         {
             //Need better error handling
             console.log("Error, redirecting to index");
-            res.render('index', { title: 'Ribosot'});
+            res.render('index', { title: 'Ribosoft'});
         }
        res.redirect('/design/'+id);
     });
