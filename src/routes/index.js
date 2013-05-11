@@ -22,20 +22,23 @@ exports.design = function(req, res){
         console.log("Error, redirecting to index");
         res.render('index', { title: 'Ribosoft'});
     }
-    
-    new Request({
-        uuid : id,
-        status : 1,
-        sequence : sequence
-    }).save(function(err, todo, count){
-        if(err)
-        {
-            //Should return an error that would be handled at client level
-            console.log("Error, redirecting to index");
-            res.render('index', { title: 'Ribosoft'});
-        }
-       res.redirect('/design/'+id);
-    });
+    else{
+        new Request({
+            uuid: id,
+            status: 1,
+            sequence: sequence
+        }).save(function(err, todo, count) {
+            if (err)
+            {
+                //Should return an error that would be handled at client level
+                console.log("Error, redirecting to index");
+                res.render('index', {title: 'Ribosoft'});
+            }
+            else{
+                res.redirect('/design/' + id);
+            }
+        });
+    }
 };
 
 //req.params[0] will contain the id of the sequence in process
