@@ -170,7 +170,7 @@ function SubmitInput()
 		var csites = FindCutsites (input);
 		var candidates = CreateCandidates(input, csites);
 		ShowCandidatesAndAnnealing(candidates);
-                window.location.replace(window.location.href+"design?sequence="+input);
+                window.location.href = window.location.href+"design?sequence="+input;
          }
 }
 
