@@ -14,7 +14,7 @@ var express = require('express'),
 var app = express();
 
 app.configure(function(){
-  app.set('port', 8124 );
+  app.set('port', 8080 );
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
   app.use(express.logger('dev'));
