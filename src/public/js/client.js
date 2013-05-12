@@ -6,7 +6,7 @@ var GLOBAL_PARAMETERS =
 	"right_arm_max" : 10,
 	"Mg_ion_mM": 1,
 	"salt_ion_mM":150, //[Na]+[K]
-	"oligomer_mM":200
+	"oligomer_nM":200
 }
 
 
