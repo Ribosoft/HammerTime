@@ -1,3 +1,62 @@
 <h3 class="step-title">Step 2 - Design Options</h3>
-<h4 class="step-description">Lorem Ipsum Step 2</h4>
-<p class="step-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<h4 class="step-description">Please select the options that will be applied during the design of the ribozyme.</h4>
+<form class = "design-form">
+    <fieldset class="option-field"><legend>Regions for target design</legend>
+        <input class="third" type="radio" name="region" value="5">5'UTR</input>
+        <input class="third" type="radio" name="region" value="ORF">Open Reading Frame (ORF)</input>
+        <input class="third" type="radio" name="region" value="3">3'UTR</input>
+    </fieldset>
+    <fieldset class="option-field"><legend>Target environment</legend>
+        <div class="half">
+            <input type="radio" name="env" value="vitro">In-vitro</input>
+        </div>
+        <div class="half>
+            <input type="radio" name="env" value="vivo">In-vivo</input>
+            <select name="env-vivo">
+                <option value="mouse">Mouse</option>
+                <option value="rat">Rat</option>
+                <option value="bYeast">S. cerevisiae</option>
+                <option value="fYeast">S. pombe</option>
+                <option value="neurospora">Neurospora</option>
+                <option value="amoebae">D. discoideum</option>
+                <option value="worm">C. elegans</option>
+                <option value="flea">Daphnia</option>
+                <option value="fly">D. melanogaster</option>
+                <option value="zebrafish">D. rerio</option>
+                <option value="frog">Xenopus</option>
+                <option value="chicken">Gallus</option>
+                <option value="arabidopsis">Arabidopsis</option>
+            </select>
+        </div>
+    </fieldset>
+    <fieldset class="option-field"><legend>Environment Properties</legend>
+        <label for="temperature">Temperature</label>
+        <input type="text" name="temperature" autocomplete="on" value="37&#176;C"/><br/>
+        <label for="naC">Na&#8314; Concentration</label>
+        <input type="text" name="naC" autocomplete="on" value="50 mM"/><br/>
+        <label for="mgC">Mg&#8314;&#8314; Concentration</label>
+        <input type="text" name="mgC" autocomplete="on" value="0 mM"/><br/>
+        <label for="oligomerC">Oligomer Concentration</label>
+        <input type="text" name="oligomerC" autocomplete="on" value="200nM"/><br/>
+    </fieldset>
+    <fieldset class="option-field"><legend>Potential Cut-sites</legend>
+        <label for="cutsites">Preferred cutsite(s)</label>
+        <select name="cutsites" multiple="multiple">
+            <option value="guc" selected="selected">GUC</option>
+            <option value="auc">AUC</option>
+            <option value="cuc">CUC</option>
+            <option value="cug">CUG</option>
+            <option value="cua">CUA</option>
+        </select>        
+    </fieldset>
+    <fieldset class="option-field"><legend>Ribozyme Shape</legend>
+        <div class="half column">
+            <input name="shape" type="image" src="../images/icon.png" alt="Site icon" value="/>
+        </div>
+        <div class="half column">
+            <input type="image" src="../images/icon.png" alt="Site icon"/>
+        </div>
+    </fieldset>
+    <fieldset class="option-field"></fieldset>
+    <fieldset class="option-field"></fieldset>
+</form>
