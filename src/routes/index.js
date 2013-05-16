@@ -43,7 +43,14 @@ exports.design = function(req, res){
 
 //req.params[0] will contain the id of the sequence in process
 exports.design_page = function(req, res){
-  res.render('design_page', { title: 'Ribosot - Design Options'});
+  //TODO implement logic to show target selection fieldset only when using accession#
+  var enteredManually = true;
+  
+  res.render('design_page', 
+  { 
+      title: 'Ribosot - Design Options', 
+      showTarget: enteredManually
+  });
 };
 
 exports.summary_page = function(req, res){

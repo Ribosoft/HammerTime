@@ -36,12 +36,12 @@ app.configure('development', function(){
 });
 
 //All the routes.* functions are defined in routes/index.js
-app.get('/', routes.index);
-app.get('/design', routes.design);
-app.get(/^\/design\/(.*)/, routes.design_page);
-app.get(/^\/summary\/(.*)/, routes.summary_page);
-app.get(/^\/processing\/(.*)/, routes.processing_page);
-app.get(/^\/results\/(.*)/, routes.results_page);
+app.get('/ribosoft/', routes.index);
+app.get('/ribosoft/design', routes.design);
+app.get(/^\/ribosoft\/design\/(.*)/, routes.design_page);
+app.get(/^\/ribosoft\/summary\/(.*)/, routes.summary_page);
+app.get(/^\/ribosoft\/processing\/(.*)/, routes.processing_page);
+app.get(/^\/ribosoft\/results\/(.*)/, routes.results_page);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
