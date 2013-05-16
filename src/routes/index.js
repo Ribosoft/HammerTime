@@ -9,6 +9,10 @@ exports.index = function(req, res){
   res.render('index', { title: 'Ribosoft'});
 };
 
+exports.redirect = function(req, res){
+  res.redirect('/ribosoft/');
+};
+
 exports.design = function(req, res){
     var id = utils.generateUID();
     //TODO SUPER IMPORTANT
