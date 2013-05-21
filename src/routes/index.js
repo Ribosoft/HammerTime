@@ -39,7 +39,7 @@ exports.design = function(req, res){
                 res.render('index', {title: 'Ribosoft'});
             }
             else{
-                res.redirect('/design/' + id);
+                res.redirect('/ribosoft/design/' + id);
             }
         });
     }

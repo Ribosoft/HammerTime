@@ -51,12 +51,24 @@
     </fieldset>
     <fieldset class="option-field"><legend>Ribozyme Shape</legend>
         <div class="half column">
-            <input name="shape" type="image" src="../images/icon.png" alt="Site icon" value="/>
+            <input name="shape" type="image" src="../../images/icon.png" alt="Site icon" value="/>
         </div>
         <div class="half column">
-            <input type="image" src="../images/icon.png" alt="Site icon"/>
+            <input type="image" src="../../images/icon.png" alt="Site icon"/>
         </div>
     </fieldset>
-    <fieldset class="option-field"></fieldset>
-    <fieldset class="option-field"></fieldset>
+    <fieldset class="option-field"><legend>Folding type</legend>
+        <div class="half column">
+           <input type="checkbox" name="fold" value="mfold">m-Fold</input>
+        </div>
+        <div class="half column">
+            <input type="checkbox" name="fold" value="sfold">s-Fold</input>
+        </div>
+    </fieldset>
+
+    <div class="step-footer full-width">
+        <input type="button" class="submit outer-button" id="submit1" value="Submit"/>
+        <input type="button" class="reset outer-button" value="Reset"/>
+        <input type="button" class="outer-button" value="Advanced Options"/>
+    </div>
 </form>
