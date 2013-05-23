@@ -2,16 +2,16 @@
 <h4 class="step-description">Please select the options that will be applied during the design of the ribozyme.</h4>
 <form class = "design-form">
     <fieldset class="option-field"><legend>Regions for target design</legend>
-        <input class="third" type="radio" name="region" value="5">5'UTR</input>
-        <input class="third" type="radio" name="region" value="ORF">Open Reading Frame (ORF)</input>
-        <input class="third" type="radio" name="region" value="3">3'UTR</input>
+        <div class="third inline-block"><input type="radio" name="region" value="5"/>5'UTR<br/></div>
+        <div class="third inline-block"><input type="radio" name="region" value="ORF"/>Open Reading Frame (ORF)<br/></div>
+        <div class="third inline-block"><input type="radio" name="region" value="3"/>3'UTR<br/></div>
     </fieldset>
     <fieldset class="option-field"><legend>Target environment</legend>
-        <div class="half">
-            <input type="radio" name="env" value="vitro">In-vitro</input>
+        <div class="half inline-block">
+            <input type="radio" name="env" value="vitro"/>In-vitro<br/>
         </div>
-        <div class="half>
-            <input type="radio" name="env" value="vivo">In-vivo</input>
+        <div class="half inline-block" >
+            <input type="radio" name="env" value="vivo"/>In-vivo<br/>
             <select name="env-vivo">
                 <option value="mouse">Mouse</option>
                 <option value="rat">Rat</option>
@@ -51,12 +51,24 @@
     </fieldset>
     <fieldset class="option-field"><legend>Ribozyme Shape</legend>
         <div class="half column">
-            <input name="shape" type="image" src="../images/icon.png" alt="Site icon" value="/>
+            <input type="checkbox" name="fold" value="basic" checked="checked">Basic</input>
         </div>
         <div class="half column">
-            <input type="image" src="../images/icon.png" alt="Site icon"/>
+            <input type="checkbox" name="fold" value="wishbone" checked="checked">Wishbone</input>
         </div>
     </fieldset>
-    <fieldset class="option-field"></fieldset>
-    <fieldset class="option-field"></fieldset>
+    <fieldset class="option-field"><legend>Folding type</legend>
+        <div class="half column">
+           <input type="checkbox" name="fold" value="m" checked="checked">m-Fold</input>
+        </div>
+        <div class="half column">
+            <input type="checkbox" name="fold" value="s" checked="checked">s-Fold</input>
+        </div>
+    </fieldset>
+
+    <div class="step-footer full-width">
+        <input type="button" class="submit outer-button" id="submit1" value="Submit"/>
+        <input type="button" class="reset outer-button" value="Reset"/>
+        <input type="button" class="outer-button" value="Advanced Options"/>
+    </div>
 </form>

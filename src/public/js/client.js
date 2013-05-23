@@ -170,7 +170,23 @@ function SubmitInput()
 		var csites = FindCutsites (input);
 		var candidates = CreateCandidates(input, csites);
 		ShowCandidatesAndAnnealing(candidates);
-                window.location.href = window.location.href+"design?sequence="+input;
+                $.ajax({
+                    type: "POST",
+                    url: window.location.href+"design",
+                    data: {
+                        sequence: input
+                    },
+                    success: function(data) {
+                        //data contains the id of the request
+                        window.location.href = window.location.href+"design/"+data.id;
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        switch (textStatus) {
+                            case "error":
+                                alert("errorThrown is " + errorThrown+" with status "+textStatus);
+                        }
+                    }
+                });
          }
 }
 
