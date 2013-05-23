@@ -16,8 +16,8 @@ exports.redirect = function(req, res){
 exports.design = function(req, res){
     var id = utils.generateUID();
     //TODO SUPER IMPORTANT
-    //do validation on req.sequence before adding to db
-    var sequence = url.parse(req.url,true).query.sequence;
+    //do validation on sequence before adding to db 
+    var sequence = req.body.sequence;
     
     //Yes, this is super lame input validation
     if(!sequence)
@@ -46,15 +46,20 @@ exports.design = function(req, res){
 };
 
 //req.params[0] will contain the id of the sequence in process
-exports.design_page = function(req, res){
+exports.design_page_get = function(req, res){
   //TODO implement logic to show target selection fieldset only when using accession#
   var enteredManually = true;
-  
   res.render('design_page', 
   { 
       title: 'Ribosot - Design Options', 
       showTarget: enteredManually
   });
+};
+
+//req.params[0] will contain the id of the sequence in process
+exports.design_page_post = function(req, res){
+  //TODO validatin of input
+  res.redirect('/ribosoft/summary/' + id);
 };
 
 exports.summary_page = function(req, res){
