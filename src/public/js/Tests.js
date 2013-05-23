@@ -12,8 +12,11 @@ UnitTest.prototype.AddNew = function (  input,  output)
 }
 
 		//Takes an object and a function belonging to that object
-UnitTest.prototype.Execute = function (func)
+UnitTest.prototype.Execute = function (func, tolerance)
 {
+	var use_tol = false;
+	if(tolerance == undefined)
+		use_tol = true; 
 	var res = "Test\t\tInput\t\tOuput\t\tExpected\t\tP/F\n";
 	for(var ii = 0; ii < this._Input.length; ++ii)
 	{
@@ -23,9 +26,16 @@ UnitTest.prototype.Execute = function (func)
 		var pass = true;
 		trueOutputString = func.apply(null, currentInputString);
 		 
-		
-		if(JSON.stringify(trueOutputString) != JSON.stringify(currentExpectedOutputString))
-			pass = false;
+		if(use_tol)
+		{
+			if(Math.abs(trueOutputString-currentExpectedOutputString) >= tolerance)
+				pass = false;
+		}
+		else
+		{
+			if(JSON.stringify(trueOutputString) != JSON.stringify(currentExpectedOutputString))
+				pass = false;			
+		}
 		res +=  "T" + ii + "\t\t";
 		res += currentInputString + "\t\t" + trueOutputString + "\t\t" + currentExpectedOutputString +"\t\t\t" + (pass? "pass":"fail") + '\n' ;
 	}
