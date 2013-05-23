@@ -1,0 +1,102 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~Output for all siRNAs~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Line 1:
+Column 1: target position (starting - ending)
+Column 2: sense siRNA (5p --> 3p)
+Column 3: antisense siRNA (5p --> 3p)
+Column 4: dinucleotide leader preceding the target sequence
+
+Line 2:
+Column 1: total score for siRNA duplex
+Column 2: target accessibility score
+Column 3: duplex feature score
+Column 4: duplex thermodynamics score
+Column 5: siRNA GC content
+Column 6: antisense siRNA binding energy (kcal/mol)
+Column 7: differential stability of siRNA duplex ends                                                                       (DSSE, in kcal/mol)
+Column 8: average internal stability at the cleavage site                                                                   (AIS, in kcal/mol)
+Column 9: total stability of siRNA duplex (kcal/mol)
+Column 10: sum of probabilities of unpaired target bases
+           (column 4 of output file sstrand.out)
+
+
+NOTES:
+
+ 1) The starting (ending) position of the target sequence 
+    corresponds to position 19 (1) of the antisense siRNA 
+    (i.e., dinucleotide leader and nt 22 and nt 23 in 
+    Tuschl patterns are not considered by us to be part 
+    of the target sequence); 
+ 2) Sense siRNA=target sequence +3 prime dTdT overhang;
+    dTdT for both sense and antisense siRNAs can be
+    replaced by UU;
+ 3) GC %= GC count in siRNA (excluding overhangs)/19 x100%;
+ 4) DSSE = stability of 5p-antisense end of 4 base pairs 
+          -stability of 5p-sense end of 4 base pairs; 
+    the asymmetry rule is enforced by DSSE > 0.
+    (see Schwartz et al. Cell, Vol. 115, 199-208, 2003). 
+ 5) AIS = average of internal stability values for  
+    positions 9-14 of the antisense strand; starting at a 
+    position, the internal stability is for 4 BP stacks;
+    the rule of relative instability at the cleavage site
+    is enforced by AIS > -8.6 kcal/mol, the midpoint 
+    between the minimum of -3.6 and the maximum of -13.6. 
+    (see Khvorova et al. Cell, Vol. 115, 209-216, 2003). 
+ 6) Total siRNA duplex score is the sum of target 
+    accessibility score, duplex feature score and
+    duplex thermodynamics score, with a maximum of                                                                         20 points;
+    the accessibility score is based on antisense
+    siRNA binding energy and has a range of [0, 8];
+    the duplex feature score is computed with the
+    algorithm by Reynolds et al. (Nature Biotech.,
+    Vol. 22, 326-330, 2004), and has a range of [-2, 10];
+    the duplex thermodynamics score has a range of  
+    [0, 2], with contribution of 1 point for DSSE > 0, 
+    and 1 point for AIS > -8.6 kcal/mol.
+
+--------------------------------------------------------------------------------
+
+    3-   21  ACUGGAACUGAUGAGUCCGTT CGGACUCAUCAGUUCCAGUTT  UU
+              3  2   0  1  52.6%   -4.1   -1.6   -8.5  -40.0   9.16
+    4-   22  CUGGAACUGAUGAGUCCGUTT ACGGACUCAUCAGUUCCAGTT  UA
+              8  3   3  2  52.6%   -6.3    0.6   -8.2  -40.0   9.16
+    5-   23  UGGAACUGAUGAGUCCGUGTT CACGGACUCAUCAGUUCCATT  AC
+              6  4   1  1  52.6%   -8.5   -1.8   -8.0  -40.5  10.14
+    6-   24  GGAACUGAUGAGUCCGUGATT UCACGGACUCAUCAGUUCCTT  CU
+             11  4   5  2  52.6%   -9.4    0.8   -7.8  -41.4  10.52
+    7-   25  GAACUGAUGAGUCCGUGAGTT CUCACGGACUCAUCAGUUCTT  UG
+              8  4   3  1  52.6%   -9.9   -0.6   -7.9  -40.7   9.90
+    8-   26  AACUGAUGAGUCCGUGAGGTT CCUCACGGACUCAUCAGUUTT  GG
+              7  4   2  1  52.6%   -9.8   -3.6   -8.1  -40.0   9.88
+    9-   27  ACUGAUGAGUCCGUGAGGATT UCCUCACGGACUCAUCAGUTT  GA
+              9  4   4  1  52.6%   -9.3   -1.9   -8.2  -41.0   9.83
+   10-   28  CUGAUGAGUCCGUGAGGACTT GUCCUCACGGACUCAUCAGTT  AA
+              5  3   1  1  57.9%   -7.7   -2.9   -8.6  -43.1   8.84
+   11-   29  UGAUGAGUCCGUGAGGACGTT CGUCCUCACGGACUCAUCATT  AC
+              3  3   0  0  57.9%   -7.1   -3.1   -9.0  -42.3   8.85
+   12-   30  GAUGAGUCCGUGAGGACGATT UCGUCCUCACGGACUCAUCTT  CU
+              7  4   3  0  57.9%   -8.8   -0.3   -9.4  -43.2   9.63
+   13-   31  AUGAGUCCGUGAGGACGAATT UUCGUCCUCACGGACUCAUTT  UG
+              8  4   4  0  52.6%   -8.6   -0.7   -9.8  -40.1  10.01
+   14-   32  UGAGUCCGUGAGGACGAAATT UUUCGUCCUCACGGACUCATT  GA
+              9  4   4  1  52.6%   -8.6    2.2   -9.8  -40.4   9.95
+   15-   33  GAGUCCGUGAGGACGAAACTT GUUUCGUCCUCACGGACUCTT  AU
+              7  4   2  1  57.9%   -8.6    2.7   -9.8  -42.7   9.64
+   16-   34  AGUCCGUGAGGACGAAACATT UGUUUCGUCCUCACGGACUTT  UG
+              9  3   5  1  52.6%   -6.0    3.4   -9.7  -39.7   8.88
+   17-   35  GUCCGUGAGGACGAAACAUTT AUGUUUCGUCCUCACGGACTT  GA
+              7  3   3  1  52.6%   -6.6    5.6   -9.7  -39.8   7.92
+   18-   36  UCCGUGAGGACGAAACAUCTT GAUGUUUCGUCCUCACGGATT  AG
+              7  3   3  1  52.6%   -6.6    1.4   -9.7  -40.5   7.92
+   19-   37  CCGUGAGGACGAAACAUCUTT AGAUGUUUCGUCCUCACGGTT  GU
+              8  3   4  1  52.6%   -6.3    3.3   -9.7  -39.1   8.54
+   20-   38  CGUGAGGACGAAACAUCUGTT CAGAUGUUUCGUCCUCACGTT  UC
+              7  3   3  1  52.6%   -7.9    1.4   -9.8  -38.9   9.16
+   21-   39  GUGAGGACGAAACAUCUGGTT CCAGAUGUUUCGUCCUCACTT  CC
+              5  3   2  0  52.6%   -8.0   -0.5   -9.6  -40.4   9.18
+   22-   40  UGAGGACGAAACAUCUGGATT UCCAGAUGUUUCGUCCUCATT  CG
+              8  2   6  0  47.4%   -4.9    0.0   -9.1  -39.0   9.12
+   23-   41  GAGGACGAAACAUCUGGAGTT CUCCAGAUGUUUCGUCCUCTT  GU
+              6  2   2  2  52.6%   -5.0    0.9   -8.4  -40.6   8.74
+   24-   42  AGGACGAAACAUCUGGAGATT UCUCCAGAUGUUUCGUCCUTT  UG
+              7  1   5  1  47.4%   -3.0   -0.7   -7.8  -38.5   8.32
