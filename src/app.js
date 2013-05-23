@@ -38,13 +38,11 @@ app.configure('development', function(){
 //All the routes.* functions are defined in routes/index.js
 app.get('/ribosoft/', routes.index);
 app.get('/ribosoft', routes.redirect);
-app.get(/^\/ribosoft\/design\/(.*)/, routes.design_page_get);
-app.get(/^\/ribosoft\/summary\/(.*)/, routes.summary_page);
+app.post('/ribosoft/design', routes.design);
+app.get(/^\/ribosoft\/design\/(.*)/, routes.design_page);
+app.post(/^\/ribosoft\/summary\/(.*)/, routes.summary_page);
 app.get(/^\/ribosoft\/processing\/(.*)/, routes.processing_page);
 app.get(/^\/ribosoft\/results\/(.*)/, routes.results_page);
-
-app.post('/ribosoft/design', routes.design);
-app.post(/^\/ribosoft\/design\/(.*)/, routes.design_page_post);
 
 
 http.createServer(app).listen(app.get('port'), function(){

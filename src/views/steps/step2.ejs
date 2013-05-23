@@ -1,6 +1,6 @@
 <h3 class="step-title">Step 2 - Design Options</h3>
 <h4 class="step-description">Please select the options that will be applied during the design of the ribozyme.</h4>
-<form class = "design-form">
+<form class = "design-form" method="post" action=<%= urlPost %>>
     <fieldset class="option-field"><legend>Regions for target design</legend>
         <div class="third inline-block"><input type="radio" name="region" value="5"/>5'UTR<br/></div>
         <div class="third inline-block"><input type="radio" name="region" value="ORF"/>Open Reading Frame (ORF)<br/></div>
@@ -67,7 +67,7 @@
     </fieldset>
 
     <div class="step-footer full-width">
-        <input type="button" class="submit outer-button" id="submit1" value="Submit"/>
+        <input type="submit" class="submit outer-button" id="submit2" value="Submit"/>
         <input type="button" class="reset outer-button" value="Reset"/>
         <input type="button" class="outer-button" value="Advanced Options"/>
     </div>
