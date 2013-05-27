@@ -1,0 +1,96 @@
+~~~~~~~~~~~~~~~siRNA ends and internal stability~~~~~~~~~~~~~~~
+
+Line 1:  target position;   antisense siRNA (5p -> 3p);
+         5p-antisense stability(AntiS, in kcal/mol);
+         5p-sense stability (SS, in kcal/mol);
+         differential stability of siRNA duplex ends                                                                                (DSSE, in kcal/mol);
+         average internal stability at the cleavage site                                                                            (AIS, in kcal/mol)
+
+Line 2:  internal stability for antisense positions 1- 10)
+Line 3:  internal stability for antisense positions 11- 19)
+
+NOTES:
+
+ 1) AntiS is computed by a sum of energies for 4 base
+    pair stacks and the 3-prime dangling T for the 5-prime
+    end of the antisense siRNA strand; 
+    SS is the sum for the 5-prime end of the sense strand;
+ 2) DSSE = AntiS - SS; 
+    the symmetry rule is enforced by DSSE > 0
+    (see Schwartz et al. Cell, Vol. 115, 199-208, 2003); 
+ 3) AIS = average of internal stability values for  
+    positions 9-14 of the antisense strand; starting at a 
+    position, the internal stability is for 4 BP stacks;
+    the rule of relative instability at the cleavage site
+    is enforced by AIS > -8.6 kcal/mol, the midpoint 
+    between the minimum of -3.6 and the maximum of -13.6 
+    (see Khvorova et al. Cell, Vol. 115, 209-216, 2003). 
+
+--------------------------------------------------------------------------------
+
+    3-   21 CGGACUCAUCAGUUCCAGUTT -10.9  -9.3  -1.6  -8.5
+            -10.9 -10.0  -9.1  -8.8  -7.7  -8.0  -7.7  -7.7  -8.8  -7.3
+             -7.6  -8.8  -8.7  -9.9  -9.7  -8.8  -8.7  -9.9  -9.3
+    4-   22 ACGGACUCAUCAGUUCCAGTT  -9.9 -10.5   0.6  -8.2
+             -9.9 -10.3 -10.0  -9.1  -8.8  -7.7  -8.0  -7.7  -7.7  -8.8
+             -7.3  -7.6  -8.8  -8.7  -9.9  -7.6  -8.8  -8.7 -10.5
+    5-   23 CACGGACUCAUCAGUUCCATT -10.6  -8.8  -1.8  -8.0
+            -10.6 -10.3 -10.3 -10.0  -9.1  -8.8  -7.7  -8.0  -7.7  -7.7
+             -8.8  -7.3  -7.6  -8.8  -8.7  -7.3  -7.6  -8.8  -8.8
+    6-   24 UCACGGACUCAUCAGUUCCTT  -9.2 -10.0   0.8  -7.8
+             -9.2 -10.0 -10.3 -10.3 -10.0  -9.1  -8.8  -7.7  -8.0  -7.7
+             -7.7  -8.8  -7.3  -7.6  -8.8  -8.8  -7.3  -7.6 -10.0
+    7-   25 CUCACGGACUCAUCAGUUCTT  -9.4  -8.8  -0.6  -7.9
+             -9.4  -9.1 -10.0 -10.3 -10.3 -10.0  -9.1  -8.8  -7.7  -8.0
+             -7.7  -7.7  -8.8  -7.3  -7.6  -7.7  -8.8  -7.3  -8.8
+    8-   26 CCUCACGGACUCAUCAGUUTT -10.5  -6.9  -3.6  -8.1
+            -10.5  -8.8  -9.1 -10.0 -10.3 -10.3 -10.0  -9.1  -8.8  -7.7
+             -8.0  -7.7  -7.7  -8.8  -7.3  -7.7  -7.7  -8.8  -6.9
+    9-   27 UCCUCACGGACUCAUCAGUTT -10.3  -8.4  -1.9  -8.2
+            -10.3  -9.9  -8.8  -9.1 -10.0 -10.3 -10.3 -10.0  -9.1  -8.8
+             -7.7  -8.0  -7.7  -7.7  -8.8  -8.0  -7.7  -7.7  -8.4
+   10-   28 GUCCUCACGGACUCAUCAGTT -11.2  -8.3  -2.9  -8.6
+            -11.2 -10.2  -9.9  -8.8  -9.1 -10.0 -10.3 -10.3 -10.0  -9.1
+             -8.8  -7.7  -8.0  -7.7  -7.7  -7.7  -8.0  -7.7  -8.3
+   11-   29 CGUCCUCACGGACUCAUCATT -10.9  -7.8  -3.1  -9.0
+            -10.9 -10.0 -10.2  -9.9  -8.8  -9.1 -10.0 -10.3 -10.3 -10.0
+             -9.1  -8.8  -7.7  -8.0  -7.7  -8.8  -7.7  -8.0  -7.8
+   12-   30 UCGUCCUCACGGACUCAUCTT  -9.5  -9.2  -0.3  -9.4
+             -9.5 -10.3 -10.0 -10.2  -9.9  -8.8  -9.1 -10.0 -10.3 -10.3
+            -10.0  -9.1  -8.8  -7.7  -8.0  -9.1  -8.8  -7.7  -9.2
+   13-   31 UUCGUCCUCACGGACUCAUTT  -8.0  -7.3  -0.7  -9.8
+             -8.0  -9.4 -10.3 -10.0 -10.2  -9.9  -8.8  -9.1 -10.0 -10.3
+            -10.3 -10.0  -9.1  -8.8  -7.7 -10.0  -9.1  -8.8  -7.3
+   14-   32 UUUCGUCCUCACGGACUCATT  -6.7  -8.9   2.2  -9.8
+             -6.7  -7.9  -9.4 -10.3 -10.0 -10.2  -9.9  -8.8  -9.1 -10.0
+            -10.3 -10.3 -10.0  -9.1  -8.8 -10.3 -10.0  -9.1  -8.9
+   15-   33 GUUUCGUCCUCACGGACUCTT  -7.6 -10.3   2.7  -9.8
+             -7.6  -6.6  -7.9  -9.4 -10.3 -10.0 -10.2  -9.9  -8.8  -9.1
+            -10.0 -10.3 -10.3 -10.0  -9.1 -10.3 -10.3 -10.0 -10.3
+   16-   34 UGUUUCGUCCUCACGGACUTT  -6.2  -9.6   3.4  -9.7
+             -6.2  -6.4  -6.6  -7.9  -9.4 -10.3 -10.0 -10.2  -9.9  -8.8
+             -9.1 -10.0 -10.3 -10.3 -10.0 -10.0 -10.3 -10.3  -9.6
+   17-   35 AUGUUUCGUCCUCACGGACTT  -5.9 -11.5   5.6  -9.7
+             -5.9  -6.1  -6.4  -6.6  -7.9  -9.4 -10.3 -10.0 -10.2  -9.9
+             -8.8  -9.1 -10.0 -10.3 -10.3  -9.1 -10.0 -10.3 -11.5
+   18-   36 GAUGUUUCGUCCUCACGGATT  -9.0 -10.4   1.4  -9.7
+             -9.0  -6.3  -6.1  -6.4  -6.6  -7.9  -9.4 -10.3 -10.0 -10.2
+             -9.9  -8.8  -9.1 -10.0 -10.3  -8.8  -9.1 -10.0 -10.4
+   19-   37 AGAUGUUUCGUCCUCACGGTT  -7.3 -10.6   3.3  -9.7
+             -7.3  -7.8  -6.3  -6.1  -6.4  -6.6  -7.9  -9.4 -10.3 -10.0
+            -10.2  -9.9  -8.8  -9.1 -10.0  -9.9  -8.8  -9.1 -10.6
+   20-   38 CAGAUGUUUCGUCCUCACGTT  -8.3  -9.7   1.4  -9.8
+             -8.3  -7.7  -7.8  -6.3  -6.1  -6.4  -6.6  -7.9  -9.4 -10.3
+            -10.0 -10.2  -9.9  -8.8  -9.1 -10.2  -9.9  -8.8  -9.7
+   21-   39 CCAGAUGUUUCGUCCUCACTT -10.5 -10.0  -0.5  -9.6
+            -10.5  -7.7  -7.7  -7.8  -6.3  -6.1  -6.4  -6.6  -7.9  -9.4
+            -10.3 -10.0 -10.2  -9.9  -8.8 -10.0 -10.2  -9.9 -10.0
+   22-   40 UCCAGAUGUUUCGUCCUCATT -10.0 -10.0   0.0  -9.1
+            -10.0  -9.9  -7.7  -7.7  -7.8  -6.3  -6.1  -6.4  -6.6  -7.9
+             -9.4 -10.3 -10.0 -10.2  -9.9 -10.3 -10.0 -10.2 -10.0
+   23-   41 CUCCAGAUGUUUCGUCCUCTT -10.5 -11.4   0.9  -8.4
+            -10.5  -9.9  -9.9  -7.7  -7.7  -7.8  -6.3  -6.1  -6.4  -6.6
+             -7.9  -9.4 -10.3 -10.0 -10.2  -9.4 -10.3 -10.0 -11.4
+   24-   42 UCUCCAGAUGUUUCGUCCUTT -10.3  -9.6  -0.7  -7.8
+            -10.3  -9.9  -9.9  -9.9  -7.7  -7.7  -7.8  -6.3  -6.1  -6.4
+             -6.6  -7.9  -9.4 -10.3 -10.0  -7.9  -9.4 -10.3  -9.6
