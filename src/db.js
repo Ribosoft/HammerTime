@@ -11,10 +11,20 @@ var Request = new Schema({
     // 2 : designed
     // 3 : inProcessing
     // 4 : processed
-    //TODO figure out when & how to flush database 
-    //(maybe add a state)
+    //TODO flush database for records in state 4 with date > week
     status : { type: Number, min: 0, max: 4, default:0 },
-    sequence : String
+    sequence : {type: String, trim: true },
+    targetRegion : { type: Number, min: 3, max: 5, default:4 },
+    //targetEnv = false for vitro, true for vivo
+    targetEnv : Boolean,
+    vivoEnv : {type: String, default:""},
+    tempEnv : {type: Number, default: 37},
+    naEnv: {type: Number, default: 0},
+    mgEnv: {type: Number, default: 0},
+    oligoEnv: {type: Number, default: 0},
+    cutsites: [],
+    foldShape : [],
+    foldSW: []
 });
  
 mongoose.model( 'Request', Request );

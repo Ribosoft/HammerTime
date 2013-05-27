@@ -11,8 +11,22 @@
             <tbody>
                 <tr>
                     <td>Length of sequence</td>
-                    <td>43</td>
+                    <td><%= seqLength %> nucleotides</td>
                 </tr>
+                <tr>
+                    <td>Target Region</td>
+                    <td>
+                        <% switch(targetRegion){ %>
+                        <% case 5: %>5'
+                        <% break; %>
+                        <% } %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Length of sequence</td>
+                    <td><%= seqLength %></td>
+                </tr>
+
             </tbody>
         </table>
     </div>

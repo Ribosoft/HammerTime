@@ -181,6 +181,7 @@ function SubmitInput()
                     },
                     success: function(data) {
                         //data contains the id of the request
+                        console.log("data.id "+data.id);
                         window.location.href = window.location.href+"design/"+data.id;
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -280,15 +281,8 @@ function ShowCandidatesAndAnnealing(cands)
 	$('.displayUpdate').html(res);
 }
 
-function SubmitOptions()
-{
-    alert("blob");
-    return true;
-}
-
 window.onload = function() {
     $('#submit_ACN').click(FetchAccessionNumberSequence);
-    $('#submit2').submit(SubmitOptions);
     $('#submit1').click(SubmitInput);
 
     var dropZone = document.getElementById('drop-zone');

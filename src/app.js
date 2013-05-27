@@ -39,10 +39,10 @@ app.configure('development', function(){
 app.get('/ribosoft/', routes.index);
 app.get('/ribosoft', routes.redirect);
 app.post('/ribosoft/design', routes.design);
-app.get(/^\/ribosoft\/design\/(.*)/, routes.design_page);
-app.post(/^\/ribosoft\/summary\/(.*)/, routes.summary_page);
-app.get(/^\/ribosoft\/processing\/(.*)/, routes.processing_page);
-app.get(/^\/ribosoft\/results\/(.*)/, routes.results_page);
+app.get('/ribosoft/design/:id', routes.design_page);
+app.post('/ribosoft/summary/:id', routes.summary_page);
+app.get('/ribosoft/processing/:id', routes.processing_page);
+app.get('/ribosoft/results/:id', routes.results_page);
 
 
 http.createServer(app).listen(app.get('port'), function(){
