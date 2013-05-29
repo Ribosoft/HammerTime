@@ -1,3 +1,6 @@
+//TODO this file is becoming a mess, clean it up using the method explained here: 
+//  http://viget.com/inspire/extending-paul-irishs-comprehensive-dom-ready-execution
+
 var GLOBAL_PARAMETERS = 
 {
 	"left_arm_min" : 8,
@@ -178,6 +181,7 @@ function SubmitInput()
                     },
                     success: function(data) {
                         //data contains the id of the request
+                        console.log("data.id "+data.id);
                         window.location.href = window.location.href+"design/"+data.id;
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -280,9 +284,14 @@ function ShowCandidatesAndAnnealing(cands)
 window.onload = function() {
     $('#submit_ACN').click(FetchAccessionNumberSequence);
     $('#submit1').click(SubmitInput);
-	
-	
+
+    //I <3 hacks
+    //TODO find a better way
+    $('.clearOnClick').click(function(){
+        $('.clearOnClick').val("");
+    });
+
     var dropZone = document.getElementById('drop-zone');
     dropZone.addEventListener('dragover', fileLoader.handleDragOver, false);
-    dropZone.addEventListener('drop', fileLoader.handleFileSelect, false);
+    dropZone.addEventListener('drop', fileLoader.handleFileSelect, false);        
 };
