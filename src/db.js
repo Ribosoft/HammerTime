@@ -22,9 +22,10 @@ var Request = new Schema({
     naEnv: {type: Number, default: 0},
     mgEnv: {type: Number, default: 0},
     oligoEnv: {type: Number, default: 0},
-    cutsites: [],
-    foldShape : [],
-    foldSW: []
+    cutsites: [String],
+    foldShape : [String],
+    foldSW: [String],
+    emailUser : {type:String, default:""}
 });
  
 mongoose.model( 'Request', Request );

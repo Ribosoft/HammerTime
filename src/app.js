@@ -6,6 +6,7 @@
 var express = require('express'),
         stylus = require ('stylus'),
         db = require('./db'),
+        engine = require('ejs-locals'),
         routes = require('./routes'),
         http = require('http'),
         nib = require('nib'),
@@ -15,7 +16,8 @@ var app = express();
 
 app.configure(function(){
   app.set('port', 8080 );
-  app.set('views', __dirname + '/views');
+  app.engine('ejs', engine);
+  app.set('views', __dirname + '/views')
   app.set('view engine', 'ejs');
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -41,7 +43,8 @@ app.get('/ribosoft', routes.redirect);
 app.post('/ribosoft/design', routes.design);
 app.get('/ribosoft/design/:id', routes.design_page);
 app.post('/ribosoft/summary/:id', routes.summary_page);
-app.get('/ribosoft/processing/:id', routes.processing_page);
+app.post('/ribosoft/processing/:id', routes.processing_page);
+app.post('/ribosoft/remember/:id', routes.email_page);
 app.get('/ribosoft/results/:id', routes.results_page);
 
 

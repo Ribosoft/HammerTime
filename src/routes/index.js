@@ -57,43 +57,49 @@ exports.design_page = function(req, res){
   { 
       title: 'Ribosot - Design Options',
       stepTitle: 'Step 2 - Design Options',
+      submitButtonId: 'submit2',
       showTarget: enteredManually,
       urlPost : "../summary/"+req.params.id
   });
 };
 
 exports.summary_page = function(req, res){
-    console.log("id = "+req.params.id);
-    console.log("cutsites = "+req.params.cutsites);
-    Request.findOne({uuid:req.params.id}, function(err, request){
-        if(err)
-            console.log("cannot find id "+err);
+    var uuid = req.params.id;
+    Request.findOne({uuid:uuid}, function(err, result){
+        if(err || !result){
+            console.log("cannot find id with error "+err+"or result "+result);
+            res.end();
+        }
         else{
-            request.targetRegion = parseInt(req.params.region);
-            var env = request.targetEnv = (req.params.env === "vivo");
+            result.targetRegion = parseInt(req.body.region);
+            var env = result.targetEnv = (req.body.env === "vivo");
             if(env){
-                request.vivoEnv = req.params.envVivo;
+                result.vivoEnv = req.body.envVivo;
             }
-            request.tempEnv = parseInt(req.params.temperature);
-            request.naEnv = parseInt(req.params.naC);
-            request.mgEnv = parseInt(req.params.mgC);
-            request.oligoEnv = parseInt(req.params.oligoC);
-            request.cutsites = req.params.cutsites.split(",");
-            request.foldShape = req.params.foldShape.split(",");
-            request.foldSW = req.params.foldSW.split(",");
-            request.save(function(err, request, count){
+            result.tempEnv = parseInt(req.body.temperature);
+            result.naEnv = parseInt(req.body.naC);
+            result.mgEnv = parseInt(req.body.mgC);
+            result.oligoEnv = parseInt(req.body.oligoC);
+            result.cutsites = (typeof req.body.cutsites === "string")?
+                    new Array(req.body.cutsites) : utils.objectToArrayString(req.body.cutsites);
+            result.foldShape = utils.objectToArrayString(req.body.foldShape);
+            result.foldSW = utils.objectToArrayString(req.body.foldSW);
+            result.save(function(err, request, count){
                if(err){
                    console.log("cannot save "+err);
                    res.redirect('/ribosoft/');                   
                } 
                else{
+                   //console.log("request ="+request);
                    res.render('summary_page',
-                    { 
+                    {
                     title: 'Ribosot - Summary of Design',
                     stepTitle: 'Step 3 - Summary',
-                    seqLength: request.sequence.length(),
-                    targetRegion: request.targetRegion,
-                    targetEnv: request.targetEnv,
+                    urlPost : "../processing/"+uuid,
+                    seqLength: 20,//request.sequence.length(),
+                    targetRegion: (request.targetRegion === 4)? 'ORF':
+                            (request.targetRegion === 5)?'5\'':'3\'',
+                    targetEnv: (request.targetEnv)? 'In-vivo':'In-vitro',
                     vivoEnv: request.vivoEnv,
                     tempEnv: request.tempEnv,
                     naEnv: request.naEnv,
@@ -111,7 +117,44 @@ exports.summary_page = function(req, res){
 };
 
 exports.processing_page = function(req, res){
-  res.render('processing_page', { title: 'Ribosot - Processing'});
+  res.render('processing_page', 
+            { 
+              title: 'Ribosot - Processing',
+              stepTitle: 'Step 4 - Processing',
+              estimatedDur : '2 hours',
+              estimatedDurInMin : 120,
+              urlEmail : "../remember/"+req.params.id
+            });
+};
+
+exports.email_page = function(req, res){
+    var uuid = req.params.id;
+    if(!req.body.email){
+        console.log("Email was empty. This should have been handled on client-side");
+        res.end();
+    }
+    Request.findOne({uuid: uuid}, function(err, result) {
+        if (err || !result) {
+            console.log("cannot find id with error " + err + "or result " + result);
+            res.end();
+        }
+        else {
+            result.emailUser = req.body.email;
+            result.save(function(err, request, count) {
+                if (err) {
+                    console.log("cannot save " + err);
+                    res.redirect('/ribosoft/');
+                }
+                else {
+                    //console.log("request ="+request);
+                    res.render('email_page',
+                    {
+                        title: 'Ribosot - Notification setup',
+                    });
+                }
+            });
+        }
+    });
 };
 
 exports.results_page = function(req, res){

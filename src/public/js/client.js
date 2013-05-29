@@ -285,6 +285,12 @@ window.onload = function() {
     $('#submit_ACN').click(FetchAccessionNumberSequence);
     $('#submit1').click(SubmitInput);
 
+    //I <3 hacks
+    //TODO find a better way
+    $('.clearOnClick').click(function(){
+        $('.clearOnClick').val("");
+    });
+
     var dropZone = document.getElementById('drop-zone');
     dropZone.addEventListener('dragover', fileLoader.handleDragOver, false);
     dropZone.addEventListener('drop', fileLoader.handleFileSelect, false);        

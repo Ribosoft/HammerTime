@@ -2,16 +2,16 @@
 <h4 class="step-description">Please select the options that will be applied during the design of the ribozyme.</h4>
 <form class = "design-form" method="post" action=<%= urlPost %> accept-charset="utf-8">
     <fieldset class="option-field"><legend>Regions for target design</legend>
-        <div class="third inline-block"><input type="radio" name="region" value="5"/>5'UTR<br/></div>
-        <div class="third inline-block"><input type="radio" name="region" value="4"/>Open Reading Frame (ORF)<br/></div>
-        <div class="third inline-block"><input type="radio" name="region" value="3"/>3'UTR<br/></div>
+        <div class="third inline-block"><input required="true" type="radio" name="region" value="5"/>5'UTR<br/></div>
+        <div class="third inline-block"><input required="true" type="radio" name="region" value="4"/>Open Reading Frame (ORF)<br/></div>
+        <div class="third inline-block"><input required="true" type="radio" name="region" value="3"/>3'UTR<br/></div>
     </fieldset>
     <fieldset class="option-field"><legend>Target environment</legend>
         <div class="half inline-block">
-            <input type="radio" name="env" value="vitro"/>In-vitro<br/>
+            <input type="radio" required="true" name="env" value="vitro"/>In-vitro<br/>
         </div>
         <div class="half inline-block" >
-            <input type="radio" name="env" value="vivo"/>In-vivo<br/>
+            <input type="radio" required="true" name="env" value="vivo"/>In-vivo<br/>
             <select name="envVivo">
                 <option value="mouse">Mouse</option>
                 <option value="rat">Rat</option>
@@ -67,8 +67,8 @@
     </fieldset>
 
     <div class="step-footer full-width">
-        <input type="submit" class="submit outer-button" id="submit2" value="Submit"/>
-        <input type="button" class="reset outer-button" value="Reset"/>
-        <input type="button" class="outer-button" value="Advanced Options"/>
+        <%- partial ('reusables/submit_button',{submitButtonId:'submit2'}) %>
+        <%- partial ('reusables/outer_button',{value:'Reset'}) %>
+        <%- partial ('reusables/outer_button',{value:'Advanced Options'}) %>
     </div>
 </form>
