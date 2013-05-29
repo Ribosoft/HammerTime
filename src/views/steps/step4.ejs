@@ -1,3 +1,16 @@
-            <h3 class="step-title">Step 4 - Processing</h3>
-            <h4 class="step-description">Lorem Ipsum Step 4</h4>
-            <p class="step-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<h3 class="step-title"><%= stepTitle %></h3>
+<h4 class="step-description">You can wait for the design process to finish, or enter your email and we will send you a link once it is finished.</h4>
+<div class="center">
+    <div class="estimationMeter">
+        <h5>Estimated Time Left:<%= estimatedDur %></h5>
+        <meter min="0" low="35" high="85" max="<%= estimatedDurInMin %>" value="1"/>
+    </div>
+    <div class="emailInvite">
+        <h5>Don't feel like waiting?</h5>
+        <p>Enter your email address, and we will email you a link to the result page once it is done.</p>
+        <form method="post" action="<%= urlEmail %>">
+            <input class="clearOnClick" type="email" name="email" required="true" value="me@example.com"/>
+            <input type="submit" value="Submit"/>
+        </form>
+    </div>
+</div>

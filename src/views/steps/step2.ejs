@@ -1,18 +1,18 @@
 <h3 class="step-title">Step 2 - Design Options</h3>
 <h4 class="step-description">Please select the options that will be applied during the design of the ribozyme.</h4>
-<form class = "design-form">
+<form class = "design-form" method="post" action=<%= urlPost %> accept-charset="utf-8">
     <fieldset class="option-field"><legend>Regions for target design</legend>
-        <div class="third inline-block"><input type="radio" name="region" value="5"/>5'UTR<br/></div>
-        <div class="third inline-block"><input type="radio" name="region" value="ORF"/>Open Reading Frame (ORF)<br/></div>
-        <div class="third inline-block"><input type="radio" name="region" value="3"/>3'UTR<br/></div>
+        <div class="third inline-block"><input required="true" type="radio" name="region" value="5"/>5'UTR<br/></div>
+        <div class="third inline-block"><input required="true" type="radio" name="region" value="4"/>Open Reading Frame (ORF)<br/></div>
+        <div class="third inline-block"><input required="true" type="radio" name="region" value="3"/>3'UTR<br/></div>
     </fieldset>
     <fieldset class="option-field"><legend>Target environment</legend>
         <div class="half inline-block">
-            <input type="radio" name="env" value="vitro"/>In-vitro<br/>
+            <input type="radio" required="true" name="env" value="vitro"/>In-vitro<br/>
         </div>
         <div class="half inline-block" >
-            <input type="radio" name="env" value="vivo"/>In-vivo<br/>
-            <select name="env-vivo">
+            <input type="radio" required="true" name="env" value="vivo"/>In-vivo<br/>
+            <select name="envVivo">
                 <option value="mouse">Mouse</option>
                 <option value="rat">Rat</option>
                 <option value="bYeast">S. cerevisiae</option>
@@ -31,13 +31,13 @@
     </fieldset>
     <fieldset class="option-field"><legend>Environment Properties</legend>
         <label for="temperature">Temperature</label>
-        <input type="text" name="temperature" autocomplete="on" value="37&#176;C"/><br/>
+        <input type="number" name="temperature" value="37"/> &#176;C<br/>
         <label for="naC">Na&#8314; Concentration</label>
-        <input type="text" name="naC" autocomplete="on" value="50 mM"/><br/>
+        <input type="number" name="naC" value="50"/> mM<br/>
         <label for="mgC">Mg&#8314;&#8314; Concentration</label>
-        <input type="text" name="mgC" autocomplete="on" value="0 mM"/><br/>
-        <label for="oligomerC">Oligomer Concentration</label>
-        <input type="text" name="oligomerC" autocomplete="on" value="200nM"/><br/>
+        <input type="number" name="mgC" value="0"/> mM<br/>
+        <label for="oligoC">Oligomer Concentration</label>
+        <input type="number" name="oligoC" value="200"/> nM<br/>
     </fieldset>
     <fieldset class="option-field"><legend>Potential Cut-sites</legend>
         <label for="cutsites">Preferred cutsite(s)</label>
@@ -51,24 +51,24 @@
     </fieldset>
     <fieldset class="option-field"><legend>Ribozyme Shape</legend>
         <div class="half column">
-            <input type="checkbox" name="fold" value="basic" checked="checked">Basic</input>
+            <input type="checkbox" name="foldShape" value="basic" checked="checked">Basic</input>
         </div>
         <div class="half column">
-            <input type="checkbox" name="fold" value="wishbone" checked="checked">Wishbone</input>
+            <input type="checkbox" name="foldShape" value="wishbone" checked="checked">Wishbone</input>
         </div>
     </fieldset>
     <fieldset class="option-field"><legend>Folding type</legend>
         <div class="half column">
-           <input type="checkbox" name="fold" value="m" checked="checked">m-Fold</input>
+           <input type="checkbox" name="foldSW" value="m" checked="checked">m-Fold</input>
         </div>
         <div class="half column">
-            <input type="checkbox" name="fold" value="s" checked="checked">s-Fold</input>
+            <input type="checkbox" name="foldSW" value="s" checked="checked">s-Fold</input>
         </div>
     </fieldset>
 
     <div class="step-footer full-width">
-        <input type="button" class="submit outer-button" id="submit1" value="Submit"/>
-        <input type="button" class="reset outer-button" value="Reset"/>
-        <input type="button" class="outer-button" value="Advanced Options"/>
+        <%- partial ('reusables/submit_button',{submitButtonId:'submit2'}) %>
+        <%- partial ('reusables/outer_button',{value:'Reset'}) %>
+        <%- partial ('reusables/outer_button',{value:'Advanced Options'}) %>
     </div>
 </form>

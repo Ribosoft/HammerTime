@@ -1,3 +1,77 @@
-            <h3 class="step-title">Step 3 - Summary</h3>
-            <h4 class="step-description">Lorem Ipsum Step 3</h4>
-            <p class="step-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<h3 class="step-title"><%= stepTitle %></h3>
+<h4 class="step-description">Here are the design options that will be applied to the sequence.</h4>
+<div class="summary">
+    <table>
+        <thead>
+            <tr>
+                <th>Design Option</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Length of sequence</td>
+                <td><%= seqLength %> nucleotides</td>
+            </tr>
+            <tr>
+                <td>Target Region</td>
+                <td><%= targetRegion %>
+                </td>
+            </tr>
+            <tr>
+                <td>Target Environment</td>
+                <td><%= targetEnv %></td>
+            </tr>
+            <tr>
+                <td>In-vivo Environment</td>
+                <td><% if(targetEnv){ %>
+                    <%= vivoEnv %>
+                    <% } %>
+                </td>
+            </tr>
+            <tr>
+                <td>Temperature</td>
+                <td><%= tempEnv %></td>
+            </tr>
+            <tr>
+                <td>Na&#8314; Concentration</td>
+                <td><%= naEnv %></td>
+            </tr>
+            <tr>
+                <td>Mg&#8314;&#8314; Concentration</td>
+                <td><%= mgEnv %></td>
+            </tr>
+            <tr>
+                <td>Oligomer Concentration</td>
+                <td><%= oligoEnv %></td>
+            </tr>
+            <tr>
+                <td>Cutsites Concentration</td>
+                <td><% for(var i = 0; i < cutsites.length; ++i){ %>
+                    <%= cutsites[i] %>
+                    <% } %>
+                </td>
+            </tr>
+            <tr>
+                <td>Fold Shape Concentration</td>
+                <td><% for(var i = 0; i < foldShape.length; ++i){ %>
+                    <%= foldShape[i] %>
+                    <% } %>
+                </td>
+            </tr>
+            <tr>
+                <td>Use Software packages</td>
+                <td><% for(var i = 0; i < foldSW.length; ++i){ %>
+                <%= foldSW[i] %>Fold
+                <% } %>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<form method="post" action="<%= urlPost %>">
+    <div class="step-footer full-width">
+        <%- partial ('reusables/submit_button',{submitButtonId:'submit2'}) %>
+        <%- partial ('reusables/outer_button',{value:'Back'}) %>
+    </div>
+</form>

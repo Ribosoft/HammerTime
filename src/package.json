@@ -9,7 +9,8 @@
     "express": "3.1.0",
     "ejs": "*",
     "stylus": "*",
-    "nib":"*",
-    "mongoose" : "3.6.9"
+    "nib": "*",
+    "mongoose": "3.6.9",
+    "ejs-locals": "~1.0.2"
   }
 }
