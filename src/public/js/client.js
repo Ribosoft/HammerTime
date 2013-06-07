@@ -21,7 +21,7 @@ var fileLoader = new FileLoader();
 //Fetch from database
 function FetchAccessionNumberSequence()
 {
-	ClearErrors();
+    ClearErrors();
     var sequence = $("#accession").find("input").val();
     var url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi";
     $.ajax({
@@ -43,6 +43,10 @@ function FetchAccessionNumberSequence()
             }
         }
     });
+}
+
+function fillInAccessionOptions(){
+    
 }
 
 function loadInputToDisplay(str){
@@ -284,12 +288,6 @@ function ShowCandidatesAndAnnealing(cands)
 window.onload = function() {
     $('#submit_ACN').click(FetchAccessionNumberSequence);
     $('#submit1').click(SubmitInput);
-
-    //I <3 hacks
-    //TODO find a better way
-    $('.clearOnClick').click(function(){
-        $('.clearOnClick').val("");
-    });
 
     var dropZone = document.getElementById('drop-zone');
     dropZone.addEventListener('dragover', fileLoader.handleDragOver, false);

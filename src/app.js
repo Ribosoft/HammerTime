@@ -44,6 +44,7 @@ app.post('/ribosoft/design', routes.design);
 app.get('/ribosoft/design/:id', routes.design_page);
 app.post('/ribosoft/summary/:id', routes.summary_page);
 app.post('/ribosoft/processing/:id', routes.processing_page);
+app.get('/ribosoft/blah', routes.processing_page);
 app.post('/ribosoft/remember/:id', routes.email_page);
 app.get('/ribosoft/results/:id', routes.results_page);
 
