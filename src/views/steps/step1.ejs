@@ -1,34 +1,24 @@
-<div class="jumbotron">
-    <h1>Designing Hammerhead Ribozymes has never been so <span class="emp">simple</span></h1>
-    <a class="btn btn-large btn-success" href="#step1" id="start_now">Start Now</a>
+<h3 class="step-title"><%= stepTitle %></h3>
+<div class="span4 tile" id="accession">
+    <p class="substep-description">Search for sequence number</p>
+    <input id="accession" type="text" placeholder="Accession number"></input>
+    <input id="submit_ACN" class="btn" type="button" value="Search"/>
 </div>
-<hr/>
-<div class="row-fluid step-header span12">
-    <div class="step-container">
-    <h3 class="step-title"><%= stepTitle %></h3>
-        <div class="span4 tile" id="accession">
-            <p class="substep-description">Search for sequence number</p>
-            <input id="accession" type="text" placeholder="Accession number"></input>
-            <input id="submit_ACN" class="btn" type="button" value="Search"/>
-        </div>
-        <div class="bar-separator"></div>
-        <div class="span4 tile">
-            <p class="substep-description">Select a file with your sequence</p>
-            <input class="btn" type="button" value="Select file"/>
-        </div>
-        <div class="bar-separator"></div>
-        <div class="span4 tile" id="drop">
-            <p class="substep-description">Drop your file here</p>
-            <div id="drop-zone"></div>
-        </div>
-        <div id="sequence-wrap" class="span9">
-            <textarea id="sequence-display" class="span10 offset1 input-block-level" rows="10" placeholder="Paste your sequence here..."></textarea>
-            <span class="help-inline">Inline help</span>
-        </div>
-        <div class="offset8">
-            <button type="button" class="btn btn-large" >Reset</button>
-            <button type="button" class="btn btn-primary btn-large" id="submit1">Submit</button>
-        </div>
-        <div contentEditable="true" class="displayUpdate">asdf</div>
-    </div>
+<div class="bar-separator"></div>
+<div class="span4 tile">
+    <p class="substep-description">Select a file with your sequence</p>
+    <input class="btn" type="button" value="Select file"/>
 </div>
+<div class="bar-separator"></div>
+<div class="span4 tile" id="drop">
+    <p class="substep-description">Drop your file here</p>
+    <div id="drop-zone"></div>
+</div>
+<div id="sequence-wrap" class="span10">
+    <textarea id="sequence-display" class="span10 input-block-level" rows="10" placeholder="Paste your sequence here..."></textarea>
+</div>
+<div class="offset6 step-buttons">
+    <button type="button" class="btn btn-large" >Reset</button>
+    <button type="button" class="btn btn-primary btn-large" id="submit1">Submit</button>
+</div>
+<!-- <div contentEditable="true" class="displayUpdate">asdf</div> -->

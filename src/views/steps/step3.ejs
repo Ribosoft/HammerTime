@@ -1,7 +1,7 @@
 <h3 class="step-title"><%= stepTitle %></h3>
-<h4 class="step-description">Here are the design options that will be applied to the sequence.</h4>
+<p class="step-description">Here are the design options that will be applied to the sequence.</p>
 <div class="summary">
-    <table class="table table-hover table-stripped">
+    <table class="table table-hover table-condensed">
         <thead>
             <tr>
                 <th>Design Option</th>
@@ -56,6 +56,7 @@
                 <td>Fold Shape Concentration</td>
                 <td><% for(var i = 0; i < foldShape.length; ++i){ %>
                     <%= foldShape[i] %>
+                    <% if(i< foldShape.length -1){%>,<%}%>
                     <% } %>
                 </td>
             </tr>
@@ -63,6 +64,7 @@
                 <td>Use Software packages</td>
                 <td><% for(var i = 0; i < foldSW.length; ++i){ %>
                 <%= foldSW[i] %>Fold
+                <% if(i< foldSW.length -1){%>,<%}%>
                 <% } %>
                 </td>
             </tr>
@@ -70,8 +72,8 @@
     </table>
 </div>
 <form method="post" action="<%= urlPost %>">
-    <div class="step-footer full-width">
-        <%- partial ('reusables/submit_button',{submitButtonId:'submit2'}) %>
-        <%- partial ('reusables/outer_button',{value:'Back'}) %>
+    <div class="offset6 step-buttons">
+        <button type="button" class="btn btn-large" >Back</button>
+        <button type="submit" class="btn btn-primary btn-large" id="submit2">Submit</button>
     </div>
 </form>

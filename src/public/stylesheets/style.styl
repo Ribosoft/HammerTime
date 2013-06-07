@@ -16,6 +16,13 @@ box-shadow()
     -moz-box-shadow arguments
     box-shadow arguments
 
+[class^="icon-"], 
+[class*=" icon-"]
+    background-image: url("../../images/glyphicons-halflings.png");
+
+hr
+    text-align center
+
 .container-narrow
     margin 0 auto
     width 80%
@@ -24,10 +31,16 @@ box-shadow()
     width 400px
 
 .masthead
-    background url("../images/background.jpg") no-repeat
     background-position-x 100%
     background-position-y 80%
     min-height 20%
+
+legend
+    margin-bottom 5px
+    line-height 25px
+
+fieldset
+    margin-bottom 20px
 
 .jumbotron
     text-align center
@@ -62,8 +75,18 @@ $step-content-minHeight = 396px
     width 30.9149%
 
 .step-container
-    
     border-radius: 2px;
+
+    & h3
+        font-family gentium_book-bold
+        font-size 28px
+
+.step-buttons
+    clear both
+    padding 2.5% 0
+
+    & > input
+        float left
 
 #sequence-wrap
     margin 5% 12.5% 0
@@ -71,7 +94,6 @@ $step-content-minHeight = 396px
 
 #accession
     margin-bottom 0
-    
 
 .form-signin
         max-width: 300px;
