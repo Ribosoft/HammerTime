@@ -21,7 +21,8 @@ var fileLoader = new FileLoader();
 //Fetch from database
 function FetchAccessionNumberSequence()
 {
-    ClearErrors();
+    var accessionAlert = $("#accession_alert");
+    accessionAlert.addClass("invisible");
     var sequence = $("#accession").find("input").val();
     var url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi";
     $.ajax({
@@ -34,26 +35,20 @@ function FetchAccessionNumberSequence()
             retmode: 'text'
         },
         success: function(d) {
-            loadInputToDisplay(d.toString());
+            setDisplay(d.toString());
+            $("#submit1").removeClass("disabled");
+            accessionAlert.removeClass("invisible alert-error");
+            accessionAlert.addClass("alert-success");
+            accessionAlert.text("Sequence found!");
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            switch (textStatus) {
-                case "error":
-                    alert("errorThrown is " + errorThrown);
-            }
+            setDisplay("");
+            accessionAlert.removeClass("alert-success invisible");
+            accessionAlert.addClass("alert-error");
+            accessionAlert.text("No results found for this accession number")
         }
     });
 }
-
-function fillInAccessionOptions(){
-    
-}
-
-function loadInputToDisplay(str){
-    //TODO Add stuff to clean out input text
-    $("#sequence-display")[0].value = str;
-}
-
 
 function ValidateInput(input)
 {
@@ -63,7 +58,6 @@ function ValidateInput(input)
 	
 	if(input == "")
 		return {"ok" : false , "error" : "Empty Input: Is your FASTA comment terminated by a new line?"};
-	
 		
 	for(var ii = 0; ii < input.length; ++ii)
 	{
@@ -73,8 +67,7 @@ function ValidateInput(input)
 		{
 			Problems = "Unrecognized nucleotide: " + input[ii];
 			badInput = true;
-			break;
-			
+			break;		
 		}
 	}
 	
@@ -112,15 +105,9 @@ function ValidateInput(input)
 	
 }
 
-function ClearErrors()
-{
-	$('#sequence-display').attr('style', "");
+function setDisplay(str){
+    $("#sequence-display")[0].value = str;
 }
-
-/**
-* Formats input from FASTA / other formats into plain string
-*	
-*/
 
 function CleanInput( input )
 {
@@ -159,7 +146,6 @@ function CleanInput( input )
 
 function SubmitInput()
 {
-	ClearErrors();
 	var input = $('#sequence-display')[0].value;
 	input = CleanInput(input);
 	var validation = ValidateInput(input);

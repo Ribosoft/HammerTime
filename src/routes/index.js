@@ -6,11 +6,11 @@ var utils = require('utils'),
 var Request = mongoose.model('Request');
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Ribosoft', stepTitle: 'Step 1 - Selecting the sequence'});
+  res.render('index', { title: 'Ribosoft', home:true, about:false, stepTitle: 'Step 1 - Selecting the sequence'});
 };
 
 exports.about = function(req, res){
-  res.render('about', { title: 'About Ribosoft'});
+  res.render('about', { title: 'About Ribosoft', about:true, home:false });
 };
 
 exports.redirect = function(req, res){

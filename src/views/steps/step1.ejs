@@ -3,6 +3,7 @@
     <p class="substep-description">Search for sequence number</p>
     <input id="accession" type="text" placeholder="Accession number"></input>
     <input id="submit_ACN" class="btn" type="button" value="Search"/>
+    <div id="accession_alert" class="alert invisible"></div>
 </div>
 <div class="bar-separator"></div>
 <div class="span4 tile">
@@ -15,10 +16,11 @@
     <div id="drop-zone"></div>
 </div>
 <div id="sequence-wrap" class="span10">
+    <div id="sequence_alert" class="alert alert-error invisible"></div>
     <textarea id="sequence-display" class="span10 input-block-level" rows="10" placeholder="Paste your sequence here..."></textarea>
 </div>
 <div class="offset6 step-buttons">
     <button type="button" class="btn btn-large" >Reset</button>
-    <button type="button" class="btn btn-primary btn-large" id="submit1">Submit</button>
+    <button type="button" class="btn btn-primary btn-large disabled" id="submit1">Submit</button>
 </div>
 <!-- <div contentEditable="true" class="displayUpdate">asdf</div> -->
