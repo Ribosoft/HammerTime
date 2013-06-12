@@ -14,7 +14,6 @@ var GLOBAL_PARAMETERS =
 
 
 //NOTE: All the String methods were moved to client_utils.js
-
 //FileLoader is defined in client_utils.js
 var fileLoader = new FileLoader();
 
@@ -22,7 +21,8 @@ var fileLoader = new FileLoader();
 function FetchAccessionNumberSequence()
 {
     var accessionAlert = $("#accession_alert");
-    accessionAlert.addClass("invisible");
+    accessionAlert.removeClass("invisible alert-error alert-success");
+    accessionAlert.text("Searching our database...");
     var sequence = $("#accession").find("input").val();
     var url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi";
     $.ajax({
@@ -36,14 +36,15 @@ function FetchAccessionNumberSequence()
         },
         success: function(d) {
             setDisplay(d.toString());
+            //TODO use a updateSubmitButton method
             $("#submit1").removeClass("disabled");
-            accessionAlert.removeClass("invisible alert-error");
+
             accessionAlert.addClass("alert-success");
             accessionAlert.text("Sequence found!");
         },
         error: function(jqXHR, textStatus, errorThrown) {
             setDisplay("");
-            accessionAlert.removeClass("alert-success invisible");
+            accessionAlert.removeClass("alert-success");
             accessionAlert.addClass("alert-error");
             accessionAlert.text("No results found for this accession number")
         }
@@ -151,15 +152,11 @@ function SubmitInput()
 	var validation = ValidateInput(input);
 	if(validation.ok === false)
 	{
-                //TODO clean up this to use CSS classes
-		$('#sequence-display').attr('style', "border-color: rgba(210, 30, 30, 0.8) ;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(210, 30, 30, 0.6) ;outline: 0 none");
 		console.log(validation.error);
 		alert(validation.error);
 	}
 	else
 	{
-                //TODO clean up this to use CSS classes
-		$('#sequence-display').attr('style', "border-color: rgba(30, 240, 30, 0.8) ;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(30, 240, 30, 0.6) ;outline: 0 none");
 		var csites = FindCutsites (input);
 		var candidates = CreateCandidates(input, csites);
 		ShowCandidatesAndAnnealing(candidates);
@@ -274,8 +271,10 @@ function ShowCandidatesAndAnnealing(cands)
 window.onload = function() {
     $('#submit_ACN').click(FetchAccessionNumberSequence);
     $('#submit1').click(SubmitInput);
-
+    
     var dropZone = document.getElementById('drop-zone');
-    dropZone.addEventListener('dragover', fileLoader.handleDragOver, false);
-    dropZone.addEventListener('drop', fileLoader.handleFileSelect, false);        
+    if(dropZone){
+        dropZone.addEventListener('dragover', fileLoader.handleDragOver, false);
+        dropZone.addEventListener('drop', fileLoader.handleFileSelect, false);
+    }
 };
