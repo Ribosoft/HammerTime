@@ -9,6 +9,10 @@ exports.index = function(req, res){
   res.render('index', { title: 'Ribosoft', stepTitle: 'Step 1 - Selecting the sequence'});
 };
 
+exports.about = function(req, res){
+  res.render('about', { title: 'About Ribosoft'});
+};
+
 exports.redirect = function(req, res){
   res.redirect('/ribosoft/');
 };

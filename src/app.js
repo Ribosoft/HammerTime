@@ -39,6 +39,7 @@ app.configure('development', function(){
 
 //All the routes.* functions are defined in routes/index.js
 app.get('/ribosoft/', routes.index);
+app.get('/ribosoft/about', routes.about);
 app.get('/ribosoft', routes.redirect);
 app.post('/ribosoft/design', routes.design);
 app.get('/ribosoft/design/:id', routes.design_page);
