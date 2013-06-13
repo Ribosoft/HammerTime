@@ -6,230 +6,123 @@ $color_text_large = #012139
 $color_highlight = #FF9035
 $color_anchor = #41528A
 
-.color-palette
-    width 100%
-    height 40px
-
-    & .color-div
-        width 10%
-        height 100%
-        float left
-
-body
-  font: 14px TitilliumText25L400wt, Helvetica, Arial, sans-serif
-  background: url('../images/background.jpg') no-repeat;
-  background-position: 225% -5%
+border-radius()
+    -webkit-border-radius arguments
+    -moz-border-radius arguments
+    border-radius arguments
 
 box-shadow()
     -webkit-box-shadow arguments
     -moz-box-shadow arguments
     box-shadow arguments
 
-transition()
-    -webkit-transition arguments
-    -moz-transition arguments
-    transition arguments
-
-border-radius()
-    -webkit-border-radius arguments
-    -moz-border-radius arguments
-    border-radius arguments
-
-/* Header */
-#header
-    overflow hidden
-
-#step1
-    background-color: $color_main_bg;
-
-/* Top of the header */
-#header-links, #footer
-    background-color $color_highlight;
-    width 100%
-    padding 1% 0 0
-    overflow hidden
-    &>a
-        margin-right 5%
-        float right
-        display block
-    &>a:hover
-        background-color 
-        height 100%
-        color $color_anchor
-        
-#footer
-    margin-top 2.5%
-
-#header-left
-    width 70%
-
-#site-image
-    width 450px
-    image-rendering:optimizeQuality
-
-#header-subtext
-    color $subtitle1 /*or subtitle2 */
-    font-size 21px
-    font-family gentium_book-italic
-    position relative
-    bottom 40px
-    left 125px
-
-/* On Firefox, this will remove the dotted gray outline */
-input[type="button"]::-moz-focus-inner
-  border 0
-
-.main
-  width 75%
-  margin 2.5% auto 0
-  background-color white
-  box-shadow 0 0 5px rgba(0, 0, 0, 0.4)
-  border-bottom 1px solid #DDDDDD
-  border-radius 5px
-
-
-#wrapper-page
-    min-height 65%
-    overflow hidden
-
-.inline-block
-    display inline-block
-
-.third
-    width 30%
-    margin-left 2%
-
-.half
-    width 49.5%
-
-.column
-    float left
-    margin-bottom 2.5%
-
-.bar-separator
-    width 2px
-
-#middle-column
-    width 10%
-    text-align center
-    height 400px
-
-#middle-column em
-    font-size: 18px
-    
-.step
-    padding 2.5%
-    overflow auto
-
-.step.hidden
+.invisible
     display none
-    
-#copyright 
-    padding 1%
-   
-.step-header
-    margin-bottom 20px
-h3
-    font 36px gentium_book-bold,Helvetica, Arial, sans-serif
-    color: $color_text_large
-    
-h4.step-description
-    font 18px gentium-regular,Helvetica, Arial, sans-serif
 
-.step textarea,
-.step input
+.container-narrow
+    margin 0 auto
     width 80%
-    vertical-align middle
-    overflow auto
-    background-color #FFFFFF;
-    border 1px solid #CCCCCC;
-    border-radius 3px 3px 3px 3px
-    color #555555
-    height auto
-    box-shadow 0 1px 1px rgba(0, 0, 0, 0.075) inset
-    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
 
-.step input[type="button"]
-    box-shadow 0px 1px 1px 1px rgba(0, 0, 0, 0.15)
-    color #000
+.site-logo
+    width 400px
 
-.step input[type="radio"],
-.step input[type="checkbox"]
-    width 30%
+.masthead
+    background-position-x 100%
+    background-position-y 80%
+    min-height 20%
 
-.step input.inner-button
+.jumbotron
+    text-align center
     width 50%
     margin 0 auto
-    display block
+    
+    & h1
+       font-size 42px
+   
+    & .emp
+        font-family gentium_book-bold_italic
+        font-size 44.5px
+        
+.btn,
+.nav-pills>li>a
+    font-family TitilliumText25L400wt
 
-.step textarea:focus,
-.step input:focus
-    border-color rgba(82, 168, 236, 0.8)
-    box-shadow 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(82, 168, 236, 0.6)
-    outline 0 none
-
-$step1-content-ht = 396px
-
+$step-content-minHeight = 396px
 
 #drop-zone
     border-width 4px
     border dashed #DDDDDD;
     background-color: white
-    height $step1-content-ht - (@border-width)*10
+    height $step-content-minHeight - (@border-width)*10
 
-/* Might need to change these values using @media queries */
-#step1 
-    & textarea
-        height 400px
-        width 95%
-    .column
-        height $step1-content-ht
+.row-fluid .tile
+    width 40%
+    margin-left 0
+
+.row-fluid .bar-separator
+    float left
+    text-align center
+
+    & .filler
+        min-height 150px
+
+    & .emp
+        font-family gentium_book-bold_italic
+        font-size 28px
+
+.step-container
+    border-radius: 2px;
 
 .substep-description
-    text-align center
-    margin-bottom 5%
+    font-size 14px
 
-#accession
-    margin-bottom 5%
+    & h3
+        font-family gentium_book-bold
+        font-size 28px
 
-.filler
-    height 5%
-    width 100%
-    float: left
+.step-buttons
+    clear both
+    padding 2.5% 0
+
+    & > input
+        float left
 
 #sequence-wrap
-    width 90%
-    margin 5% auto 0
-
-    clear both
-    & *
-        float left
-    & p
-        width 2%
-
-/* Footer of a step */
-.step-footer
-    padding 2.5% 0 1%
-    clear both
-    width 100%
-    height 50px
+    margin 5% 12.5% 0
     overflow hidden
 
-    & input.outer-button
-        float right
-        display inline-block
-        width 15%
-        min-height 70%
-        margin-right 5%
-    & input.submit
-        color #FFFFFF;
-        background: #67B0EF;
-        background: linear-gradient(top, #67B0EF, #2B5EA4); 
-        text-shadow 0 -1px 0 #003366
+#accession
+    margin-bottom 0
 
-fieldset.option-field
-    border solid 1px rgba(0,0,0,0.3)
-    margin-bottom 1%
-    
-    & legend
-        margin-left 1%
+.form-signin
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 5px;
+        box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      
+      & .form-signin-heading,
+      & .checkbox 
+        margin-bottom: 10px;
+
+      & input[type="text"],
+      & input[type="password"] 
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+      & .form-submit
+        text-align center
+        display block
+
+#footer
+    background-image url("../images/bg_footer.jpg");
+    height: 220px;
+    margin-bottom: 0;
+    min-width: 960px;
+    text-align: left;
+    width: 100%;
+    color: white
+    clear both

@@ -1,5 +1,5 @@
 <h3 class="step-title">Step 2 - Design Options</h3>
-<h4 class="step-description">Please select the options that will be applied during the design of the ribozyme.</h4>
+<p>Please select the options that will be applied during the design of the ribozyme.</p>
 <form class = "design-form" method="post" action=<%= urlPost %> accept-charset="utf-8">
     <fieldset class="option-field"><legend>Regions for target design</legend>
         <div class="third inline-block"><input required="true" type="radio" name="region" value="5"/>5'UTR<br/></div>
@@ -66,9 +66,9 @@
         </div>
     </fieldset>
 
-    <div class="step-footer full-width">
-        <%- partial ('reusables/submit_button',{submitButtonId:'submit2'}) %>
-        <%- partial ('reusables/outer_button',{value:'Reset'}) %>
-        <%- partial ('reusables/outer_button',{value:'Advanced Options'}) %>
+    <div class="offset6 step-buttons">
+        <button type="button" class="btn btn-large" >Advanced Options</button>
+        <button type="button" class="btn btn-large" >Reset</button>
+        <button type="submit" class="btn btn-primary btn-large" id="submit2">Submit</button>
     </div>
 </form>
