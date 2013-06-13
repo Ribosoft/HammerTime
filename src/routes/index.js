@@ -10,7 +10,7 @@ exports.index = function(req, res){
 };
 
 exports.about = function(req, res){
-  res.render('about', { title: 'About Ribosoft'});
+  res.render('about', { title: 'About Ribosoft' });
 };
 
 exports.redirect = function(req, res){

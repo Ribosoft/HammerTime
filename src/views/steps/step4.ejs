@@ -1,16 +1,18 @@
 <h3 class="step-title"><%= stepTitle %></h3>
-<h4 class="step-description">You can wait for the design process to finish, or enter your email and we will send you a link once it is finished.</h4>
+<p class="step-description">You can wait for the design process to finish, or enter your email and we will send you a link once it is finished.</p>
 <div class="center">
-    <div class="estimationMeter">
+    <div class="jumbotron">
         <h5>Estimated Time Left:<%= estimatedDur %></h5>
-        <meter min="0" low="35" high="85" max="<%= estimatedDurInMin %>" value="1"/>
+        <div class="progress progress-striped active">
+            <div class="bar" style="width: 60%;"></div>
+        </div>
     </div>
-    <div class="emailInvite">
-        <h5>Don't feel like waiting?</h5>
+    <div class="emailInvite container">
+        <form method="post" action="<%= urlEmail %>" class="form-signin">
+        <h2 class="form-signin-heading">Don't feel like waiting?</h2>
         <p>Enter your email address, and we will email you a link to the result page once it is done.</p>
-        <form method="post" action="<%= urlEmail %>">
-            <input class="clearOnClick" type="email" name="email" required="true" value="me@example.com"/>
-            <input type="submit" value="Submit"/>
+            <input class="input-block-level" type="email" name="email" required="true"/>
+            <input type="submit" class="btn btn-large btn-primary form-submit" value="Submit"/>
         </form>
     </div>
 </div>

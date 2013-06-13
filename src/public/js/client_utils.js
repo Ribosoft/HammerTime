@@ -2,11 +2,11 @@
 function FileLoader() {
     var reader = new FileReader();
     var file;
-	var selfRef = this;
+    var selfRef = this;
     this.readFile = function(fileToRead) {
 		reader.readAsText(fileToRead);
 		reader.onload = function() {
-			loadInputToDisplay(reader.result);
+			setDisplay(reader.result);
 		};
 	}
     this.handleFileSelect = function(evt) {
