@@ -19,8 +19,6 @@ box-shadow()
 .invisible
     display none
 
-
-
 .container-narrow
     margin 0 auto
     width 80%
@@ -57,11 +55,26 @@ $step-content-minHeight = 396px
     background-color: white
     height $step-content-minHeight - (@border-width)*10
 
-.row-fluid .span4
-    width 30.9149%
+.row-fluid .tile
+    width 40%
+    margin-left 0
+
+.row-fluid .bar-separator
+    float left
+    text-align center
+
+    & .filler
+        min-height 150px
+
+    & .emp
+        font-family gentium_book-bold_italic
+        font-size 28px
 
 .step-container
     border-radius: 2px;
+
+.substep-description
+    font-size 14px
 
     & h3
         font-family gentium_book-bold

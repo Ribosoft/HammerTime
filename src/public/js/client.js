@@ -35,10 +35,9 @@ function FetchAccessionNumberSequence()
             retmode: 'text'
         },
         success: function(d) {
-            setDisplay(d.toString());
-            //TODO use a updateSubmitButton method
-            $("#submit1").removeClass("disabled");
-
+            if( setDisplay(d.toString())){
+               $("#submit1").removeClass("disabled");              
+            }
             accessionAlert.addClass("alert-success");
             accessionAlert.text("Sequence found!");
         },
@@ -53,132 +52,142 @@ function FetchAccessionNumberSequence()
 
 function ValidateInput(input)
 {
-	var badInput = false;
-	var Problems = '';
-	var isRNA = true;
-	
-	if(input == "")
-		return {"ok" : false , "error" : "Empty Input: Is your FASTA comment terminated by a new line?"};
-		
-	for(var ii = 0; ii < input.length; ++ii)
-	{
-		if(input[ii] ==' ' || input[ii] =='\n')
-			continue;
-		if(input[ii] != 'T' && input[ii] != 'U' && input[ii] != 'G' && input[ii] != 'C' && input[ii] != 'A')
-		{
-			Problems = "Unrecognized nucleotide: " + input[ii];
-			badInput = true;
-			break;		
-		}
-	}
-	
-	if(badInput)
-		return {"ok" : false , "error" :Problems};
-		
-		for(var ii = 0; ii < input.length; ++ii)
-	{
-		if(input[ii] ==' ')
-			continue;
-		if(input[ii] == 'T')
-		{
-			isRNA = false;
-			break;
-		}
-	}
-	for(var ii = 0; ii < input.length; ++ii)
-	{
-		if(input[ii] ==' ' || input[ii] == '\n')
-			continue;
-		if((isRNA && input[ii] =='T') || (!isRNA && input[ii] == 'U'))
-		{
-			console.log("@" + ii + ":" + input[ii]);
-			Problems = "Inconsistent input (T and U): Check that your input is either DNA or RNA";
-			badInput = true;
-			break;
-		}
-	}
-	
-	if(badInput)
-		return {"ok" : false , "error" :Problems};
-	
-	console.log("All ok");
-	return {"ok" : true, "error" : Problems };
+    var badInput = false;
+    var Problems = '';
+    var isRNA = true;
+
+    if(input == "")
+            return {"ok" : false , "error" : "Empty Input: Is your FASTA comment terminated by a new line?"};
+
+    for(var ii = 0; ii < input.length; ++ii)
+    {
+            if(input[ii] ==' ' || input[ii] =='\n')
+                    continue;
+            if(input[ii] != 'T' && input[ii] != 'U' && input[ii] != 'G' && input[ii] != 'C' && input[ii] != 'A')
+            {
+                    Problems = "Unrecognized nucleotide: " + input[ii];
+                    badInput = true;
+                    break;		
+            }
+    }
+
+    if(badInput)
+            return {"ok" : false , "error" :Problems};
+
+            for(var ii = 0; ii < input.length; ++ii)
+    {
+            if(input[ii] ==' ')
+                    continue;
+            if(input[ii] == 'T')
+            {
+                    isRNA = false;
+                    break;
+            }
+    }
+    for(var ii = 0; ii < input.length; ++ii)
+    {
+            if(input[ii] ==' ' || input[ii] == '\n')
+                    continue;
+            if((isRNA && input[ii] =='T') || (!isRNA && input[ii] == 'U'))
+            {
+                    console.log("@" + ii + ":" + input[ii]);
+                    Problems = "Inconsistent input (T and U): Check that your input is either DNA or RNA";
+                    badInput = true;
+                    break;
+            }
+    }
+
+    if(badInput)
+            return {"ok" : false , "error" :Problems};
+
+    return {"ok" : true, "error" : "All OK!" };
 	
 }
 
 function setDisplay(str){
+    var sequenceAlert = $("#sequence_alert");
+    $("#submit1").addClass("disabled");
+    sequenceAlert.addClass("invisible");
+    sequenceAlert.removeClass("alert-error");
+    
     $("#sequence-display")[0].value = str;
+    if(str !== ""){
+        return validateAndAlert(str);
+    }
+}
+
+function validateAndAlert(str){
+    var sequenceAlert = $("#sequence_alert");
+    var input = CleanInput(str);
+    var validation = ValidateInput(input);
+    sequenceAlert.removeClass("invisible");
+    if(validation.ok === false){
+      sequenceAlert.addClass("alert-error");
+      sequenceAlert.removeClass("alert-success");
+    }
+    else{
+      sequenceAlert.removeClass("alert-error");
+      sequenceAlert.addClass("alert-success");        
+    }
+            
+    sequenceAlert.text(validation.error);
+    
+    return validation.ok;
 }
 
 function CleanInput( input )
 {
-	//FASTA
-	input = input.toUpperCase();
-	input = input.trim();
-	var fastaCommentStart = input.indexOfMultiple(['>' , ';']);
-	do
-	{
-		
-		if(fastaCommentStart != -1 )
-		{
-			var endofFastaComment =  input.indexOf('\n');
-			if(endofFastaComment > fastaCommentStart)
-			{
-				if( endofFastaComment != -1 )
-				{
-					input = input.substr( input.indexOf('\n') + 1);
-				}
-			}
-			else //This means the comment is not terminated by a new-line. The entire thing is garbage. The validator will scream
-			{ //Or is preceeded by a line break, which means it is not proper FASTA
-				input = "";
-				break;
-			}
-		}
-		fastaCommentStart = input.indexOfMultiple(['>' , ';']);
-	} while(fastaCommentStart != -1 );
-	//END FASTA
-	
-	input = input.replace(/[ \t\r\n]+/g, '');//This removes all white-space from the returned string
-	console.log(input);
-	return input;
+    //FASTA
+    input = input.toUpperCase();
+    input = input.trim();
+    var fastaCommentStart = input.indexOfMultiple(['>' , ';']);
+    do
+    {
+            if(fastaCommentStart != -1 )
+            {
+                    var endofFastaComment =  input.indexOf('\n');
+                    if(endofFastaComment > fastaCommentStart)
+                    {
+                            if( endofFastaComment != -1 )
+                            {
+                                    input = input.substr( input.indexOf('\n') + 1);
+                            }
+                    }
+                    else //This means the comment is not terminated by a new-line. The entire thing is garbage. The validator will scream
+                    { //Or is preceeded by a line break, which means it is not proper FASTA
+                            input = "";
+                            break;
+                    }
+            }
+            fastaCommentStart = input.indexOfMultiple(['>' , ';']);
+    } while(fastaCommentStart != -1 );
+    //END FASTA
+
+    input = input.replace(/[ \t\r\n]+/g, '');//This removes all white-space from the returned string
+    console.log(input);
+    return input;
 }
 
 
 function SubmitInput()
 {
-	var input = $('#sequence-display')[0].value;
-	input = CleanInput(input);
-	var validation = ValidateInput(input);
-	if(validation.ok === false)
-	{
-		console.log(validation.error);
-		alert(validation.error);
-	}
-	else
-	{
-		var csites = FindCutsites (input);
-		var candidates = CreateCandidates(input, csites);
-		ShowCandidatesAndAnnealing(candidates);
-                $.ajax({
-                    type: "POST",
-                    url: window.location.href+"design",
-                    data: {
-                        sequence: input
-                    },
-                    success: function(data) {
-                        //data contains the id of the request
-                        console.log("data.id "+data.id);
-                        window.location.href = window.location.href+"design/"+data.id;
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        switch (textStatus) {
-                            case "error":
-                                alert("errorThrown is " + errorThrown+" with status "+textStatus);
-                        }
-                    }
-                });
-         }
+//    var csites = FindCutsites (input);
+//    var candidates = CreateCandidates(input, csites);
+//    ShowCandidatesAndAnnealing(candidates);
+    var input = CleanInput($('#sequence-display')[0].value);
+    $.ajax({
+        type: "POST",
+        url: window.location.href+"design",
+        data: {
+            sequence: input
+        },
+        success: function(data) {
+            window.location.href = window.location.href+"design/"+data.id;
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            $("#sequence_alert").text("Can't connect to our server. Try again later...")
+        }
+    });
 }
 
 function FindCutsites( seq )
@@ -277,4 +286,11 @@ window.onload = function() {
         dropZone.addEventListener('dragover', fileLoader.handleDragOver, false);
         dropZone.addEventListener('drop', fileLoader.handleFileSelect, false);
     }
+    
+    $('#sequence-display').bind('input propertychange', function() {
+        validateAndAlert($('#sequence-display')[0].value)?
+            $("#submit1").removeClass("disabled"):
+                    $("#submit1").addClass("disabled");
+    });
+    
 };
