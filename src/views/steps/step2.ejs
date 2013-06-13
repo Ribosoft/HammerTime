@@ -1,16 +1,22 @@
 <h3 class="step-title">Step 2 - Design Options</h3>
 <p>Please select the options that will be applied during the design of the ribozyme.</p>
 <form class = "design-form" method="post" action=<%= urlPost %> accept-charset="utf-8">
-    <fieldset class="option-field"><legend>Regions for target design</legend>
-        <div class="third inline-block"><input required="true" type="radio" name="region" value="5"/>5'UTR<br/></div>
-        <div class="third inline-block"><input required="true" type="radio" name="region" value="4"/>Open Reading Frame (ORF)<br/></div>
-        <div class="third inline-block"><input required="true" type="radio" name="region" value="3"/>3'UTR<br/></div>
+    <fieldset class="option-field">
+    <legend>Regions for target design
+    <i class="icon-question-sign pull-right"></i>
+    </legend>
+        <div class="offset2"><input required="true" type="radio" name="region" value="5"/>5'UTR<br/></div>
+        <div class="offset2"><input required="true" type="radio" name="region" value="4"/>Open Reading Frame (ORF)<br/></div>
+        <div class="offset2"><input required="true" type="radio" name="region" value="3"/>3'UTR<br/></div>
     </fieldset>
-    <fieldset class="option-field"><legend>Target environment</legend>
-        <div class="half inline-block">
+    <fieldset class="option-field">
+    <legend>Target environment
+    <i class="icon-question-sign pull-right"></i>
+    </legend>
+        <div class="offset2">
             <input type="radio" required="true" name="env" value="vitro"/>In-vitro<br/>
         </div>
-        <div class="half inline-block" >
+        <div class="offset2" >
             <input type="radio" required="true" name="env" value="vivo"/>In-vivo<br/>
             <select name="envVivo">
                 <option value="mouse">Mouse</option>
@@ -29,46 +35,55 @@
             </select>
         </div>
     </fieldset>
-    <fieldset class="option-field"><legend>Environment Properties</legend>
-        <label for="temperature">Temperature</label>
-        <input type="number" name="temperature" value="37"/> &#176;C<br/>
-        <label for="naC">Na&#8314; Concentration</label>
-        <input type="number" name="naC" value="50"/> mM<br/>
-        <label for="mgC">Mg&#8314;&#8314; Concentration</label>
-        <input type="number" name="mgC" value="0"/> mM<br/>
-        <label for="oligoC">Oligomer Concentration</label>
-        <input type="number" name="oligoC" value="200"/> nM<br/>
+    <fieldset class="option-field">
+    <legend>Environment Properties
+    <i class="icon-question-sign pull-right"></i></legend>
+        <div class="offset2">
+            <label for="temperature">Temperature</label>
+            <input type="number" name="temperature" value="37"/> &#176;C<br/>
+            <label for="naC">Na&#8314; Concentration</label>
+            <input type="number" name="naC" value="50"/> mM<br/>
+            <label for="mgC">Mg&#8314;&#8314; Concentration</label>
+            <input type="number" name="mgC" value="0"/> mM<br/>
+            <label for="oligoC">Oligomer Concentration</label>
+            <input type="number" name="oligoC" value="200"/> nM<br/>
+        </div>
     </fieldset>
-    <fieldset class="option-field"><legend>Potential Cut-sites</legend>
-        <label for="cutsites">Preferred cutsite(s)</label>
-        <select name="cutsites" multiple="multiple">
-            <option value="guc" selected="selected">GUC</option>
-            <option value="auc">AUC</option>
-            <option value="cuc">CUC</option>
-            <option value="cug">CUG</option>
-            <option value="cua">CUA</option>
-        </select>        
+    <fieldset class="option-field">
+    <legend>Potential Cut-sites
+    <i class="icon-question-sign pull-right"></i></legend>
+        <div class="offset2">
+            <label for="cutsites">Preferred cutsite(s)</label>
+            <select name="cutsites" multiple="multiple">
+                <option value="guc" selected="selected">GUC</option>
+                <option value="auc">AUC</option>
+                <option value="cuc">CUC</option>
+                <option value="cug">CUG</option>
+                <option value="cua">CUA</option>
+            </select>
+        </div>
     </fieldset>
-    <fieldset class="option-field"><legend>Ribozyme Shape</legend>
-        <div class="half column">
+    <fieldset class="option-field">
+    <legend>Ribozyme Shape<i class="icon-question-sign pull-right"></i></legend>
+        <div class="offset2">
             <input type="checkbox" name="foldShape" value="basic" checked="checked">Basic</input>
         </div>
-        <div class="half column">
+        <div class="offset2">
             <input type="checkbox" name="foldShape" value="wishbone" checked="checked">Wishbone</input>
         </div>
     </fieldset>
-    <fieldset class="option-field"><legend>Folding type</legend>
-        <div class="half column">
+    <fieldset class="option-field">
+    <legend>Folding type<i class="icon-question-sign pull-right"></i></legend>
+        <div class="offset2">
            <input type="checkbox" name="foldSW" value="m" checked="checked">m-Fold</input>
         </div>
-        <div class="half column">
+        <div class="offset2">
             <input type="checkbox" name="foldSW" value="s" checked="checked">s-Fold</input>
         </div>
     </fieldset>
 
-    <div class="offset6 step-buttons">
-        <button type="button" class="btn btn-large" >Advanced Options</button>
+    <div class="offset9 step-buttons">
         <button type="button" class="btn btn-large" >Reset</button>
-        <button type="submit" class="btn btn-primary btn-large" id="submit2">Submit</button>
+        <button type="submit" class="btn btn-primary btn-large">Submit</button>
     </div>
 </form>

@@ -164,7 +164,6 @@ function CleanInput( input )
     //END FASTA
 
     input = input.replace(/[ \t\r\n]+/g, '');//This removes all white-space from the returned string
-    console.log(input);
     return input;
 }
 
@@ -188,6 +187,12 @@ function SubmitInput()
             $("#sequence_alert").text("Can't connect to our server. Try again later...")
         }
     });
+}
+
+function clearInput(){
+    setDisplay("");
+    $('#accession').val("");
+    $("#accession_alert").addClass("invisible");
 }
 
 function FindCutsites( seq )
@@ -277,15 +282,18 @@ function ShowCandidatesAndAnnealing(cands)
 	$('.displayUpdate').html(res);
 }
 
+function showDesignHelp(){
+    
+}
+
 window.onload = function() {
     $('#submit_ACN').click(FetchAccessionNumberSequence);
     $('#submit1').click(SubmitInput);
+    $('#reset').click(clearInput);
     
-    var dropZone = document.getElementById('drop-zone');
-    if(dropZone){
-        dropZone.addEventListener('dragover', fileLoader.handleDragOver, false);
-        dropZone.addEventListener('drop', fileLoader.handleFileSelect, false);
-    }
+    var dropZone = $("#drop-zone")[0];
+    dropZone.addEventListener('dragover', fileLoader.handleDragOver, false);
+    dropZone.addEventListener('drop', fileLoader.handleFileSelect, false);
     
     $('#sequence-display').bind('input propertychange', function() {
         validateAndAlert($('#sequence-display')[0].value)?
@@ -293,4 +301,5 @@ window.onload = function() {
                     $("#submit1").addClass("disabled");
     });
     
+    $(".icon-question-sign").click(showDesignHelp);
 };
