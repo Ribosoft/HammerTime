@@ -283,7 +283,11 @@ function ShowCandidatesAndAnnealing(cands)
 }
 
 function showDesignHelp(){
-    
+//    var designForm = $("#design-form");
+//    if(!designForm.style.width)
+//        designForm.addClass("smaller-form");
+//    else
+//        designForm.removeClass("smaller-form");
 }
 
 window.onload = function() {
@@ -291,9 +295,8 @@ window.onload = function() {
     $('#submit1').click(SubmitInput);
     $('#reset').click(clearInput);
     
-    var dropZone = $("#drop-zone")[0];
-    dropZone.addEventListener('dragover', fileLoader.handleDragOver, false);
-    dropZone.addEventListener('drop', fileLoader.handleFileSelect, false);
+    $("#drop-zone").bind('dragover', fileLoader.handleDragOver);
+    $("#drop-zone").bind('drop', fileLoader.handleFileSelect);
     
     $('#sequence-display').bind('input propertychange', function() {
         validateAndAlert($('#sequence-display')[0].value)?
