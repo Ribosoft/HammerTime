@@ -1,6 +1,7 @@
 //Use this to add utilities functions
-var utils = require('utils'),
-    url = require('url'),
+var utils = require('utils');
+
+var url = require('url'),
     mongoose = require('mongoose');
 
 var Request = mongoose.model('Request');
@@ -15,7 +16,7 @@ exports.about = function(req, res){
 
 exports.redirect = function(req, res){
   res.redirect('/ribosoft/');
-};
+};  
 
 exports.design = function(req, res){
     //TODO SUPER IMPORTANT
@@ -31,11 +32,8 @@ exports.design = function(req, res){
     }
     else{
         var id = utils.generateUID();
-        new Request({
-            uuid: id,
-            status: 1,
-            sequence: sequence
-        }).save(function(err) {
+        Request.createRequest(id,sequence)
+        .save(function(err) {
             if (err)
             {
                 //Should return an error that would be handled at client level

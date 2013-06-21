@@ -122,14 +122,11 @@ function validateAndAlert(str){
     var validation = ValidateInput(input);
     sequenceAlert.removeClass("invisible");
     if(validation.ok === false){
-      sequenceAlert.addClass("alert-error");
-      sequenceAlert.removeClass("alert-success");
+      sequenceAlert.addClass("alert-error").removeClass("alert-success");
     }
     else{
-      sequenceAlert.removeClass("alert-error");
-      sequenceAlert.addClass("alert-success");        
+      sequenceAlert.removeClass("alert-error").addClass("alert-success");      
     }
-            
     sequenceAlert.text(validation.error);
     
     return validation.ok;
@@ -184,7 +181,8 @@ function SubmitInput()
             window.location.href = window.location.href+"design/"+data.id;
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            $("#sequence_alert").text("Can't connect to our server. Try again later...")
+            $("#sequence_alert").addClass("alert-error").removeClass("alert-success");
+            $("#sequence_alert").text("Service currently unavailable. Please try again later...")
         }
     });
 }
