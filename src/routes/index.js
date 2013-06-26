@@ -1,12 +1,12 @@
 //Use this to add utilities functions
 var utils = require('utils');
-
 var url = require('url'),
     mongoose = require('mongoose');
 
 var Request = mongoose.model('Request');
 
 exports.index = function(req, res){
+  setInterval(Request.flushOutdatedRequests, utils.SECONDS_IN_WEEK*1000);
   res.render('index', { title: 'Ribosoft', stepTitle: 'Step 1 - Selecting the sequence'});
 };
 

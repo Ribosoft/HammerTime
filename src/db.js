@@ -72,13 +72,12 @@ var Request = new Schema({
     uuid : String,
     createDate : {type: Date, default: Date.now },
     //Status is an integer that represents the state of the request
-    // 0 : not_created
     // 1 : created
     // 2 : designed
     // 3 : inProcessing
     // 4 : processed
     //TODO flush database for records in state 4 with date > week
-    status : { type: Number, min: 0, max: 4, default:0 },
+    status : { type: Number, min: 1, max: 4, default:1 },
     sequence : {type: String, trim: true },
     accessionNumber : String,
     targetEnv : {type : Schema.ObjectId, ref : 'TargetEnv'},
@@ -100,8 +99,16 @@ Request.statics.createRequest = function (id,seq){
 Request.statics.flushOutdatedRequests = function(){
     var weekAgo = new Date();
     weekAgo.setDate(weekAgo.getDate() - utils.getExpirationDelay());
-    this.find({createDate:{"$lte":weekAgo} , status : 4}, function(){
-        //delete them
+    this.find({createDate:{"$lte":weekAgo}}, function(err, result){
+        if(err)
+            console.log("Could not find old requests");
+        if(result){
+            result.remove(function(err, result){
+                if(err)
+                    console.log("Could not delete old requests");
+                //deleted
+            });
+        }
     });
 };
 
