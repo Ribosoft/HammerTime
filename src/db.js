@@ -106,7 +106,7 @@ Request.statics.flushOutdatedRequests = function(){
             result.remove(function(err, result){
                 if(err)
                     console.log("Could not delete old requests");
-                //deleted
+                console.log("Database flushed");
             });
         }
     });

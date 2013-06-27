@@ -10,13 +10,17 @@ exports.index = function(req, res){
   res.render('index', { title: 'Ribosoft', stepTitle: 'Step 1 - Selecting the sequence'});
 };
 
+exports.redirect = function(req, res){
+  res.redirect('/ribosoft/');
+};  
+
 exports.about = function(req, res){
   res.render('about', { title: 'About Ribosoft' });
 };
 
-exports.redirect = function(req, res){
-  res.redirect('/ribosoft/');
-};  
+exports.api = function(req, res){
+  res.render('api', { title: 'Developer API' });
+};
 
 exports.design = function(req, res){
     //TODO SUPER IMPORTANT
@@ -161,4 +165,8 @@ exports.email_page = function(req, res){
 
 exports.results_page = function(req, res){
   res.render('results_page', { title: 'Ribosot - Results'});
+};
+
+exports.example = function(req, res){
+  res.render('about', { title: 'Example router' });
 };
