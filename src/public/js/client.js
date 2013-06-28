@@ -122,14 +122,11 @@ function validateAndAlert(str){
     var validation = ValidateInput(input);
     sequenceAlert.removeClass("invisible");
     if(validation.ok === false){
-      sequenceAlert.addClass("alert-error");
-      sequenceAlert.removeClass("alert-success");
+      sequenceAlert.addClass("alert-error").removeClass("alert-success");
     }
     else{
-      sequenceAlert.removeClass("alert-error");
-      sequenceAlert.addClass("alert-success");        
+      sequenceAlert.removeClass("alert-error").addClass("alert-success");      
     }
-            
     sequenceAlert.text(validation.error);
     
     return validation.ok;
@@ -164,7 +161,6 @@ function CleanInput( input )
     //END FASTA
 
     input = input.replace(/[ \t\r\n]+/g, '');//This removes all white-space from the returned string
-    console.log(input);
     return input;
 }
 
@@ -185,9 +181,16 @@ function SubmitInput()
             window.location.href = window.location.href+"design/"+data.id;
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            $("#sequence_alert").text("Can't connect to our server. Try again later...")
+            $("#sequence_alert").addClass("alert-error").removeClass("alert-success");
+            $("#sequence_alert").text("Service currently unavailable. Please try again later...")
         }
     });
+}
+
+function clearInput(){
+    setDisplay("");
+    $('#accession').val("");
+    $("#accession_alert").addClass("invisible");
 }
 
 function FindCutsites( seq )
@@ -277,15 +280,21 @@ function ShowCandidatesAndAnnealing(cands)
 	$('.displayUpdate').html(res);
 }
 
+function showDesignHelp(){
+//    var designForm = $("#design-form");
+//    if(!designForm.style.width)
+//        designForm.addClass("smaller-form");
+//    else
+//        designForm.removeClass("smaller-form");
+}
+
 window.onload = function() {
     $('#submit_ACN').click(FetchAccessionNumberSequence);
     $('#submit1').click(SubmitInput);
+    $('#reset').click(clearInput);
     
-    var dropZone = document.getElementById('drop-zone');
-    if(dropZone){
-        dropZone.addEventListener('dragover', fileLoader.handleDragOver, false);
-        dropZone.addEventListener('drop', fileLoader.handleFileSelect, false);
-    }
+    $("#drop-zone").bind('dragover', fileLoader.handleDragOver);
+    $("#drop-zone").bind('drop', fileLoader.handleFileSelect);
     
     $('#sequence-display').bind('input propertychange', function() {
         validateAndAlert($('#sequence-display')[0].value)?
@@ -293,4 +302,5 @@ window.onload = function() {
                     $("#submit1").addClass("disabled");
     });
     
+    $(".icon-question-sign").click(showDesignHelp);
 };
