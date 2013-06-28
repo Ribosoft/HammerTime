@@ -16,6 +16,13 @@ box-shadow()
     -moz-box-shadow arguments
     box-shadow arguments
 
+transition()
+  -webkit-transition arguments
+  -moz-transition arguments
+  -ms-transition arguments
+  -o-transition arguments
+  transition arguments
+
 .invisible
     display none
 
@@ -94,6 +101,14 @@ $step-content-minHeight = 396px
 #accession
     margin-bottom 0
 
+#design-form i
+    margin-right 50%
+
+#design-form.smaller-form 
+    width 50%
+    & i
+        margin-right 0%
+
 .form-signin
         max-width: 300px;
         padding: 19px 29px 29px;
@@ -126,3 +141,6 @@ $step-content-minHeight = 396px
     width: 100%;
     color: white
     clear both
+
+.icon-question-sign:hover
+    cursor pointer

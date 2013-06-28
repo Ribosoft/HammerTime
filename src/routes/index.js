@@ -1,20 +1,25 @@
 //Use this to add utilities functions
-var utils = require('utils'),
-    url = require('url'),
+var utils = require('utils');
+var url = require('url'),
     mongoose = require('mongoose');
 
 var Request = mongoose.model('Request');
 
 exports.index = function(req, res){
+  setInterval(Request.flushOutdatedRequests, utils.SECONDS_IN_WEEK*1000);
   res.render('index', { title: 'Ribosoft', stepTitle: 'Step 1 - Selecting the sequence'});
 };
+
+exports.redirect = function(req, res){
+  res.redirect('/ribosoft/');
+};  
 
 exports.about = function(req, res){
   res.render('about', { title: 'About Ribosoft' });
 };
 
-exports.redirect = function(req, res){
-  res.redirect('/ribosoft/');
+exports.api = function(req, res){
+  res.render('api', { title: 'Developer API' });
 };
 
 exports.design = function(req, res){
@@ -31,11 +36,8 @@ exports.design = function(req, res){
     }
     else{
         var id = utils.generateUID();
-        new Request({
-            uuid: id,
-            status: 1,
-            sequence: sequence
-        }).save(function(err) {
+        Request.createRequest(id,sequence)
+        .save(function(err) {
             if (err)
             {
                 //Should return an error that would be handled at client level
@@ -163,4 +165,8 @@ exports.email_page = function(req, res){
 
 exports.results_page = function(req, res){
   res.render('results_page', { title: 'Ribosot - Results'});
+};
+
+exports.example = function(req, res){
+  res.render('about', { title: 'Example router' });
 };
