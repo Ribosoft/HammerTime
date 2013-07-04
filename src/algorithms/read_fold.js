@@ -192,28 +192,37 @@ function(file)
 	}
 	return StructureInfos;
 }
-fs = require('fs');
-var Candidates = new Array();
-for(var struct_num = 0; struct_num < 10; struct_num ++)
-{
-	console.log("Parsing " +struct_num +"th candidate ");
-	var file_pattern_begin = 'GUC';
-	var file_pattern_next = '\\structures\\';
-	var file_pattern = file_pattern_begin + (struct_num).toString() + file_pattern_next;
-	var file = file_pattern + '10structure_2.out';
-	
-	var Structs = ParseUtilities.ParseStructuresSummary(file);
-	for(var ii = 1; ii <= 10; ++ii)
-	{
-		//TODO: Fix async op properly
-		file = file_pattern + 'structure' +ii+ '.out';
-		ParseUtilities.ParseStructure(file,Structs[ii-1]);
-	}
 
-	Candidates.push(Structs);
-	
-	console.log("\n\nFile " + file_pattern + " parsed\n\n********************************");
+
+ParseUtilities.ParseSFoldResults = function (directory)
+{
+	fs = require('fs');
+	var Candidates = new Array();
+	for(var struct_num = 0; struct_num < 10; struct_num ++)
+	{
+		console.log("Parsing " +struct_num +"th candidate ");
+		var file_pattern_begin = 'GUC';
+		var file_pattern_next = '\\structures\\';
+		var file_pattern = file_pattern_begin + (struct_num).toString() + file_pattern_next;
+		var file = file_pattern + '10structure_2.out';
+		
+		var Structs = ParseUtilities.ParseStructuresSummary(file);
+		for(var ii = 1; ii <= 10; ++ii)
+		{
+			//TODO: Fix async op properly
+			file = file_pattern + 'structure' +ii+ '.out';
+			ParseUtilities.ParseStructure(file,Structs[ii-1]);
+		}
+
+		Candidates.push(Structs);
+		
+		console.log("\n\nFile " + file_pattern + " parsed\n\n********************************");
+	}
 }
+	
+	
+	
+	
 	var readline = require('readline');
 
 	var rl = readline.createInterface({
