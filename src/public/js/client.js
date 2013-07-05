@@ -280,13 +280,27 @@ function ShowCandidatesAndAnnealing(cands)
 	$('.displayUpdate').html(res);
 }
 
-function showDesignHelp(){
-//    var designForm = $("#design-form");
-//    if(!designForm.style.width)
-//        designForm.addClass("smaller-form");
-//    else
-//        designForm.removeClass("smaller-form");
+function showDesignHelp(e){
+	var elem = $(this);
+	if(elem.attr('expanded')== '' || elem.attr('expanded')== undefined)
+	{
+		var css1 = $('#design-form').css('width');
+		var css2 = $('#design-form').css('margin-left');
+		elem.attr('expanded', css1+';' + css2 );
+		$('#design-form').animate({'width':'50%'},150);
+		$('#design-form i').animate({'margin-left':'0%'},150);
+	}
+	else
+	{
+		var css = elem.attr('expanded').split(';');
+		elem.attr('expanded','');
+		$('#design-form').animate({'width':css[0]},150);
+		$('#design-form i').animate({'margin-left':css[1]},150);
+	}
+	
 }
+
+$(".icon-question-sign").click(showDesignHelp);
 
 window.onload = function() {
     $('#submit_ACN').click(FetchAccessionNumberSequence);

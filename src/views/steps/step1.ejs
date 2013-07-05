@@ -7,7 +7,11 @@
 </div>
 <div class="bar-separator span2"><div class="filler"></div><span class="emp">Or</div>
 <div class="span5 tile" id="drop">
-    <p class="substep-description">Drop your file here</p>
+	<div class="btn" style="height: 23px; width:59px;" id="selectFileButton" onclick="$('#selectFileInput').click()">
+	Select File
+	</div>
+	<input type="file" style="visibility:hidden;" id="selectFileInput"> 
+    <p class="substep-description">OR Drop your file here</p>
     <div id="drop-zone"></div>
 </div>
 <div id="sequence-wrap" class="span10">
