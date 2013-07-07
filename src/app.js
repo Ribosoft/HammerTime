@@ -10,7 +10,8 @@ var express = require('express'),
         routes = require('./routes'),
         http = require('http'),
         nib = require('nib'),
-        path = require('path');
+        path = require('path'),
+		algorithm = require('algorithm');
 
 var app = express();
 
