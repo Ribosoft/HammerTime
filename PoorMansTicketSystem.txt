@@ -2,13 +2,25 @@ Priorities:
 ----------
 Meh	Lil'	Kinda	Rather	Super
 
-How Important		Who		When				What		
-Meh					Gab		For second HTML		Get the button to reformat the input to make it look pretty (3 base-sets then space , all caps)		
-Kinda				Gab		Next week			Clear Problem Statement of the objectives and terminology DONE
-Kinda				Anas	Next week			Setup HTML form to upload files to UNAfold and HTML for output		
-Kinda				Anas	Next week			Clear ids from CSS
-Rather				Anas	Next week			Finish up all HTML pages, so we get to the tweaking		
-Rather				Gab		Next week			Read the paper on gibs free energy and how it relates to getting the thing hooked on. 
-Rather				Gab		Next Week			Get the level 2 annealing temperature set up      DONE
-Rather				Gab		Next Week			Remove the C in GUC from Annealing T calculation  DONE
-Kinda				Anas	Two Weeks			Modular pop-up for error display and stuff
+How Important		Who				      What		
+Meh					   				          On the results page, show the sequence in triples and highlight cutsites
+Kinda  				   				        Highlight first character that should not be part of the sequence
+Super				   Anas	  			    Create results page with big table that displays cutsite+candidate# as id, other columns: cutsite, 6 fitnesses (floats)
+Super				 Anas	  			      Finish up all HTML pages, so we get to the tweaking		
+Super				   Anas	  			    Setup an error reporting system (including server-side errors)
+Super                           Setup nginx to display static files & Ribosoft
+Super                           Setup monit to track server state
+Super                           Write API page with documentation
+Super                           Write documentation for website and server setup            
+Super                           Clean up express APIs 
+Kinda      Me                   Annealing temperature for degenerate base-pairs BIG
+Super                           Fold given constraints from user input
+Lil'                            Change UNA fold API to take user environmental constraints
+Lil'                            Implement API to Blast
+Super                           Implement initial algorithm to test stuff
+Meh                             The plasmid extra piece to add to help ppl
+SUPER                           CONCURRENY / SPACE
+                                  Each candidate has to wait on the folding to execute file reading, to finish
+                                  its cutsite, which then reports to its request
+                                  there is a lot of async/re-sync 
+Meh                             Implement Wishbone
