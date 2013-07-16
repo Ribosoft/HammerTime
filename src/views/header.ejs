@@ -2,17 +2,21 @@
 <html class="no-js">
   <head>
     <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel='stylesheet' href='../../stylesheets/reset.css' />
     <link rel='stylesheet' href='../../stylesheets/fonts.css' />
+    <link rel='stylesheet' href='../../stylesheets/bootstrap.min.css' />
     <link rel='stylesheet' href='../../stylesheets/style.css' />
     <link rel="icon" type="image/png" href="../../images/favicon.png" />
   </head>
   <body>
-    <header id="header">
-        <div id="header-links">
-            <a href="/ribosoft/about">About</a>
-        </div>
-        <div id="header-left">
-            <img id="site-image" src="../../images/icon.png" alt="Site icon"/>
-        </div>
-    </header>
+    <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+            <li <% if(title.indexOf("About") === -1 && title.indexOf("API") === -1){%>class="active"<%}%> ><a href="/ribosoft/">Home</a></li>
+            <li <% if(title.indexOf("About") !== -1){%>class="active"<%}%> ><a href="/ribosoft/about">About</a></li>
+            <li <% if(title.indexOf("API") === -1 !== -1){%>class="active"<%}%> ><a href="/ribosoft/api">API</a></li>
+        </ul>
+        <a href="/ribosoft"><img src="../../images/icon.png" alt="Site logo" class="site-logo"/></a>
+    </div>
+  <hr/>
+  <div class="container-narrow">

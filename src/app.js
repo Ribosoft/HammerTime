@@ -10,7 +10,8 @@ var express = require('express'),
         routes = require('./routes'),
         http = require('http'),
         nib = require('nib'),
-        path = require('path');
+        path = require('path'),
+		algorithm = require('algorithm');
 
 var app = express();
 
@@ -39,14 +40,19 @@ app.configure('development', function(){
 
 //All the routes.* functions are defined in routes/index.js
 app.get('/ribosoft/', routes.index);
-app.get('/ribosoft/about', routes.about);
 app.get('/ribosoft', routes.redirect);
+app.get('/ribosoft/about', routes.about);
+//TODO
+app.get('/ribosoft/api', routes.api);
+
 app.post('/ribosoft/design', routes.design);
 app.get('/ribosoft/design/:id', routes.design_page);
 app.post('/ribosoft/summary/:id', routes.summary_page);
 app.post('/ribosoft/processing/:id', routes.processing_page);
+app.get('/ribosoft/blah', routes.processing_page);
 app.post('/ribosoft/remember/:id', routes.email_page);
 app.get('/ribosoft/results/:id', routes.results_page);
+app.get('/ribosoft/example/:id', routes.example);
 
 
 http.createServer(app).listen(app.get('port'), function(){
