@@ -2,13 +2,12 @@ Priorities:
 ----------
 Meh	Lil'	Kinda	Rather	Super
 
-How Important		Who				      What		
-Meh					   				          On the results page, show the sequence in triples and highlight cutsites
-Kinda  				   				        Highlight first character that should not be part of the sequence
-Super				   Anas	  			    Create results page with big table that displays cutsite+candidate# as id, other columns: cutsite, 6 fitnesses (floats)
-Super				 Anas	  			      Finish up all HTML pages, so we get to the tweaking		
-Super				   Anas	  			    Setup an error reporting system (including server-side errors)
-Super                           Setup nginx to display static files & Ribosoft
+How Important				      What		
+Meh                             On the results page, show the sequence in triples and highlight cutsites
+Kinda                           Highlight first character that should not be part of the sequence
+Super                           Create results page with big table that displays cutsite+candidate# as id, other columns: cutsite, 6 fitnesses (floats)
+Super                           Finish up all HTML pages, so we get to the tweaking		
+Super                           Setup an error reporting system (including server-side errors)
 Super                           Setup monit to track server state
 Super                           Write API page with documentation
 Super                           Write documentation for website and server setup            
