@@ -15,7 +15,7 @@ Rather                          Clean up express APIs
 Super                           Flush database for finished processes
 Super                           Setup emailing process to send link to finished work
 Super                           Setup nodeunit for unit tests
-Super                           Setup vowjs for BDD tests
+Super                           Setup mocha for BDD tests
 Super                           Write unit tests
 Super                           Write BDD tests
 Kinda                           Annealing temperature for degenerate base-pairs BIG
