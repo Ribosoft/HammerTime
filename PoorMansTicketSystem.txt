@@ -11,7 +11,13 @@ Super                           Setup an error reporting system (including serve
 Super                           Setup monit to track server state
 Super                           Write API page with documentation
 Super                           Write documentation for website and server setup            
-Super                           Clean up express APIs 
+Rather                          Clean up express APIs
+Super                           Flush database for finished processes
+Super                           Setup emailing process to send link to finished work
+Super                           Setup nodeunit for unit tests
+Super                           Setup vowjs for BDD tests
+Super                           Write unit tests
+Super                           Write BDD tests
 Kinda                           Annealing temperature for degenerate base-pairs BIG
 Super                           Fold given constraints from user input
 Lil'                            Change UNA fold API to take user environmental constraints
