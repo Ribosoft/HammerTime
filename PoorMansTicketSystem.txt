@@ -12,7 +12,7 @@ Super                           Setup monit to track server state
 Super                           Write API page with documentation
 Super                           Write documentation for website and server setup            
 Super                           Clean up express APIs 
-Kinda      Me                   Annealing temperature for degenerate base-pairs BIG
+Kinda                           Annealing temperature for degenerate base-pairs BIG
 Super                           Fold given constraints from user input
 Lil'                            Change UNA fold API to take user environmental constraints
 Lil'                            Implement API to Blast
