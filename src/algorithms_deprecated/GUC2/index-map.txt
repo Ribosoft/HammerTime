@@ -1,4 +1,0 @@
-cdf = Comulative free energy distribution
-2dhist = Two-dimensional histogram of base pairs in the sample
-circles = centroid of cluster
-structures = MONEY
