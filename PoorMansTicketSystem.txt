@@ -29,3 +29,6 @@ SUPER                           CONCURRENY / SPACE
                                   its cutsite, which then reports to its request
                                   there is a lot of async/re-sync 
 Meh                             Implement Wishbone
+Meh								The candidate generation no longer does addition of promoter. This is cause
+									they are now cleansed right after of those with low Tm
+									Thus promoter add must be moved after cleanse, but BEFORE fold

@@ -22,6 +22,9 @@
     <Content Include="app.js">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="script1.js">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="src\node_modules\algorithm\AlgorithmUtilities.js">
       <SubType>Content</SubType>
     </Content>
@@ -76,6 +79,12 @@
     <Content Include="src\node_modules\algorithm\test.js">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="src\node_modules\log\index.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\utils\index.js">
+      <SubType>Content</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
@@ -85,6 +94,9 @@
     <Folder Include="src\node_modules\algorithm\meltingTemp" />
     <Folder Include="src\node_modules\algorithm\model" />
     <Folder Include="src\node_modules\algorithm\sfoldModule" />
+    <Folder Include="src\node_modules\algorithm\sfoldModule" />
+    <Folder Include="src\node_modules\utils" />
+    <Folder Include="src\node_modules\log" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
 </Project>
