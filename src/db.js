@@ -34,10 +34,10 @@ mongoose.model( 'TargetEnv', TargetEnv );
 /************************ Candidate Schema *****************/
 var Candidate = new Schema({
     parentOutsideTarget : { type: Number },
-    coreType: [String],
+    coreTypeId: [Number],
     fitness : [Number],
-    structure : [{type : Schema.ObjectId, ref : 'Structure' }],
-    structureUNA: Schema.Types.Mixed, //don't know which type this is
+    structuresSFold : [{type : Schema.ObjectId, ref : 'Structure' }],
+    structureUNA: {type : Schema.ObjectId, ref : 'Structure' },
     coreStart: Number
 });
 
@@ -113,5 +113,4 @@ Request.statics.flushOutdatedRequests = function(){
 };
 
 mongoose.model( 'Request', Request );
-
 mongoose.connect( 'mongodb://localhost/ribosoft-db' );

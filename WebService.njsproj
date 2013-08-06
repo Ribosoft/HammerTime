@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>7c2390d5-8112-45a9-a96f-82e6e78dae4d</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <StartupFile>src\node_modules\algorithm\test.js</StartupFile>
+    <ProjectTypeGuids>{262852C6-CD72-467D-83FE-5EEB1973A190};{F48CDB0C-A733-4163-8884-DCAA07CF69BF}</ProjectTypeGuids>
+    <Name>WebService</Name>
+    <RootNamespace>WebService</RootNamespace>
+    <DebuggerPort>5858</DebuggerPort>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="app.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="script1.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\AlgorithmUtilities.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\candidateGenerationModule\execute_test.bat">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\candidateGenerationModule\index.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\candidateGenerationModule\test.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\execute_test.bat">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\HandleRequest.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\index.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\meltingTemp\index.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\meltingTemp\melting_t.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\model\domainObjects.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\model\index.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\sfoldModule\execute_fold.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\sfoldModule\execute_test.bat">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\sfoldModule\index.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\sfoldModule\read_fold.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\sfoldModule\sequences.txt">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\sfoldModule\test.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\algorithm\test.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\log\index.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\node_modules\utils\index.js">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
+    <Folder Include="src\node_modules" />
+    <Folder Include="src\node_modules\algorithm" />
+    <Folder Include="src\node_modules\algorithm\candidateGenerationModule" />
+    <Folder Include="src\node_modules\algorithm\meltingTemp" />
+    <Folder Include="src\node_modules\algorithm\model" />
+    <Folder Include="src\node_modules\algorithm\sfoldModule" />
+    <Folder Include="src\node_modules\algorithm\sfoldModule" />
+    <Folder Include="src\node_modules\utils" />
+    <Folder Include="src\node_modules\log" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>

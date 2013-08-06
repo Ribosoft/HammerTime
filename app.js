@@ -1,14 +1,17 @@
+
+/**
+ * Module dependencies.
+ */
+
 var express = require('express'),
-    stylus = require ('stylus'),
-    db = require('./db'),
-    mongoose = require('mongoose')
-    engine = require('ejs-locals'),
-    routes = require('./routes'),
-    http = require('http'),
-    nib = require('nib'),
-    path = require('path'),
-    shutdown = require('shutdown'),
-    algorithm = require('algorithm');
+        stylus = require ('stylus'),
+        db = require('./db'),
+        engine = require('ejs-locals'),
+        routes = require('./routes'),
+        http = require('http'),
+        nib = require('nib'),
+        path = require('path'),
+		algorithm = require('algorithm');
 
 var app = express();
 
@@ -21,7 +24,8 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
-  app.use(shutdown.handle);
+  app.use(express.session());
+  app.use(app.router);
   app.use(stylus.middleware({
       src:__dirname + '/public',
       compile: function(str, path){
@@ -45,18 +49,12 @@ app.post('/ribosoft/design', routes.design);
 app.get('/ribosoft/design/:id', routes.design_page);
 app.post('/ribosoft/summary/:id', routes.summary_page);
 app.post('/ribosoft/processing/:id', routes.processing_page);
+app.get('/ribosoft/blah', routes.processing_page);
 app.post('/ribosoft/remember/:id', routes.email_page);
 app.get('/ribosoft/results/:id', routes.results_page);
 app.get('/ribosoft/example/:id', routes.example);
 
 
-var server = http.createServer(app);
-shutdown.set('forceShutdown', 10*1000);
-shutdown.set(server, function(){
-    mongoose.connection.close();
-    process.exit();   
-});
-
-server.listen(app.get('port'), function(){
+http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
