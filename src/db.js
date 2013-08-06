@@ -113,5 +113,4 @@ Request.statics.flushOutdatedRequests = function(){
 };
 
 mongoose.model( 'Request', Request );
-
 mongoose.connect( 'mongodb://localhost/ribosoft-db' );
