@@ -187,21 +187,15 @@ function SubmitInput()
     });
 }
 
-function clearInput(){
-    setDisplay("");
-    $('#accession').val("");
-    $("#accession_alert").addClass("invisible");
-}
-
 function FindCutsites( seq )
 {
 	var loc = new Array();
 	res = -1;
 	do
 	{
-		res = seq.indexOf("GUC", res + 1);
-		if(res !== -1)
-			loc.push(res);
+            res = seq.indexOf("GUC", res + 1);
+            if(res !== -1)
+                    loc.push(res);
 	}
 	while (res !== -1);
 	return loc;
@@ -280,41 +274,46 @@ function ShowCandidatesAndAnnealing(cands)
 	$('.displayUpdate').html(res);
 }
 
+function setSubmitButtonStatus(){
+    validateAndAlert($('#sequence-display')[0].value)?
+            $("#submit1").removeClass("disabled"):
+            $("#submit1").addClass("disabled");
+}
+
 function showDesignHelp(e){
+        $(".icon-question-sign").off('click');
 	var elem = $(this);
+        setTimeout(function(){
+            $(".icon-question-sign").click(showDesignHelp);
+        },300);
 	if(elem.attr('expanded')== '' || elem.attr('expanded')== undefined)
 	{
 		var css1 = $('#design-form').css('width');
-		var css2 = $('#design-form').css('margin-left');
+		var css2 = $('#design-form i').css('margin-right');
 		elem.attr('expanded', css1+';' + css2 );
-		$('#design-form').animate({'width':'50%'},150);
-		$('#design-form i').animate({'margin-left':'0%'},150);
+                $('#design-form i').animate({'margin-right':'0%'},250);
+                $('#design-form').animate({'width':'50%'},250);
 	}
 	else
 	{
 		var css = elem.attr('expanded').split(';');
 		elem.attr('expanded','');
-		$('#design-form').animate({'width':css[0]},150);
-		$('#design-form i').animate({'margin-left':css[1]},150);
+		$('#design-form').animate({'width':css[0]},250);
+		$('#design-form i').animate({'margin-right':css[1]},250);
 	}
 	
 }
 
-$(".icon-question-sign").click(showDesignHelp);
-
 window.onload = function() {
     $('#submit_ACN').click(FetchAccessionNumberSequence);
     $('#submit1').click(SubmitInput);
-    $('#reset').click(clearInput);
     
     $("#drop-zone").bind('dragover', fileLoader.handleDragOver);
     $("#drop-zone").bind('drop', fileLoader.handleFileSelect);
     
-    $('#sequence-display').bind('input propertychange', function() {
-        validateAndAlert($('#sequence-display')[0].value)?
-            $("#submit1").removeClass("disabled"):
-                    $("#submit1").addClass("disabled");
-    });
+    //enable/disable submit button depending on state of sequence
+    $('#sequence-display').bind('input propertychange', setSubmitButtonStatus);
     
+    //Handles showing the help panel
     $(".icon-question-sign").click(showDesignHelp);
 };

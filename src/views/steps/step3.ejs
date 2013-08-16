@@ -22,13 +22,12 @@
                 <td>Target Environment</td>
                 <td><%= targetEnv %></td>
             </tr>
+            <% if(vivoEnv){ %>
             <tr>
                 <td>In-vivo Environment</td>
-                <td><% if(targetEnv){ %>
-                    <%= vivoEnv %>
-                    <% } %>
-                </td>
+                <td><%= vivoEnv %></td>
             </tr>
+            <% } %>
             <tr>
                 <td>Temperature</td>
                 <td><%= tempEnv %></td>
@@ -48,7 +47,8 @@
             <tr>
                 <td>Cutsites Concentration</td>
                 <td><% for(var i = 0; i < cutsites.length; ++i){ %>
-                    <%= cutsites[i] %>
+                    <%= cutsites[i].toUpperCase() %>
+                    <% if(i< cutsites.length -1){%>,<%}%>
                     <% } %>
                 </td>
             </tr>

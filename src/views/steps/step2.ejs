@@ -66,10 +66,10 @@
     <fieldset class="option-field">
     <legend>Ribozyme Shape<i class="icon-question-sign pull-right"></i></legend>
         <div class="offset2">
-            <input type="checkbox" name="foldShape" value="basic" checked="checked">Basic</input>
+            <input type="checkbox" name="foldShape" value="Basic" checked="checked">Basic</input>
         </div>
         <div class="offset2">
-            <input type="checkbox" name="foldShape" value="wishbone" checked="checked">Wishbone</input>
+            <input type="checkbox" name="foldShape" value="Wishbone" checked="checked">Wishbone</input>
         </div>
     </fieldset>
     <fieldset class="option-field">
@@ -81,9 +81,8 @@
             <input type="checkbox" name="foldSW" value="s" checked="checked">s-Fold</input>
         </div>
     </fieldset>
-
-    <div class="offset9 step-buttons">
-        <button type="button" class="btn btn-large" >Reset</button>
-        <button type="submit" class="btn btn-primary btn-large">Submit</button>
-    </div>
 </form>
+<div class="offset6 step-buttons">
+    <button type="reset" form="design-form" class="btn btn-large" >Reset defaults</button>
+    <button type="submit" form="design-form" class="btn btn-primary btn-large">Submit</button>
+</div>
