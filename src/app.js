@@ -47,8 +47,6 @@ app.post('/ribosoft/summary/:id', routes.summary_page);
 app.post('/ribosoft/processing/:id', routes.processing_page);
 app.post('/ribosoft/remember/:id', routes.email_page);
 app.get('/ribosoft/results/:id', routes.results_page);
-app.get('/ribosoft/example/:id', routes.example);
-
 
 var server = http.createServer(app);
 shutdown.set('forceShutdown', 10*1000);
