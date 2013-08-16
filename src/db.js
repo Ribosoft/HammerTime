@@ -2,35 +2,6 @@ var mongoose = require( 'mongoose' ),
     utils = require('utils');
 var Schema   = mongoose.Schema;
 
-/************************ Options Schema *****************/
-var Options = new Schema({
-    tempEnv : {type: Number, default: 37},
-    naEnv: {type: Number, default: 0},
-    mgEnv: {type: Number, default: 0},
-    oligoEnv: {type: Number, default: 0},
-    cutsites: [String]
-    //coreType ?
-});
-
-mongoose.model( 'Options', Options );
-
-/************************ TargetEnv Schema *****************/
-var TargetEnv = new Schema({
-    targetRegion : { type: Number, min: 3, max: 5, default:4 },
-    //targetEnv = false for vitro, true for vivo
-    targetEnv : Boolean,
-    vivoEnv : {type: String, default:""}
-});
-
-TargetEnv.methods.getEnv = function(){
-    if(vivoEnv)
-        return {env:'vivo',target:this.vivoEnv};
-    else
-        return {env:'vitro'};
-};
-
-mongoose.model( 'TargetEnv', TargetEnv );
-
 /************************ Candidate Schema *****************/
 var Candidate = new Schema({
     parentOutsideTarget : { type: Number },
@@ -56,7 +27,6 @@ var Structure = new Schema({
 
 mongoose.model( 'Structure', Structure );
 
-
 /************************ Pair Schema *****************/
 var Pair = new Schema({
     left: Number,
@@ -76,19 +46,25 @@ var Request = new Schema({
     // 2 : designed
     // 3 : inProcessing
     // 4 : processed
-    //TODO flush database for records in state 4 with date > week
     status : { type: Number, min: 1, max: 4, default:1 },
     sequence : {type: String, trim: true },
     accessionNumber : String,
-    targetEnv : {type : Schema.ObjectId, ref : 'TargetEnv'},
-    prefs : {type : Schema.ObjectId, ref : 'Options' },
     candidates : [{type : Schema.ObjectId, ref : 'Candidate' }],
     foldShape : [String],
     foldSW: [String],
-    emailUser : {type:String, default:""}
+    emailUser : {type:String, default:""},
+    tempEnv : {type: Number, default: 37},
+    naEnv: {type: Number, default: 0},
+    mgEnv: {type: Number, default: 0},
+    oligoEnv: {type: Number, default: 0},
+    cutsites: [String],
+    targetRegion : { type: Number, min: 3, max: 5, default:4 },
+    //targetEnv = false for vitro, true for vivo
+    targetEnv : Boolean,
+    vivoEnv : {type: String, default:""}
 });
 
-Request.statics.createRequest = function (id,seq){
+Request.statics.createRequest = function (id, seq){
     return new this({
         uuid : id,
         status : 1,
@@ -99,16 +75,52 @@ Request.statics.createRequest = function (id,seq){
 Request.statics.flushOutdatedRequests = function(){
     var weekAgo = new Date();
     weekAgo.setDate(weekAgo.getDate() - utils.getExpirationDelay());
-    this.find({createDate:{"$lte":weekAgo}}, function(err, result){
+    this.find({createDate:{"$lte":weekAgo}}, function(err, result, count){
         if(err)
             console.log("Could not find old requests");
-        if(result){
-            result.remove(function(err, result){
-                if(err)
-                    console.log("Could not delete old requests");
-                console.log("Database flushed");
+        else if(!result)
+            console.log("No request to flush");
+        else {
+            result.forEach(function(element){
+                element.remove(function(err, result){
+                    if(err)
+                        console.log("Could not delete request");
+                }); 
             });
+            console.log("Database flushed for "+count+" old requests.");
         }
+    });
+};
+
+Request.methods.getEnv = function(){
+    return {env: this.targetEnv, target: this.vivoEnv};
+};
+
+Request.methods.getTargetEnv = function(){
+    return (result.targetEnv)? 'In-vivo':'In-vitro';
+};
+
+Request.methods.getRegion = function(){
+    return (this.targetRegion === 4)? 'ORF':
+           (this.targetRegion === 5)?'5\'':'3\'';
+};
+
+Request.methods.setStatus = function(newStatus){
+    //status is always between 1 and 4, and is always incremented by 1
+    if( newStatus > 4 || newStatus< 1 || newStatus - 1 !== this.status) {
+        return false;
+    }
+    
+    this.status = newStatus;
+    return true;
+};
+
+Request.statics.findRequest = function(uuid, callback) {
+    Request.findOne({uuid: uuid}, function (err, result){
+       if(err || !result) {
+           console.log("Request with uuid "+uuid+" does not exist");
+       }
+       callback(err, result);
     });
 };
 
