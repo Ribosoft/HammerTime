@@ -3,3 +3,6 @@
 /src/nbproject/
 
 *.pdf
+
+#Added Test folder under algorithms to ignored files
+src/node_modules/algorithm/Test
