@@ -173,5 +173,6 @@ exports.email_page = function(req, res){
 };
 
 exports.results_page = function(req, res){
-  res.render('results_page', { title: 'Ribosot - Results'});
+  res.render('results_page', { title: 'Ribosot - Results',
+                               stepTitle: 'Step 5 - Results'});
 };
