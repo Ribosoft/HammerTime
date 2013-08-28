@@ -1,39 +1,16 @@
-//Use this to add utilities functions
-var utils = require('utils');
+var utils = require('route_utils');
 var url = require('url'),
     mongoose = require('mongoose');
+var algorithm = require('algorithm');
 
 var Request = mongoose.model('Request');
 var Candidate = mongoose.model('Candidate');
 var Structure = mongoose.model('Structure');
 var Pair = mongoose.model('Pair');
 
-var renderInputError = function(clientMessage, consoleMessage) {
-    consoleMessage = consoleMessage || "This should have been handled on client side";
-}
-
-var renderDatabaseError = function(clientMessage, consoleMessage) {
-    consoleMessage = consoleMessage || htmlMessage;
-    //Should return an error that would be handled at client level
-    console.log(consoleMessage);
-    res.render('error', 
-    {
-        title: 'Ribosoft',
-        stepTitle: clientMessage,
-    });    
-};
-
-var onSaveHandler = function(successCallback) {
-    return function(err, result){
-        if (err)
-        {
-            renderDatabaseError("Something went wrong","Could not save. Render error");
-        }
-        else{
-            successCallback(result);
-        }
-    };
-};
+var RequestExecutor = algorithm.HandleRequest;
+var Model = algorithm.Model;
+var AlgoRequest = Model.DomainObjects.Request;
 
 exports.index = function(req, res){
   res.render('index', { title: 'Ribosoft', stepTitle: 'Step 1 - Selecting the sequence'});
@@ -59,9 +36,7 @@ exports.design = function(req, res){
     //Yes, this is super lame input validation
     if(!sequence)
     {
-        //Should return an error that would be handled at client level
-        console.log("Error, redirecting to index");
-        res.render('index', { title: 'Ribosoft'});
+        utils.renderInputError("No sequence was submitted.");
     }
     else{
         var id = utils.generateUID();
@@ -89,8 +64,7 @@ exports.summary_page = function(req, res){
     var uuid = req.params.id;
     Request.findOne({uuid:uuid}, function(err, result){
         if(err || !result){
-            console.log("cannot find id with error "+err+"or result "+result);
-            res.end();
+            utils.renderDatabaseError("cannot find id with error "+err+"or result "+result);
         }
         else{
             result.targetRegion = parseInt(req.body.region);
@@ -107,7 +81,7 @@ exports.summary_page = function(req, res){
                                utils.objectToArrayString(req.body.cutsites);
             result.foldShape = utils.objectToArrayString(req.body.foldShape);
             result.foldSW = utils.objectToArrayString(req.body.foldSW);
-            result.save(onSaveHandler(function(result){
+            result.save(utils.onSaveHandler(function(result){
                 var targetEnv = result.getEnv();
                 res.render('summary_page',
                 {
@@ -137,32 +111,58 @@ exports.processing_page = function(req, res){
   setInterval(Request.flushOutdatedRequests, utils.SECONDS_IN_WEEK*1000);
   
   //launch request processing
-  
-  res.render('processing_page', 
-            { 
-              title: 'Ribosot - Processing',
-              stepTitle: 'Step 4 - Processing',
-              estimatedDur : '2 hours',
-              estimatedDurInMin : 120,
-              urlEmail : "../remember/"+req.params.id,
-              urlResults : "../results/"+req.params.id
-            });
+  Request.findRequest(req.params.id, function(err, result){
+      if(err || !result) {
+          utils.renderDatabaseError("Could not find request");
+      }
+      var request = new AlgoRequest(
+          result.sequence,
+          ' ', {
+              'tempEnv' : result.tempEnv,
+              'naEnv' : result.naEnv, 
+              'mgEnv' : mgEnv,
+              'oligoEnv': result.oligoEnv,
+              'cutsites' : result.cutsites,
+              'left_arm_min': 3,
+              'right_arm_min': 3,
+              'left_arm_max':8,
+              'right_arm_max':8
+          },
+          result.uuid,
+          0,
+          'blah'
+      );
+      try{
+          RequestExecutor.HandleRequestPart1(request);
+      } catch (ex) {
+          utils.renderInternalError("Something went wrong when executing the request.");
+      }
+      
+    res.render('processing_page', 
+        {
+          title: 'Ribosot - Processing',
+          stepTitle: 'Step 4 - Processing',
+          estimatedDur : '2 hours',
+          estimatedDurInMin : 120,
+          urlEmail : "../remember/"+req.params.id,
+          urlResults : "../results/"+req.params.id
+        });
+  });
 };
 
 exports.email_page = function(req, res){
     var uuid = req.params.id;
     if(!req.body.email){
-        console.log("Email was empty. This should have been handled on client-side");
-        res.end();
+        utils.renderInputError("Email was empty.");
     }
     
     Request.findRequest(uuid, function(err, result){
         if( err || !result ) {
-            renderError("Could not find request");
+            utils.renderDatabaseError("Could not find request");
         }
         else {
             result.emailUser = req.body.email;
-            result.save(onSaveHandler(function(err, result){
+            result.save(utils.onSaveHandler(function(err, result){
                 res.render('email_page',
                 {
                     title: 'Ribosoft - Notification setup',
