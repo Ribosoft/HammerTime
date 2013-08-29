@@ -1,6 +1,6 @@
 var utils = require('route_utils');
 var url = require('url'),
-    mongoose = require('mongoose');
+        mongoose = require('mongoose');
 var algorithm = require('algorithm');
 
 var Request = mongoose.model('Request');
@@ -12,167 +12,186 @@ var RequestExecutor = algorithm.HandleRequest;
 var Model = algorithm.Model;
 var AlgoRequest = Model.DomainObjects.Request;
 
-exports.index = function(req, res){
-  res.render('index', { title: 'Ribosoft', stepTitle: 'Step 1 - Selecting the sequence'});
+exports.index = function(req, res) {
+    res.render('index', {title: 'Ribosoft', stepTitle: 'Step 1 - Selecting the sequence'});
 };
 
-exports.redirect = function(req, res){
-  res.redirect('/ribosoft/');
-};  
-
-exports.about = function(req, res){
-  res.render('about', { title: 'About Ribosoft' });
+exports.redirect = function(req, res) {
+    res.redirect('/ribosoft/');
 };
 
-exports.api = function(req, res){
-  res.render('api', { title: 'Developer API' });
+exports.about = function(req, res) {
+    res.render('about', {title: 'About Ribosoft'});
 };
 
-exports.design = function(req, res){
+exports.api = function(req, res) {
+    res.render('api', {title: 'Developer API'});
+};
+
+exports.design = function(req, res) {
     //TODO SUPER IMPORTANT
     //do validation on sequence before adding to db 
     var sequence = req.body.sequence;
-    
+
     //Yes, this is super lame input validation
-    if(!sequence)
+    if (!sequence)
     {
         utils.renderInputError("No sequence was submitted.");
     }
-    else{
+    else {
         var id = utils.generateUID();
-        Request.createRequest(id,sequence).save(function(){
+        Request.createRequest(id, sequence).save(function() {
             res.json({id: id});
         });
     }
 };
 
 //req.params.id will contain the id of the sequence in process
-exports.design_page = function(req, res){
-  //TODO implement logic to show target selection fieldset only when using accession#
-  var enteredManually = true;
-  res.render('design_page', 
-  { 
-      title: 'Ribosot - Design Options',
-      stepTitle: 'Step 2 - Design Options',
-      submitButtonId: 'submit2',
-      showTarget: enteredManually,
-      urlPost : "../summary/"+req.params.id
-  });
+exports.design_page = function(req, res) {
+    //TODO implement logic to show target selection fieldset only when using accession#
+    var enteredManually = true;
+    res.render('design_page',
+            {
+                title: 'Ribosot - Design Options',
+                stepTitle: 'Step 2 - Design Options',
+                submitButtonId: 'submit2',
+                showTarget: enteredManually,
+                urlPost: "../summary/" + req.params.id
+            });
 };
 
-exports.summary_page = function(req, res){
+exports.summary_page = function(req, res) {
     var uuid = req.params.id;
-    Request.findOne({uuid:uuid}, function(err, result){
-        if(err || !result){
-            utils.renderDatabaseError("cannot find id with error "+err+"or result "+result);
+    Request.findOne({uuid: uuid}, function(err, result) {
+        if (err || !result) {
+            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result);
         }
-        else{
+        else {
             result.targetRegion = parseInt(req.body.region);
             var env = result.targetEnv = (req.body.env === "vivo");
-            if(env){
+            if (env) {
                 result.vivoEnv = req.body.envVivo;
             }
             result.tempEnv = parseInt(req.body.temperature);
             result.naEnv = parseInt(req.body.naC);
             result.mgEnv = parseInt(req.body.mgC);
             result.oligoEnv = parseInt(req.body.oligoC);
-            result.cutsites = (typeof req.body.cutsites === "string")?
-                               new Array(req.body.cutsites) : 
-                               utils.objectToArrayString(req.body.cutsites);
+            result.cutsites = (typeof req.body.cutsites === "string") ?
+                    new Array(req.body.cutsites) :
+                    utils.objectToArrayString(req.body.cutsites);
             result.foldShape = utils.objectToArrayString(req.body.foldShape);
             result.foldSW = utils.objectToArrayString(req.body.foldSW);
-            result.save(utils.onSaveHandler(function(result){
+            result.save(utils.onSaveHandler(function(result) {
                 var targetEnv = result.getEnv();
                 res.render('summary_page',
-                {
-                    title: 'Ribosot - Summary of Design',
-                    stepTitle: 'Step 3 - Summary',
-                    urlPost : "../processing/"+uuid,
-                    seqLength: result.sequence.length,
-                    targetRegion: result.getRegion(),
-                    targetEnv: targetEnv.env,
-                    vivoEnv: targetEnv.vivoEnv,
-                    tempEnv: result.tempEnv,
-                    naEnv: result.naEnv,
-                    mgEnv: result.mgEnv,
-                    oligoEnv: result.oligoEnv,
-                    cutsites: result.cutsites,
-                    foldShape: result.foldShape,
-                    foldSW: result.foldSW
-                });
+                        {
+                            title: 'Ribosot - Summary of Design',
+                            stepTitle: 'Step 3 - Summary',
+                            urlPost: "../processing/" + uuid,
+                            seqLength: result.sequence.length,
+                            targetRegion: result.getRegion(),
+                            targetEnv: targetEnv.env,
+                            vivoEnv: targetEnv.vivoEnv,
+                            tempEnv: result.tempEnv,
+                            naEnv: result.naEnv,
+                            mgEnv: result.mgEnv,
+                            oligoEnv: result.oligoEnv,
+                            cutsites: result.cutsites,
+                            foldShape: result.foldShape,
+                            foldSW: result.foldSW
+                        });
             }));
         }
     });
 
 };
 
-exports.processing_page = function(req, res){
-  //TODO Rewrite as external lib
-  setInterval(Request.flushOutdatedRequests, utils.SECONDS_IN_WEEK*1000);
-  
-  //launch request processing
-  Request.findRequest(req.params.id, function(err, result){
-      if(err || !result) {
-          utils.renderDatabaseError("Could not find request");
-      }
-      var request = new AlgoRequest(
-          result.sequence,
-          ' ', {
-              'tempEnv' : result.tempEnv,
-              'naEnv' : result.naEnv, 
-              'mgEnv' : mgEnv,
-              'oligoEnv': result.oligoEnv,
-              'cutsites' : result.cutsites,
-              'left_arm_min': 3,
-              'right_arm_min': 3,
-              'left_arm_max':8,
-              'right_arm_max':8
-          },
-          result.uuid,
-          0,
-          'blah'
-      );
-      try{
-          RequestExecutor.HandleRequestPart1(request);
-      } catch (ex) {
-          utils.renderInternalError("Something went wrong when executing the request.");
-      }
-      
-    res.render('processing_page', 
-        {
-          title: 'Ribosot - Processing',
-          stepTitle: 'Step 4 - Processing',
-          estimatedDur : '2 hours',
-          estimatedDurInMin : 120,
-          urlEmail : "../remember/"+req.params.id,
-          urlResults : "../results/"+req.params.id
-        });
-  });
+exports.processing_page = function(req, res) {
+    //TODO Rewrite as external lib
+    setInterval(Request.flushOutdatedRequests, utils.SECONDS_IN_WEEK * 1000);
+
+    var uuid = req.params.id;
+    //launch request processing
+    Request.findOne({uuid: uuid}, function(err, result) {
+        if (err || !result) {
+            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result);
+        } else {
+            var request = new AlgoRequest(
+                    result.sequence,
+                    ' ', {
+                'tempEnv': result.tempEnv,
+                'naEnv': result.naEnv,
+                'mgEnv': result.mgEnv,
+                'oligoEnv': result.oligoEnv,
+                'cutsites': result.cutsites,
+                'left_arm_min': 3,
+                'right_arm_min': 3,
+                'left_arm_max': 8,
+                'right_arm_max': 8
+            },
+            result.uuid,
+                    0,
+                    'blah'
+                    );
+            try {
+                RequestExecutor.HandleRequestPart1(request);
+                result.status = 4;
+                result.save(utils.onSaveHandler(function(result) {
+                    console.log("Request "+result.uuid+" has finished");
+                }));
+            } catch (ex) {
+                utils.renderInternalError("Something went wrong when executing the request: "+ex);
+            }
+            res.render('processing_page',
+                    {
+                        title: 'Ribosot - Processing',
+                        stepTitle: 'Step 4 - Processing',
+                        estimatedDur: '2 hours',
+                        estimatedDurInMin: 120,
+                        urlEmail: "../remember/" + req.params.id,
+                        urlResults: "../results/" + req.params.id
+                    });
+        }
+    });
 };
 
-exports.email_page = function(req, res){
+exports.processing_status = function(req, res) {
     var uuid = req.params.id;
-    if(!req.body.email){
+    Request.findOne({uuid: uuid}, function(err, result) {
+        if (err || !result) {
+            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result);
+        } else {
+            var finished = (result.status === 4);
+            console.log("result.status =="+result.status);
+            console.log("Request finished =="+finished);
+            res.json(200, { finished: finished });
+        } 
+    });
+};
+
+exports.email_page = function(req, res) {
+    var uuid = req.params.id;
+    if (!req.body.email) {
         utils.renderInputError("Email was empty.");
     }
-    
-    Request.findRequest(uuid, function(err, result){
-        if( err || !result ) {
+
+    Request.findRequest(uuid, function(err, result) {
+        if (err || !result) {
             utils.renderDatabaseError("Could not find request");
         }
         else {
             result.emailUser = req.body.email;
-            result.save(utils.onSaveHandler(function(err, result){
+            result.save(utils.onSaveHandler(function(result) {
                 res.render('email_page',
-                {
-                    title: 'Ribosoft - Notification setup',
-                });
+                        {
+                            title: 'Ribosoft - Notification setup',
+                        });
             }));
         }
     });
 };
 
-exports.results_page = function(req, res){
-  res.render('results_page', { title: 'Ribosot - Results',
-                               stepTitle: 'Step 5 - Results'});
+exports.results_page = function(req, res) {
+    res.render('results_page', {title: 'Ribosot - Results',
+        stepTitle: 'Step 5 - Results'});
 };
