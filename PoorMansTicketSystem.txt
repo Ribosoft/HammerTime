@@ -19,16 +19,16 @@ Super                           Setup mocha for BDD tests
 Super                           Write unit tests
 Super                           Write BDD tests
 Kinda                           Annealing temperature for degenerate base-pairs BIG
-Super                           Fold given constraints from user input
+Super                           Fold given constraints from user input DONE
 Lil'                            Change UNA fold API to take user environmental constraints
-Lil'                            Implement API to Blast
-Super                           Implement initial algorithm to test stuff
+Lil'                            Implement API to Blast    
+Super                           Implement initial algorithm to test stuff     DONE
 Meh                             The plasmid extra piece to add to help ppl
-SUPER                           CONCURRENY / SPACE
+SUPER                           CONCURRENY / SPACE                            DONE
                                   Each candidate has to wait on the folding to execute file reading, to finish
                                   its cutsite, which then reports to its request
                                   there is a lot of async/re-sync 
 Meh                             Implement Wishbone
-Meh								The candidate generation no longer does addition of promoter. This is cause
+Meh								The candidate generation no longer does addition of promoter. This is cause     DONE
 									they are now cleansed right after of those with low Tm
 									Thus promoter add must be moved after cleanse, but BEFORE fold
