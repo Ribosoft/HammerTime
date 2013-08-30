@@ -131,14 +131,17 @@ exports.processing_page = function(req, res) {
             },
             result.uuid,
                     0,
-                    'blah'
-                    );
+                    'blah',
+                    function(request){
+                    if(request.Completed) {
+                        result.status = 4;
+                        result.save(utils.onSaveHandler(function(result) {
+                            console.log("Request "+result.uuid+" has finished.");
+                        }));
+                    }
+                });
             try {
                 RequestExecutor.HandleRequestPart1(request);
-                result.status = 4;
-                result.save(utils.onSaveHandler(function(result) {
-                    console.log("Request "+result.uuid+" has finished");
-                }));
             } catch (ex) {
                 utils.renderInternalError("Something went wrong when executing the request: "+ex);
             }
