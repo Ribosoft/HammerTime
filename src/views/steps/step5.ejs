@@ -1,4 +1,34 @@
 <h3 class="step-title"><%= stepTitle %></h3>
+<p class="step-description">Here are the results.</p>
 <div class="center">
-
+    <% if (results.length > 0) { %>
+       <% results.forEach(function(type) { %>
+           <h4>Cutsite <%= type.Type %></h4>
+               <% type.Cutsites.forEach(function(cutsite) { %>
+                   <h5>Location <%= cutsite.Location %></h5>
+                     <table class="table table-striped">
+                        <thead>
+                            <th>Sequence</th>
+                            <th>Shape Fitness</th>
+                            <th>Fitness Specificity</th>
+                            <th>Annealing Temperature</th>
+                            <th>Melting Temperature</th>
+                            <th>Left Arm Length</th>
+                            <th>Right Arm Length</th>
+                        </thead>
+                        <% cutsite.Candidates.forEach(function(candidate) { %>
+                        <tr>
+                          <td><%= candidate.Sequence %></td>
+                          <td><%= candidate.Fitness_Shape %></td>
+                          <td><%= candidate.Fitness_Specificity %></td>
+                          <td><%= candidate.Fitness_AnnealingT %></td>
+                          <td><%= candidate.MeltingTemperature %></td>
+                          <td><%= candidate.LeftArmLength %></td>
+                          <td><%= candidate.RightArmLength %></td>
+                        </tr>
+                        <% }) %>
+                     </table>
+               <% }) %>
+       <% }) %>
+    <% } %>
 </div>

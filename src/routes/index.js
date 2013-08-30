@@ -2,6 +2,8 @@ var utils = require('route_utils');
 var url = require('url'),
         mongoose = require('mongoose');
 var algorithm = require('algorithm');
+var execFile = require('child_process').execFile;
+var fs = require('fs');
 
 var Request = mongoose.model('Request');
 var Candidate = mongoose.model('Candidate');
@@ -112,50 +114,73 @@ exports.processing_page = function(req, res, next) {
 
     var uuid = req.params.id;
     //launch request processing
-    Request.findOne({uuid: uuid}, function(err, result) {
-        if (err || !result) {
-            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
-        } else {
-            var request = new AlgoRequest(
-                    result.sequence,
-                    ' ', {
-                'tempEnv': result.tempEnv,
-                'naEnv': result.naEnv,
-                'mgEnv': result.mgEnv,
-                'oligoEnv': result.oligoEnv,
-                'cutsites': result.cutsites,
-                'left_arm_min': 3,
-                'right_arm_min': 3,
-                'left_arm_max': 8,
-                'right_arm_max': 8
-            },
-            result.uuid,
-                    0,
-                    'blah',
-                    function(request){
-                    if(request.Completed) {
-                        result.status = 4;
-                        result.save(utils.onSaveHandler(function(result, next) {
-                            console.log("Request "+result.uuid+" has finished.");
-                        }));
-                    }
+//    Request.findOne({uuid: uuid}, function(err, result) {
+//        if (err || !result) {
+//            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
+//        } else {
+//            var request = new AlgoRequest(
+//                    result.sequence,
+//                    ' ', {
+//                'tempEnv': result.tempEnv,
+//                'naEnv': result.naEnv,
+//                'mgEnv': result.mgEnv,
+//                'oligoEnv': result.oligoEnv,
+//                'cutsites': result.cutsites,
+//                'left_arm_min': 3,
+//                'right_arm_min': 3,
+//                'left_arm_max': 8,
+//                'right_arm_max': 8
+//            },
+//            result.uuid,
+//                    0,
+//                    'blah',
+//                    function(request){
+//                    if(request.Completed) {
+//                        result.status = 4;
+//                        result.save(utils.onSaveHandler(function(result, next) {
+//                            console.log("Request "+result.uuid+" has finished.");
+//                        }));
+//                    }
+//                });
+//            try {
+//                RequestExecutor.HandleRequestPart1(request);
+//            } catch (ex) {
+//                utils.renderInternalError("Something went wrong when executing the request: "+ex, next);
+//            }
+//            res.render('processing_page',
+//                    {
+//                        title: 'Ribosot - Processing',
+//                        stepTitle: 'Step 4 - Processing',
+//                        estimatedDur: '2 hours',
+//                        estimatedDurInMin: 120,
+//                        urlEmail: "../remember/" + req.params.id,
+//                        urlResults: "../results/" + req.params.id
+//                    });
+//        }
+//    });
+    execFile('./node_modules/algorithm/test.js',
+            [],
+            null,
+            function(err, stdout, stderr){
+                if(err) console.log("error");
+                console.log("stderr "+stderr);
+                Request.findOne({uuid: uuid}, function(err, result) {
+                    result.status = 4;
+                    result.save(utils.onSaveHandler(function(result, next) {
+                        console.log("Request "+result.uuid+" has finished.");
+                    }));
                 });
-            try {
-                RequestExecutor.HandleRequestPart1(request);
-            } catch (ex) {
-                utils.renderInternalError("Something went wrong when executing the request: "+ex, next);
-            }
-            res.render('processing_page',
-                    {
-                        title: 'Ribosot - Processing',
-                        stepTitle: 'Step 4 - Processing',
-                        estimatedDur: '2 hours',
-                        estimatedDurInMin: 120,
-                        urlEmail: "../remember/" + req.params.id,
-                        urlResults: "../results/" + req.params.id
-                    });
-        }
-    });
+            });
+    res.render('processing_page',
+            {
+                title: 'Ribosot - Processing',
+                stepTitle: 'Step 4 - Processing',
+                estimatedDur: '2 hours',
+                estimatedDurInMin: 120,
+                urlEmail: "../remember/" + req.params.id,
+                urlResults: "../results/" + req.params.id
+            });
+       
 };
 
 exports.processing_status = function(req, res, next) {
@@ -195,6 +220,11 @@ exports.email_page = function(req, res, next) {
 };
 
 exports.results_page = function(req, res) {
-    res.render('results_page', {title: 'Ribosot - Results',
-        stepTitle: 'Step 5 - Results'});
-};
+    var path = require('path').resolve(__dirname, '../Test/requestState.json');
+    var json_output = require(path);
+    res.render('results_page', {
+            title: 'Ribosot - Results',
+            stepTitle: 'Step 5 - Results',
+            results: json_output.CutsiteTypesCandidateContainer
+        });
+}
