@@ -28,6 +28,14 @@ app.configure(function(){
           return stylus(str).set('filename',path).set('compress',true).use(nib());
       }}));
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(function(err, req, res, next){
+    res.status(500);
+    res.render('error', 
+    {
+        title: 'Ribosoft',
+        stepTitle: err.clientMessage
+    });    
+  });
 });
 
 app.configure('development', function(){
@@ -45,6 +53,7 @@ app.post('/ribosoft/design', routes.design);
 app.get('/ribosoft/design/:id', routes.design_page);
 app.post('/ribosoft/summary/:id', routes.summary_page);
 app.post('/ribosoft/processing/:id', routes.processing_page);
+app.get('/ribosoft/processing/:id', routes.processing_status);
 app.post('/ribosoft/remember/:id', routes.email_page);
 app.get('/ribosoft/results/:id', routes.results_page);
 

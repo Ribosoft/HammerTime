@@ -10,7 +10,7 @@
     "ejs": "*",
     "stylus": "*",
     "nib": "*",
-    "mongoose": "3.6.9",
+    "mongoose": "3.6.18",
     "ejs-locals": "~1.0.2",
     "webworker": "~0.8.4",
     "shutdown": "0.0.2"
