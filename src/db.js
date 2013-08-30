@@ -1,5 +1,5 @@
 var mongoose = require( 'mongoose' ),
-    utils = require('utils');
+    utils = require('route_utils');
 var Schema   = mongoose.Schema;
 
 /************************ Candidate Schema *****************/
@@ -93,11 +93,11 @@ Request.statics.flushOutdatedRequests = function(){
 };
 
 Request.methods.getEnv = function(){
-    return {env: this.targetEnv, target: this.vivoEnv};
+    return {env: this.getTargetEnv(), target: this.vivoEnv};
 };
 
 Request.methods.getTargetEnv = function(){
-    return (result.targetEnv)? 'In-vivo':'In-vitro';
+    return (this.targetEnv)? 'In-vivo':'In-vitro';
 };
 
 Request.methods.getRegion = function(){
@@ -116,7 +116,7 @@ Request.methods.setStatus = function(newStatus){
 };
 
 Request.statics.findRequest = function(uuid, callback) {
-    Request.findOne({uuid: uuid}, function (err, result){
+    Request.findOne({'uuid': 'uuid'}, function (err, result){
        if(err || !result) {
            console.log("Request with uuid "+uuid+" does not exist");
        }

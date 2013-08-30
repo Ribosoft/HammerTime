@@ -304,6 +304,33 @@ function showDesignHelp(e){
 	
 }
 
+function checkStatusResult() {
+    var countErrors = 0;
+    var interval = setInterval(function(){
+        $.ajax({
+            type: "GET",
+            url : window.location.href,
+            data : {},
+            success : function(data) {
+              console.log("Request finished "+data.finished);
+              if(data.finished) {
+                  $(".resultsButton").removeClass("invisible");
+                  clearInterval(interval);
+              }
+            },
+            dataType : "json",
+            error : function(err) {
+              console.log("error thrown "+err);
+              countErrors += 1;
+              if(countErrors > 3) {
+                  clearInterval(interval);
+                  alert("Server seems to be inaccessible. Please try again later");
+              }
+            }
+        });
+    }, 1000 * 15);
+};
+
 window.onload = function() {
     $('#submit_ACN').click(FetchAccessionNumberSequence);
     $('#submit1').click(SubmitInput);
@@ -316,4 +343,8 @@ window.onload = function() {
     
     //Handles showing the help panel
     $(".icon-question-sign").click(showDesignHelp);
+    
+    if($(".progress").length > 0) {
+        checkStatusResult();
+    }
 };
