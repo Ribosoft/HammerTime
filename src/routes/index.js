@@ -28,7 +28,7 @@ exports.api = function(req, res) {
     res.render('api', {title: 'Developer API'});
 };
 
-exports.design = function(req, res) {
+exports.design = function(req, res, next) {
     //TODO SUPER IMPORTANT
     //do validation on sequence before adding to db 
     var sequence = req.body.sequence;
@@ -36,7 +36,7 @@ exports.design = function(req, res) {
     //Yes, this is super lame input validation
     if (!sequence)
     {
-        utils.renderInputError("No sequence was submitted.");
+        utils.renderInputError("No sequence was submitted.", next);
     }
     else {
         var id = utils.generateUID();
@@ -60,11 +60,11 @@ exports.design_page = function(req, res) {
             });
 };
 
-exports.summary_page = function(req, res) {
+exports.summary_page = function(req, res, next) {
     var uuid = req.params.id;
     Request.findOne({uuid: uuid}, function(err, result) {
         if (err || !result) {
-            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result);
+            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
         }
         else {
             result.targetRegion = parseInt(req.body.region);
@@ -81,7 +81,7 @@ exports.summary_page = function(req, res) {
                     utils.objectToArrayString(req.body.cutsites);
             result.foldShape = utils.objectToArrayString(req.body.foldShape);
             result.foldSW = utils.objectToArrayString(req.body.foldSW);
-            result.save(utils.onSaveHandler(function(result) {
+            result.save(utils.onSaveHandler(function(result, next) {
                 var targetEnv = result.getEnv();
                 res.render('summary_page',
                         {
@@ -106,7 +106,7 @@ exports.summary_page = function(req, res) {
 
 };
 
-exports.processing_page = function(req, res) {
+exports.processing_page = function(req, res, next) {
     //TODO Rewrite as external lib
     setInterval(Request.flushOutdatedRequests, utils.SECONDS_IN_WEEK * 1000);
 
@@ -114,7 +114,7 @@ exports.processing_page = function(req, res) {
     //launch request processing
     Request.findOne({uuid: uuid}, function(err, result) {
         if (err || !result) {
-            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result);
+            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
         } else {
             var request = new AlgoRequest(
                     result.sequence,
@@ -135,7 +135,7 @@ exports.processing_page = function(req, res) {
                     function(request){
                     if(request.Completed) {
                         result.status = 4;
-                        result.save(utils.onSaveHandler(function(result) {
+                        result.save(utils.onSaveHandler(function(result, next) {
                             console.log("Request "+result.uuid+" has finished.");
                         }));
                     }
@@ -143,7 +143,7 @@ exports.processing_page = function(req, res) {
             try {
                 RequestExecutor.HandleRequestPart1(request);
             } catch (ex) {
-                utils.renderInternalError("Something went wrong when executing the request: "+ex);
+                utils.renderInternalError("Something went wrong when executing the request: "+ex, next);
             }
             res.render('processing_page',
                     {
@@ -158,11 +158,11 @@ exports.processing_page = function(req, res) {
     });
 };
 
-exports.processing_status = function(req, res) {
+exports.processing_status = function(req, res, next) {
     var uuid = req.params.id;
     Request.findOne({uuid: uuid}, function(err, result) {
         if (err || !result) {
-            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result);
+            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
         } else {
             var finished = (result.status === 4);
             console.log("result.status =="+result.status);
@@ -172,7 +172,7 @@ exports.processing_status = function(req, res) {
     });
 };
 
-exports.email_page = function(req, res) {
+exports.email_page = function(req, res, next) {
     var uuid = req.params.id;
     if (!req.body.email) {
         utils.renderInputError("Email was empty.");
@@ -180,15 +180,15 @@ exports.email_page = function(req, res) {
 
     Request.findRequest(uuid, function(err, result) {
         if (err || !result) {
-            utils.renderDatabaseError("Could not find request");
+            utils.renderDatabaseError("Could not find request", next);
         }
         else {
             result.emailUser = req.body.email;
-            result.save(utils.onSaveHandler(function(result) {
+            result.save(utils.onSaveHandler(function(result, next) {
                 res.render('email_page',
-                        {
-                            title: 'Ribosoft - Notification setup',
-                        });
+                {
+                    title: 'Ribosoft - Notification setup',
+                });
             }));
         }
     });
