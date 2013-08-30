@@ -221,11 +221,10 @@ exports.email_page = function(req, res, next) {
 
 exports.results_page = function(req, res) {
     var path = require('path').resolve(__dirname, '../Test/requestState.json');
-    console.log(path);
     var json_output = require(path);
     res.render('results_page', {
             title: 'Ribosot - Results',
-            stepTitle: 'Step 5 - Results', 
-            results: json_output
+            stepTitle: 'Step 5 - Results',
+            results: json_output.CutsiteTypesCandidateContainer
         });
-};
+}
