@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <ProjectGuid>7c2390d5-8112-45a9-a96f-82e6e78dae4d</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <StartupFile>src\node_modules\algorithm\test.js</StartupFile>
+    <StartupFile>src\routes\index2.js</StartupFile>
     <ProjectTypeGuids>{262852C6-CD72-467D-83FE-5EEB1973A190};{F48CDB0C-A733-4163-8884-DCAA07CF69BF}</ProjectTypeGuids>
     <Name>WebService</Name>
     <RootNamespace>WebService</RootNamespace>
@@ -85,9 +85,18 @@
     <Content Include="src\node_modules\utils\index.js">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="src\routes\index.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\routes\index2.js">
+      <SubType>Content</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
+    <Folder Include="src\public" />
+    <Folder Include="src\routes" />
+    <Folder Include="src\views" />
     <Folder Include="src\node_modules" />
     <Folder Include="src\node_modules\algorithm" />
     <Folder Include="src\node_modules\algorithm\candidateGenerationModule" />
