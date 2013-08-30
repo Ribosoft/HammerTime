@@ -22,19 +22,20 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
   app.use(shutdown.handle);
-  app.use(function(err, req, res, next){
-    res.render('error', 
-    {
-        title: 'Ribosoft',
-        stepTitle: err.clientMessage
-    });    
-  });
   app.use(stylus.middleware({
       src:__dirname + '/public',
       compile: function(str, path){
           return stylus(str).set('filename',path).set('compress',true).use(nib());
       }}));
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(function(err, req, res, next){
+    res.status(500);
+    res.render('error', 
+    {
+        title: 'Ribosoft',
+        stepTitle: err.clientMessage
+    });    
+  });
 });
 
 app.configure('development', function(){
