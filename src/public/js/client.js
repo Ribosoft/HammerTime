@@ -312,6 +312,7 @@ function checkStatusResult() {
             url : window.location.href,
             data : {},
             success : function(data) {
+              console.log("Request finished "+data.finished);
               if(data.finished) {
                   $(".resultsButton").removeClass("invisible");
                   clearInterval(interval);
