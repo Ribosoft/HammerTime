@@ -79,8 +79,8 @@ exports.summary_page = function(req, res, next) {
             result.mgEnv = parseInt(req.body.mgC);
             result.oligoEnv = parseInt(req.body.oligoC);
             result.cutsites = (typeof req.body.cutsites === "string") ?
-                    new Array(req.body.cutsites) :
-                    utils.objectToArrayString(req.body.cutsites);
+                    new Array(req.body.cutsites.toUpperCase()) :
+                    utils.objectToArrayStringUpper(req.body.cutsites);
             result.foldShape = utils.objectToArrayString(req.body.foldShape);
             result.foldSW = utils.objectToArrayString(req.body.foldSW);
             result.save(utils.onSaveHandler(function(result, next) {
@@ -118,6 +118,7 @@ exports.processing_page = function(req, res, next) {
         if (err || !result) {
             utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
         } else {
+            console.log("cutsites ="+result.cutsites);
             var request = new AlgoRequest(
 //                    result.sequence,
             'GUACGUAUGCAUCGACUAGUCAGCAGAUCGUACUGAUGCUAGCUAGCUAGCUAGAGAUGAGUACGCCGAGAGUAGGUCGUGCUAGCGCGCGAGAGAGU',
