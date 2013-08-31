@@ -122,7 +122,7 @@ exports.processing_page = function(req, res, next) {
 //                    result.sequence,
             'GUACGUAUGCAUCGACUAGUCAGCAGAUCGUACUGAUGCUAGCUAGCUAGCUAGAGAUGAGUACGCCGAGAGUAGGUCGUGCUAGCGCGCGAGAGAGU',
                     ' ', {
-                'tempEnv': 300,
+                'tempEnv': 37,
                 'naEnv': result.naEnv,
                 'mgEnv': result.mgEnv,
                 'oligoEnv': result.oligoEnv,
