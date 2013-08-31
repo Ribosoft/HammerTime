@@ -1,7 +1,7 @@
 var express = require('express'),
     stylus = require ('stylus'),
     db = require('./db'),
-    mongoose = require('mongoose')
+    mongoose = require('mongoose'),
     engine = require('ejs-locals'),
     routes = require('./routes'),
     http = require('http'),

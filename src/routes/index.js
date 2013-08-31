@@ -119,7 +119,8 @@ exports.processing_page = function(req, res, next) {
             utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
         } else {
             var request = new AlgoRequest(
-                    result.sequence,
+//                    result.sequence,
+            'GUACGUAUGCAUCGACUAGUCAGCAGAUCGUACUGAUGCUAGCUAGCUAGCUAGAGAUGAGUACGCCGAGAGUAGGUCGUGCUAGCGCGCGAGAGAGU',
                     ' ', {
                 'tempEnv': result.tempEnv,
                 'naEnv': result.naEnv,
@@ -135,6 +136,7 @@ exports.processing_page = function(req, res, next) {
                     0,
                     'blah',
                     function(request){
+                        console.log("State = "+request.State);
                     if(request.Completed) {
                         result.status = 4;
                         result.save(utils.onSaveHandler(function(result, next) {
