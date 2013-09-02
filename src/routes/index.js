@@ -79,8 +79,8 @@ exports.summary_page = function(req, res, next) {
             result.mgEnv = parseInt(req.body.mgC);
             result.oligoEnv = parseInt(req.body.oligoC);
             result.cutsites = (typeof req.body.cutsites === "string") ?
-                    new Array(req.body.cutsites) :
-                    utils.objectToArrayString(req.body.cutsites);
+                    new Array(req.body.cutsites.toUpperCase()) :
+                    utils.objectToArrayStringUpper(req.body.cutsites);
             result.foldShape = utils.objectToArrayString(req.body.foldShape);
             result.foldSW = utils.objectToArrayString(req.body.foldSW);
             result.save(utils.onSaveHandler(function(result, next) {
@@ -114,72 +114,75 @@ exports.processing_page = function(req, res, next) {
 
     var uuid = req.params.id;
     //launch request processing
-//    Request.findOne({uuid: uuid}, function(err, result) {
-//        if (err || !result) {
-//            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
-//        } else {
-//            var request = new AlgoRequest(
+    Request.findOne({uuid: uuid}, function(err, result) {
+        if (err || !result) {
+            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
+        } else {
+            console.log("cutsites ="+result.cutsites);
+            var request = new AlgoRequest(
 //                    result.sequence,
-//                    ' ', {
-//                'tempEnv': result.tempEnv,
-//                'naEnv': result.naEnv,
-//                'mgEnv': result.mgEnv,
-//                'oligoEnv': result.oligoEnv,
-//                'cutsites': result.cutsites,
-//                'left_arm_min': 3,
-//                'right_arm_min': 3,
-//                'left_arm_max': 8,
-//                'right_arm_max': 8
-//            },
-//            result.uuid,
-//                    0,
-//                    'blah',
-//                    function(request){
-//                    if(request.Completed) {
-//                        result.status = 4;
-//                        result.save(utils.onSaveHandler(function(result, next) {
-//                            console.log("Request "+result.uuid+" has finished.");
-//                        }));
-//                    }
-//                });
-//            try {
-//                RequestExecutor.HandleRequestPart1(request);
-//            } catch (ex) {
-//                utils.renderInternalError("Something went wrong when executing the request: "+ex, next);
-//            }
-//            res.render('processing_page',
-//                    {
-//                        title: 'Ribosot - Processing',
-//                        stepTitle: 'Step 4 - Processing',
-//                        estimatedDur: '2 hours',
-//                        estimatedDurInMin: 120,
-//                        urlEmail: "../remember/" + req.params.id,
-//                        urlResults: "../results/" + req.params.id
-//                    });
-//        }
-//    });
-    execFile('./node_modules/algorithm/test.js',
-            [],
-            null,
-            function(err, stdout, stderr){
-                if(err) console.log("error");
-                console.log("stderr "+stderr);
-                Request.findOne({uuid: uuid}, function(err, result) {
-                    result.status = 4;
-                    result.save(utils.onSaveHandler(function(result, next) {
-                        console.log("Request "+result.uuid+" has finished.");
-                    }));
+            'GUACGUAUGCAUCGACUAGUCAGCAGAUCGUACUGAUGCUAGCUAGCUAGCUAGAGAUGAGUACGCCGAGAGUAGGUCGUGCUAGCGCGCGAGAGAGU',
+                    ' ', {
+                'tempEnv': 37,
+                'naEnv': result.naEnv,
+                'mgEnv': result.mgEnv,
+                'oligoEnv': result.oligoEnv,
+                'cutsites': result.cutsites,
+                'left_arm_min': 3,
+                'right_arm_min': 3,
+                'left_arm_max': 8,
+                'right_arm_max': 8
+            },
+            result.uuid,
+                    0,
+                    'blah',
+                    function(request){
+                        console.log("State = "+request.State);
+                    if(request.Completed) {
+                        result.status = 4;
+                        result.save(utils.onSaveHandler(function(result, next) {
+                            console.log("Request "+result.uuid+" has finished.");
+                        }));
+                    }
                 });
-            });
-    res.render('processing_page',
-            {
-                title: 'Ribosot - Processing',
-                stepTitle: 'Step 4 - Processing',
-                estimatedDur: '2 hours',
-                estimatedDurInMin: 120,
-                urlEmail: "../remember/" + req.params.id,
-                urlResults: "../results/" + req.params.id
-            });
+            try {
+                RequestExecutor.HandleRequestPart1(request);
+            } catch (ex) {
+                utils.renderInternalError("Something went wrong when executing the request: "+ex, next);
+            }
+            res.render('processing_page',
+                    {
+                        title: 'Ribosot - Processing',
+                        stepTitle: 'Step 4 - Processing',
+                        estimatedDur: '2 hours',
+                        estimatedDurInMin: 120,
+                        urlEmail: "../remember/" + req.params.id,
+                        urlResults: "../results/" + req.params.id
+                    });
+        }
+    });
+//    execFile('./node_modules/algorithm/test.js',
+//            [],
+//            null,
+//            function(err, stdout, stderr){
+//                if(err) console.log("error");
+//                console.log("stderr "+stderr);
+//                Request.findOne({uuid: uuid}, function(err, result) {
+//                    result.status = 4;
+//                    result.save(utils.onSaveHandler(function(result, next) {
+//                        console.log("Request "+result.uuid+" has finished.");
+//                    }));
+//                });
+//            });
+//    res.render('processing_page',
+//            {
+//                title: 'Ribosot - Processing',
+//                stepTitle: 'Step 4 - Processing',
+//                estimatedDur: '2 hours',
+//                estimatedDurInMin: 120,
+//                urlEmail: "../remember/" + req.params.id,
+//                urlResults: "../results/" + req.params.id
+//            });
        
 };
 
