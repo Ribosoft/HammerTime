@@ -137,13 +137,13 @@ exports.processing_page = function(req, res, next) {
                     0,
                     'blah',
                     function(request){
-                        console.log("State = "+request.State);
-                    if(request.Completed) {
-                        result.status = 4;
-                        result.save(utils.onSaveHandler(function(result, next) {
-                            console.log("Request "+result.uuid+" has finished.");
-                        }));
-                    }
+                        //console.log("State = "+request.State);
+                        result.state = request.State;
+                        if(request.Completed) {
+                            result.status = 4;
+                            console.log("Request " + result.uuid + " has finished.");
+                        }
+                        result.save(utils.onSaveHandler(function(result, next) {}));
                 });
             try {
                 RequestExecutor.HandleRequestPart1(request);
@@ -193,9 +193,10 @@ exports.processing_status = function(req, res, next) {
             utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
         } else {
             var finished = (result.status === 4);
+            var state = result.state;
             console.log("result.status =="+result.status);
             console.log("Request finished =="+finished);
-            res.json(200, { finished: finished });
+            res.json(200, { finished: finished, state:state });
         } 
     });
 };
@@ -223,7 +224,7 @@ exports.email_page = function(req, res, next) {
 };
 
 exports.results_page = function(req, res) {
-    var path = require('path').resolve(__dirname, '../Test/requestState.json');
+    var path = require('path').join('/home/admin/ribosoft/', req.params.id, '/requestState.json');
     var json_output = require(path);
     res.render('results_page', {
             title: 'Ribosot - Results',
