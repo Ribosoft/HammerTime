@@ -47,6 +47,7 @@ var Request = new Schema({
     // 3 : inProcessing
     // 4 : processed
     status : { type: Number, min: 1, max: 4, default:1 },
+    state : {type : String, default:'\n'},
     sequence : {type: String, trim: true },
     accessionNumber : String,
     candidates : [{type : Schema.ObjectId, ref : 'Candidate' }],
