@@ -313,7 +313,7 @@ function checkStatusResult() {
             data : {},
             success : function(data) {
               console.log("Request finished "+data.finished);
-              $(".resultsButton").next().html('<div class="state-log">' + data.state.replace('\n','</div><br><div class="state-log">') + '</div>' );
+              $(".resultsButton").next().html('<div class="state-log">' + data.state.replace('\\n','</div><br><div class="state-log">') + '</div>' );
               if(data.finished) {
                   $(".resultsButton").removeClass("invisible");
                   clearInterval(interval);
