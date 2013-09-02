@@ -82,12 +82,16 @@
     <Content Include="src\node_modules\log\index.js">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="src\node_modules\ribo_file_utils\index.js">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="src\routes\index.js">
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
+    <Folder Include="src\node_modules\ribo_file_utils" />
     <Folder Include="src\public" />
     <Folder Include="src\routes" />
     <Folder Include="src\views" />
