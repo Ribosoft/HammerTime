@@ -2,6 +2,8 @@ var utils = require('route_utils');
 var url = require('url'),
         mongoose = require('mongoose');
 var algorithm = require('algorithm');
+var execFile = require('child_process').execFile;
+var fs = require('fs');
 
 var Request = mongoose.model('Request');
 var Candidate = mongoose.model('Candidate');
@@ -77,8 +79,8 @@ exports.summary_page = function(req, res, next) {
             result.mgEnv = parseInt(req.body.mgC);
             result.oligoEnv = parseInt(req.body.oligoC);
             result.cutsites = (typeof req.body.cutsites === "string") ?
-                    new Array(req.body.cutsites) :
-                    utils.objectToArrayString(req.body.cutsites);
+                    new Array(req.body.cutsites.toUpperCase()) :
+                    utils.objectToArrayStringUpper(req.body.cutsites);
             result.foldShape = utils.objectToArrayString(req.body.foldShape);
             result.foldSW = utils.objectToArrayString(req.body.foldSW);
             result.save(utils.onSaveHandler(function(result, next) {
@@ -116,10 +118,12 @@ exports.processing_page = function(req, res, next) {
         if (err || !result) {
             utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
         } else {
+            console.log("cutsites ="+result.cutsites);
             var request = new AlgoRequest(
-                    result.sequence,
+//                    result.sequence,
+            'GUACGUAUGCAUCGACUAGUCAGCAGAUCGUACUGAUGCUAGCUAGCUAGCUAGAGAUGAGUACGCCGAGAGUAGGUCGUGCUAGCGCGCGAGAGAGU',
                     ' ', {
-                'tempEnv': result.tempEnv,
+                'tempEnv': 37,
                 'naEnv': result.naEnv,
                 'mgEnv': result.mgEnv,
                 'oligoEnv': result.oligoEnv,
@@ -133,6 +137,7 @@ exports.processing_page = function(req, res, next) {
                     0,
                     'blah',
                     function(request){
+                        console.log("State = "+request.State);
                     if(request.Completed) {
                         result.status = 4;
                         result.save(utils.onSaveHandler(function(result, next) {
@@ -156,6 +161,29 @@ exports.processing_page = function(req, res, next) {
                     });
         }
     });
+//    execFile('./node_modules/algorithm/test.js',
+//            [],
+//            null,
+//            function(err, stdout, stderr){
+//                if(err) console.log("error");
+//                console.log("stderr "+stderr);
+//                Request.findOne({uuid: uuid}, function(err, result) {
+//                    result.status = 4;
+//                    result.save(utils.onSaveHandler(function(result, next) {
+//                        console.log("Request "+result.uuid+" has finished.");
+//                    }));
+//                });
+//            });
+//    res.render('processing_page',
+//            {
+//                title: 'Ribosot - Processing',
+//                stepTitle: 'Step 4 - Processing',
+//                estimatedDur: '2 hours',
+//                estimatedDurInMin: 120,
+//                urlEmail: "../remember/" + req.params.id,
+//                urlResults: "../results/" + req.params.id
+//            });
+       
 };
 
 exports.processing_status = function(req, res, next) {
@@ -195,6 +223,11 @@ exports.email_page = function(req, res, next) {
 };
 
 exports.results_page = function(req, res) {
-    res.render('results_page', {title: 'Ribosot - Results',
-        stepTitle: 'Step 5 - Results'});
-};
+    var path = require('path').resolve(__dirname, '../Test/requestState.json');
+    var json_output = require(path);
+    res.render('results_page', {
+            title: 'Ribosot - Results',
+            stepTitle: 'Step 5 - Results',
+            results: json_output.CutsiteTypesCandidateContainer
+        });
+}
