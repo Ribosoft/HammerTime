@@ -40,6 +40,9 @@
     <Content Include="src\node_modules\algorithm\execute_test.bat">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="src\node_modules\algorithm\fitnessEvaluation\index.js">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="src\node_modules\algorithm\HandleRequest.js">
       <SubType>Content</SubType>
     </Content>
@@ -85,16 +88,55 @@
     <Content Include="src\node_modules\ribo_file_utils\index.js">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="src\node_modules\route_utils\index.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\public\js\bootstrap.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\public\js\bootstrap.min.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\public\js\client.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\public\js\client_utils.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\public\js\jquery.placeholder.min.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\public\js\melting_t.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\public\js\modernizr-2.6.2-custom.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\public\js\nucle_tools.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\public\js\Tests.js">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="src\routes\index.js">
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
+    <Folder Include="src\node_modules\algorithm\fitnessEvaluation" />
     <Folder Include="src\node_modules\ribo_file_utils" />
     <Folder Include="src\public" />
+    <Folder Include="src\public\js" />
+    <Folder Include="src\public\js\tests" />
+    <Folder Include="src\public\errors" />
+    <Folder Include="src\public\fonts" />
+    <Folder Include="src\public\images" />
+    <Folder Include="src\public\stylesheets" />
     <Folder Include="src\routes" />
     <Folder Include="src\views" />
+    <Folder Include="src\views\steps" />
+    <Folder Include="src\views\reusables" />
     <Folder Include="src\node_modules" />
     <Folder Include="src\node_modules\route_utils" />
     <Folder Include="src\node_modules\algorithm" />
