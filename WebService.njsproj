@@ -40,6 +40,9 @@
     <Content Include="src\node_modules\algorithm\execute_test.bat">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="src\node_modules\algorithm\fitnessEvaluation\index.js">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="src\node_modules\algorithm\HandleRequest.js">
       <SubType>Content</SubType>
     </Content>
@@ -121,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
+    <Folder Include="src\node_modules\algorithm\fitnessEvaluation" />
     <Folder Include="src\node_modules\ribo_file_utils" />
     <Folder Include="src\public" />
     <Folder Include="src\public\js" />
