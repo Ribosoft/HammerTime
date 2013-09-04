@@ -18,7 +18,7 @@ Super                           Setup nodeunit for unit tests
 Super                           Setup mocha for BDD tests
 Super                           Write unit tests
 Super                           Write BDD tests
-Kinda                           Annealing temperature for degenerate base-pairs BIG
+Kinda                           Annealing temperature for degenerate base-pairs 
 Super                           Fold given constraints from user input DONE
 Lil'                            Change UNA fold API to take user environmental constraints
 Lil'                            Implement API to Blast    
