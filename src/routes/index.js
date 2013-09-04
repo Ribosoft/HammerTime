@@ -1,9 +1,9 @@
 var utils = require('route_utils');
 var url = require('url'),
-        mongoose = require('mongoose');
-var algorithm = require('algorithm');
-var execFile = require('child_process').execFile;
-var fs = require('fs');
+    mongoose = require('mongoose'),
+    algorithm = require('algorithm'),
+    execFile = require('child_process').execFile,
+    fs = require('fs');
 
 var Request = mongoose.model('Request');
 var Candidate = mongoose.model('Candidate');
@@ -118,12 +118,11 @@ exports.processing_page = function(req, res, next) {
         if (err || !result) {
             utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
         } else {
-            if(result.status > 2) {
+            if(result.status !== 3) {
               var request = new AlgoRequest(
                       result.sequence,
-  //            'GUACGUAUGCAUCGACUAGUCAGCAGAUCGUACUGAUGCUAGCUAGCUAGCUAGAGAUGAGUACGCCGAGAGUAGGUCGUGCUAGCGCGCGAGAGAGU',
                       ' ', {
-                  'tempEnv': 37,
+                  'tempEnv': result.tempEnv,
                   'naEnv': result.naEnv,
                   'mgEnv': result.mgEnv,
                   'oligoEnv': result.oligoEnv,
@@ -137,7 +136,6 @@ exports.processing_page = function(req, res, next) {
                       0,
                       'blah',
                       function(request){
-                          //console.log("State = "+request.State);
                           result.state = request.State;
                           if(request.Completed) {
                               result.status = 4;
@@ -153,7 +151,6 @@ exports.processing_page = function(req, res, next) {
                   utils.renderInternalError("Something went wrong when executing the request: "+ex, next);
               }
             }
-            
             res.render('processing_page',
                     {
                         title: 'Ribosot - Processing',
@@ -165,29 +162,6 @@ exports.processing_page = function(req, res, next) {
                     });
         }
     });
-//    execFile('./node_modules/algorithm/test.js',
-//            [],
-//            null,
-//            function(err, stdout, stderr){
-//                if(err) console.log("error");
-//                console.log("stderr "+stderr);
-//                Request.findOne({uuid: uuid}, function(err, result) {
-//                    result.status = 4;
-//                    result.save(utils.onSaveHandler(function(result, next) {
-//                        console.log("Request "+result.uuid+" has finished.");
-//                    }));
-//                });
-//            });
-//    res.render('processing_page',
-//            {
-//                title: 'Ribosot - Processing',
-//                stepTitle: 'Step 4 - Processing',
-//                estimatedDur: '2 hours',
-//                estimatedDurInMin: 120,
-//                urlEmail: "../remember/" + req.params.id,
-//                urlResults: "../results/" + req.params.id
-//            });
-       
 };
 
 exports.processing_status = function(req, res, next) {
