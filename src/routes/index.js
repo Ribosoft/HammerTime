@@ -3,7 +3,8 @@ var url = require('url'),
     mongoose = require('mongoose'),
     algorithm = require('algorithm'),
     execFile = require('child_process').execFile,
-    fs = require('fs');
+    fs = require('fs'),
+    request = require('request');
 
 var Request = mongoose.model('Request');
 var Candidate = mongoose.model('Candidate');
@@ -31,35 +32,82 @@ exports.api = function(req, res) {
 };
 
 exports.design = function(req, res, next) {
-    //TODO SUPER IMPORTANT
-    //do validation on sequence before adding to db 
-    var sequence = req.body.sequence;
+    function checkAccession (accession, successCallback, errorCallback) {
+        request({
+            uri: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id="+accession+"&rettype=fasta&retmode=text",
+            method: "GET",
+            followRedirect : false
+        }, function(err, res, body) {
+            if(!err && res.statusCode == 200) {
+               var seq = body.split('\n');
+               seq.shift();
+               successCallback(seq.join(""));
+            } else {
+                errorCallback(err);
+            }
+        });
+    };
+    
+    function sendResponse(sequence, accessionNumber){
+        if(!sequence) {
+            utils.renderInputError("No sequence was submitted.", next);
+        } else {
+            var id = utils.generateUID();
+            Request.createRequest(id, sequence, accessionNumber).save(function() {
+                res.json({id: id});
+            });
+        }
+    };
 
-    //Yes, this is super lame input validation
-    if (!sequence)
+    var sequence = req.body.sequence;
+    var accessionNumber = req.body.accessionNumber;
+    
+    if (!sequence && !accessionNumber)
     {
         utils.renderInputError("No sequence was submitted.", next);
-    }
-    else {
-        var id = utils.generateUID();
-        Request.createRequest(id, sequence).save(function() {
-            res.json({id: id});
+    } 
+    else if(!sequence) {
+        checkAccession(accessionNumber, function(seq) {
+            sendResponse(seq, accessionNumber);
+        }, function(error){
+            utils.renderInputError("Accession Number is invalid.", next);
+            accessionNumber = '';
         });
+    } 
+    else if (sequence && accessionNumber) {
+        checkAccession(accessionNumber, function(seq) {
+            if(sequence !== seq){
+                utils.renderInputError("Sequence and accession number do not match.", next);
+                accessionNumber = '';
+                sequence = '';
+            } else {
+                sendResponse(seq, accessionNumber);
+            }
+        }, function(error){
+            utils.renderInputError("Accession Number is invalid.", next);
+            accessionNumber = '';
+        });        
+    } else {
+        sendResponse(sequence, '');
     }
 };
 
-//req.params.id will contain the id of the sequence in process
-exports.design_page = function(req, res) {
-    //TODO implement logic to show target selection fieldset only when using accession#
-    var enteredManually = true;
-    res.render('design_page',
+exports.design_page = function(req, res) {   
+    Request.findOne({uuid: req.params.id}, function(err,result){
+        if (err || !result) {
+            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
+        }
+        else {
+            res.render('design_page',
             {
                 title: 'Ribosot - Design Options',
                 stepTitle: 'Step 2 - Design Options',
                 submitButtonId: 'submit2',
-                showTarget: enteredManually,
+                showTarget: result.accessionNumber !== '',
                 urlPost: "../summary/" + req.params.id
             });
+        }
+    });
 };
 
 exports.summary_page = function(req, res, next) {
@@ -82,7 +130,6 @@ exports.summary_page = function(req, res, next) {
                     new Array(req.body.cutsites.toUpperCase()) :
                     utils.objectToArrayStringUpper(req.body.cutsites);
             result.foldShape = utils.objectToArrayString(req.body.foldShape);
-            result.foldSW = utils.objectToArrayString(req.body.foldSW);
             result.save(utils.onSaveHandler(function(result, next) {
                 var targetEnv = result.getEnv();
                 res.render('summary_page',
@@ -99,8 +146,7 @@ exports.summary_page = function(req, res, next) {
                             mgEnv: result.mgEnv,
                             oligoEnv: result.oligoEnv,
                             cutsites: result.cutsites,
-                            foldShape: result.foldShape,
-                            foldSW: result.foldSW
+                            foldShape: result.foldShape
                         });
             }));
         }
@@ -121,7 +167,8 @@ exports.processing_page = function(req, res, next) {
             if(result.status !== 3) {
               var request = new AlgoRequest(
                       result.sequence,
-                      ' ', {
+                      result.accessionNumber,
+              {
                   'tempEnv': result.tempEnv,
                   'naEnv': result.naEnv,
                   'mgEnv': result.mgEnv,
