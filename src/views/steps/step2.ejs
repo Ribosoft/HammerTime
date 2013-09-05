@@ -1,14 +1,16 @@
 <h3 class="step-title">Step 2 - Design Options</h3>
 <p>Please select the options that will be applied during the design of the ribozyme.</p>
 <form id = "design-form" method="post" action=<%= urlPost %> accept-charset="utf-8">
-    <fieldset class="option-field">
-    <legend>Regions for target design
-    <i class="icon-question-sign pull-right"></i>
-    </legend>
-        <div class="offset2"><input required="true" type="radio" name="region" value="5"/>5'UTR<br/></div>
-        <div class="offset2"><input required="true" type="radio" name="region" value="4"/>Open Reading Frame (ORF)<br/></div>
-        <div class="offset2"><input required="true" type="radio" name="region" value="3"/>3'UTR<br/></div>
-    </fieldset>
+    <% if (showTarget) { %>
+        <fieldset class="option-field">
+        <legend>Regions for target design
+        <i class="icon-question-sign pull-right"></i>
+        </legend>
+            <div class="offset2"><input required="true" type="radio" name="region" value="5"/>5'UTR<br/></div>
+            <div class="offset2"><input required="true" type="radio" name="region" value="4"/>Open Reading Frame (ORF)<br/></div>
+            <div class="offset2"><input required="true" type="radio" name="region" value="3"/>3'UTR<br/></div>
+        </fieldset>
+    <% } %>
     <fieldset class="option-field">
     <legend>Target environment
     <i class="icon-question-sign pull-right"></i>
@@ -66,19 +68,10 @@
     <fieldset class="option-field">
     <legend>Ribozyme Shape<i class="icon-question-sign pull-right"></i></legend>
         <div class="offset2">
-            <input type="checkbox" name="foldShape" value="Basic" checked="checked">Basic</input>
+            <input type="radio" name="foldShape" value="Basic" checked="checked">Basic</input>
         </div>
         <div class="offset2">
-            <input type="checkbox" name="foldShape" value="Wishbone" checked="checked">Wishbone</input>
-        </div>
-    </fieldset>
-    <fieldset class="option-field">
-    <legend>Folding type<i class="icon-question-sign pull-right"></i></legend>
-        <div class="offset2">
-           <input type="checkbox" name="foldSW" value="m" checked="checked">m-Fold</input>
-        </div>
-        <div class="offset2">
-            <input type="checkbox" name="foldSW" value="s" checked="checked">s-Fold</input>
+            <input type="radio" name="foldShape" value="Wishbone">Wishbone</input>
         </div>
     </fieldset>
 </form>

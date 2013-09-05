@@ -1,33 +1,23 @@
 //TODO this file is becoming a mess, clean it up using the method explained here: 
 //  http://viget.com/inspire/extending-paul-irishs-comprehensive-dom-ready-execution
 
-var GLOBAL_PARAMETERS = 
-{
-	"left_arm_min" : 8,
-	"right_arm_min" : 8,
-	"left_arm_max" : 10,
-	"right_arm_max" : 10,
-	"Mg_ion_mM": 1,
-	"salt_ion_mM":150, //[Na]+[K]
-	"oligomer_nM":200
-}
-
 
 //NOTE: All the String methods were moved to client_utils.js
 //FileLoader is defined in client_utils.js
+//Candidate generation functions are moved to client_algo.js
 var fileLoader = new FileLoader();
 
-//Fetch from database
+var accessionNumber = '';
 function FetchAccessionNumberSequence()
 {
     var accessionAlert = $("#accession_alert");
     accessionAlert.removeClass("invisible alert-error alert-success");
     accessionAlert.text("Searching our database...");
     var sequence = $("#accession").find("input").val();
-    var url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi";
+
     $.ajax({
         type: "GET",
-        url: url,
+        url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
         data: {
             db: 'nuccore',
             'id': sequence,
@@ -40,12 +30,14 @@ function FetchAccessionNumberSequence()
             }
             accessionAlert.addClass("alert-success");
             accessionAlert.text("Sequence found!");
+            accessionNumber = sequence;
         },
         error: function(jqXHR, textStatus, errorThrown) {
             setDisplay("");
             accessionAlert.removeClass("alert-success");
             accessionAlert.addClass("alert-error");
             accessionAlert.text("No results found for this accession number")
+            accessionNumber = '';
         }
     });
 }
@@ -70,7 +62,6 @@ function ValidateInput(input)
                     break;		
             }
     }
-
     if(badInput)
             return {"ok" : false , "error" :Problems};
 
@@ -167,111 +158,22 @@ function CleanInput( input )
 
 function SubmitInput()
 {
-//    var csites = FindCutsites (input);
-//    var candidates = CreateCandidates(input, csites);
-//    ShowCandidatesAndAnnealing(candidates);
     var input = CleanInput($('#sequence-display')[0].value);
     $.ajax({
         type: "POST",
         url: window.location.href+"design",
         data: {
-            sequence: input
+            sequence: input,
+            accessionNumber : accessionNumber
         },
         success: function(data) {
             window.location.href = window.location.href+"design/"+data.id;
         },
         error: function(jqXHR, textStatus, errorThrown) {
             $("#sequence_alert").addClass("alert-error").removeClass("alert-success");
-            $("#sequence_alert").text("Service currently unavailable. Please try again later...")
+            $("#sequence_alert").text("Service currently unavailable. Please try again later.")
         }
     });
-}
-
-function FindCutsites( seq )
-{
-	var loc = new Array();
-	res = -1;
-	do
-	{
-            res = seq.indexOf("GUC", res + 1);
-            if(res !== -1)
-                    loc.push(res);
-	}
-	while (res !== -1);
-	return loc;
-}
-
-function PrintSequenceWithCutSitesHighlited(seq,cutSites)
-{
-	var htmlInsert ="";
-	var last = 0;
-	for(var ii = 0; ii < cutSites.length; ++ii)
-	{
-		htmlInsert += seq.substr(last, cutSites[ii]);
-		htmlInsert += "<b><span class='cut-site'>GUC</span></b>";
-		last = cutSites[ii]+3;
-	}
-	htmlInsert+= seq.substr (last);
-	$('.displayUpdate').html( htmlInsert );
-}
-
-var cc;
-function CreateCandidates (seq, cutSites)
-{
-	var Candidates = new Array();
-	//Per cutsite
-	//Load params
-	var lamin = GLOBAL_PARAMETERS.left_arm_min;
-	var ramin = GLOBAL_PARAMETERS.right_arm_min;
-	var lamax = GLOBAL_PARAMETERS.left_arm_max;
-	var ramax = GLOBAL_PARAMETERS.right_arm_max;
-	
-	for(var ii = 0 ; ii < cutSites.length;++ii)
-	{
-		var firstCutsiteCands = new Array();
-		for(var jj = lamin; jj < lamax; ++jj)
-		{
-			var start = cutSites[ii] - jj;
-			if(start < 0)
-				continue;
-			for(var kk = ramin; kk < ramax; ++kk)
-			{
-				var end = cutSites[ii]+3+kk;
-				var length = end - start;
-				if(end >= seq.length)
-					continue;
-				firstCutsiteCands.push({"seq" : seq.substr(start,length), "cut":(jj+2)});
-				
-			}
-		}
-		Candidates.push(firstCutsiteCands);
-	}
-	cc = Candidates;
-	return Candidates;
-}
-
-function ShowCandidatesAndAnnealing(cands)
-{
-	var res = "";
-	var consRes = "";
-	for(var ii = 0; ii < cands.length; ++ii)
-	{
-		res += "<p>Cut site number " + ii + "</p>";
-		consRes += "Cut site number " + ii + "\n";
-		for(var jj = 0; jj < cands[ii].length; ++jj)
-		{
-			var currentSeq = cands[ii][jj].seq;
-			console.log(currentSeq);
-			var c_pos = cands[ii][jj].cut;
-			currentSeq = currentSeq.substr(0,c_pos)+currentSeq.substr(c_pos+1,currentSeq.length-c_pos-1);//REMOVE non-annealing C from comupation
-			console.log(currentSeq);
-			var computationalResult = tm_Base_Stacking(cands[ii][jj].seq.replaceAll('U','T'),GLOBAL_PARAMETERS.oligomer_mM,GLOBAL_PARAMETERS.salt_ion_mM,GLOBAL_PARAMETERS.Mg_ion_mM);
-			res += "<p>\t"+cands[ii][jj].seq + "\t"+ computationalResult+'</p>';
-			consRes += "\t"+cands[ii][jj].seq + "\t"+ computationalResult+'\n';
-		}
-	}
-	console.log(consRes)
-	$('.displayUpdate').html(res);
 }
 
 function setSubmitButtonStatus(){
@@ -312,21 +214,19 @@ function checkStatusResult() {
             url : window.location.href,
             data : {},
             success : function(data) {
-              console.log("Request finished "+data.finished);
-              var stateLog = data.state;
-              while(stateLog.indexOf('\n') != -1)
-              {
-                stateLog = stateLog.replace('\n','</div><br><div class="state-log">');
-              }
-              $(".resultsButton").next().html('<div class="state-log">' + stateLog + '</div>' );
-              if(data.finished) {
-                  $(".resultsButton").removeClass("invisible");
-                  clearInterval(interval);
-              }
+                var stateLog = data.state;
+                while(stateLog.indexOf('\n') != -1)
+                {
+                  stateLog = stateLog.replace('\n','</div><br><div class="state-log">');
+                }
+                $(".resultsButton").next().html('<div class="state-log">' + stateLog + '</div>' );
+                if(data.finished) {
+                    $(".resultsButton").removeClass("invisible");
+                    clearInterval(interval);
+                }
             },
             dataType : "json",
             error : function(err) {
-              console.log("error thrown "+err);
               countErrors += 1;
               if(countErrors > 3) {
                   clearInterval(interval);
@@ -353,4 +253,8 @@ window.onload = function() {
     if($(".progress").length > 0) {
         checkStatusResult();
     }
+    
+//    if ($('input[value=vivo]:radio').length > 0 && ($('input[value=vivo]:radio')[0]).checked) {
+//        $('select[name=envVivo]').disabled = true;
+//    }
 };
