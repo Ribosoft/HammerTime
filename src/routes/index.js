@@ -167,7 +167,8 @@ exports.processing_page = function(req, res, next) {
             if(result.status !== 3) {
               var request = new AlgoRequest(
                       result.sequence,
-                      ' ', {
+                      result.accessionNumber,
+              {
                   'tempEnv': result.tempEnv,
                   'naEnv': result.naEnv,
                   'mgEnv': result.mgEnv,
