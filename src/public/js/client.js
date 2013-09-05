@@ -337,6 +337,18 @@ function checkStatusResult() {
     }, 1000 * 15);
 };
 
+
+function EnableDisableDropdown()
+{
+    var state = $invivo.is(':checked');
+    if (state) {
+        $("select[name='envVivo']").prop("disabled", false);
+    }
+    else {
+        $("select[name='envVivo']").prop("disabled", true);
+    }
+}
+
 window.onload = function() {
     $('#submit_ACN').click(FetchAccessionNumberSequence);
     $('#submit1').click(SubmitInput);
@@ -353,4 +365,9 @@ window.onload = function() {
     if($(".progress").length > 0) {
         checkStatusResult();
     }
+
+    
+    $("input[value='vitro']").change(EnableDisableDropdown);
+    $("input[value='vivo']").change(EnableDisableDropdown);
+        
 };
