@@ -214,11 +214,16 @@ function checkStatusResult() {
             url : window.location.href,
             data : {},
             success : function(data) {
-              $(".resultsButton").next().html('<div class="state-log">' + data.state.replace('\\n','</div><br><div class="state-log">') + '</div>' );
-              if(data.finished) {
-                  $(".resultsButton").removeClass("invisible");
-                  clearInterval(interval);
-              }
+                var stateLog = data.state;
+                while(stateLog.indexOf('\n') != -1)
+                {
+                  stateLog = stateLog.replace('\n','</div><br><div class="state-log">');
+                }
+                $(".resultsButton").next().html('<div class="state-log">' + stateLog + '</div>' );
+                if(data.finished) {
+                    $(".resultsButton").removeClass("invisible");
+                    clearInterval(interval);
+                }
             },
             dataType : "json",
             error : function(err) {
