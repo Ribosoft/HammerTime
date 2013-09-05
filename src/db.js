@@ -64,12 +64,12 @@ var Request = new Schema({
     vivoEnv : {type: String, default:""}
 });
 
-Request.statics.createRequest = function (id, seq, accessionUsed){
+Request.statics.createRequest = function (id, seq, accessionNumber){
     return new this({
         uuid : id,
         status : 1,
         sequence: seq,
-        accessionUsed : accessionUsed
+        accessionNumber : accessionNumber
     });
 };
 
