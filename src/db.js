@@ -49,10 +49,9 @@ var Request = new Schema({
     status : { type: Number, min: 1, max: 4, default:1 },
     state : {type : String, default:'\n'},
     sequence : {type: String, trim: true },
-    accessionNumber : String,
+    accessionNumber : {type: String, default: '', trim : true},
     candidates : [{type : Schema.ObjectId, ref : 'Candidate' }],
     foldShape : [String],
-    foldSW: [String],
     emailUser : {type:String, default:""},
     tempEnv : {type: Number, default: 37},
     naEnv: {type: Number, default: 0},
@@ -65,11 +64,12 @@ var Request = new Schema({
     vivoEnv : {type: String, default:""}
 });
 
-Request.statics.createRequest = function (id, seq){
+Request.statics.createRequest = function (id, seq, accessionUsed){
     return new this({
         uuid : id,
         status : 1,
-        sequence: seq
+        sequence: seq,
+        accessionUsed : accessionUsed
     });
 };
 
