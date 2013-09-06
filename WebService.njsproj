@@ -121,6 +121,54 @@
     <Content Include="src\routes\index.js">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="src\views\about.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\api.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\design_page.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\email_page.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\error.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\footer.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\header.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\index.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\processing_page.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\results_page.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\steps\step1.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\steps\step2.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\steps\step3.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\steps\step4.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\steps\step5.ejs">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="src\views\summary_page.ejs">
+      <SubType>Content</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
