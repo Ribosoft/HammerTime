@@ -92,7 +92,7 @@ exports.design = function(req, res, next) {
     }
 };
 
-exports.design_page = function(req, res) {   
+exports.design_page = function(req, res) {
     Request.findOne({uuid: req.params.id}, function(err,result){
         if (err || !result) {
             utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
@@ -103,7 +103,7 @@ exports.design_page = function(req, res) {
                 title: 'Ribosot - Design Options',
                 stepTitle: 'Step 2 - Design Options',
                 submitButtonId: 'submit2',
-                showTarget: result.accessionNumber !== '',
+                showTarget: !result.accessionNumber,
                 urlPost: "../summary/" + req.params.id
             });
         }
@@ -129,7 +129,7 @@ exports.summary_page = function(req, res, next) {
             result.cutsites = (typeof req.body.cutsites === "string") ?
                     new Array(req.body.cutsites.toUpperCase()) :
                     utils.objectToArrayStringUpper(req.body.cutsites);
-            result.foldShape = utils.objectToArrayString(req.body.foldShape);
+            result.foldShape = req.body.foldShape;
             result.save(utils.onSaveHandler(function(result, next) {
                 var targetEnv = result.getEnv();
                 res.render('summary_page',
@@ -159,7 +159,6 @@ exports.processing_page = function(req, res, next) {
     setInterval(Request.flushOutdatedRequests, utils.SECONDS_IN_WEEK * 1000);
 
     var uuid = req.params.id;
-    //launch request processing
     Request.findOne({uuid: uuid}, function(err, result) {
         if (err || !result) {
             utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
@@ -199,14 +198,14 @@ exports.processing_page = function(req, res, next) {
               }
             }
             res.render('processing_page',
-                    {
-                        title: 'Ribosot - Processing',
-                        stepTitle: 'Step 4 - Processing',
-                        estimatedDur: '2 hours',
-                        estimatedDurInMin: 120,
-                        urlEmail: "../remember/" + req.params.id,
-                        urlResults: "../results/" + req.params.id
-                    });
+            {
+                title: 'Ribosot - Processing',
+                stepTitle: 'Step 4 - Processing',
+                estimatedDur: '2 hours',
+                estimatedDurInMin: 120,
+                urlEmail: "../remember/" + req.params.id,
+                urlResults: "../results/" + req.params.id
+            });
         }
     });
 };
@@ -217,11 +216,10 @@ exports.processing_status = function(req, res, next) {
         if (err || !result) {
             utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
         } else {
-            var finished = (result.status === 4);
-            var state = result.state;
-            console.log("result.status =="+result.status);
-            console.log("Request finished =="+finished);
-            res.json(200, { finished: finished, state:state });
+            res.json(200, {
+                finished: (result.status === 4),
+                state: result.state 
+            });
         } 
     });
 };
