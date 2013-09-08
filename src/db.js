@@ -51,7 +51,7 @@ var Request = new Schema({
     sequence : {type: String, trim: true },
     accessionNumber : {type: String, default: '', trim : true},
     candidates : [{type : Schema.ObjectId, ref : 'Candidate' }],
-    foldShape : [String],
+    foldShape : String,
     emailUser : {type:String, default:""},
     tempEnv : {type: Number, default: 37},
     naEnv: {type: Number, default: 0},
