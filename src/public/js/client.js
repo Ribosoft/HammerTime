@@ -238,15 +238,13 @@ function checkStatusResult() {
 };
 
 
-function EnableDisableDropdown()
+function enableDisableDropdown()
 {
-    var state = $invivo.is(':checked');
-    if (state) {
-        $("select[name='envVivo']").prop("disabled", false);
-    }
-    else {
-        $("select[name='envVivo']").prop("disabled", true);
-    }
+    var state = this.checked;
+    if(this.defaultValue === 'vitro')
+        $("select[name='envVivo']").prop("disabled", state);
+    else
+        $("select[name='envVivo']").prop("disabled", !state);
 }
 
 window.onload = function() {
@@ -266,12 +264,5 @@ window.onload = function() {
         checkStatusResult();
     }
 
-    
-    $("input[value='vitro']").change(EnableDisableDropdown);
-    $("input[value='vivo']").change(EnableDisableDropdown);
-        
-    
-//    if ($('input[value=vivo]:radio').length > 0 && ($('input[value=vivo]:radio')[0]).checked) {
-//        $('select[name=envVivo]').disabled = true;
-//    }
+    $("input[name='env']").change(enableDisableDropdown);
 };
