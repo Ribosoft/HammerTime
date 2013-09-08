@@ -1,3 +1,3 @@
 Simply type:
-	nodemon app.js localhost
+	nodemon app.js
 to run the app within the nodemon daemon. The daemon will automatically reload the app anytime you make a change.
