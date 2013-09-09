@@ -254,8 +254,10 @@ window.onload = function() {
     $('#submit_ACN').click(FetchAccessionNumberSequence);
     $('#submit1').click(SubmitInput);
     var dropZone = document.getElementById('drop-zone');
-    dropZone.addEventListener('dragover', FileLoader.handleDragOver, false);
-    dropZone.addEventListener('drop', FileLoader.handleFileSelect, false);
+    if (dropZone != null) {
+        dropZone.addEventListener('dragover', FileLoader.handleDragOver, false);
+        dropZone.addEventListener('drop', FileLoader.handleFileSelect, false);
+    }
 
     $('#selectFileInput').change(FileLoader.handleFileBrowsed);
     //enable/disable submit button depending on state of sequence
