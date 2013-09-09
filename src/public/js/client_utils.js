@@ -1,27 +1,31 @@
-//File drop
-function FileLoader() {
+function FileLoader() {}
+
+FileLoader.readFile = function(fileToRead) {
     var reader = new FileReader();
-    var file;
-    var selfRef = this;
-    this.readFile = function(fileToRead) {
 		reader.readAsText(fileToRead);
 		reader.onload = function() {
 			setDisplay(reader.result);
 		};
 	}
-    this.handleFileSelect = function(evt) {
+
+FileLoader.handleFileBrowsed  = function(evt) {
+		file = $('#selectFileInput')[0].files[0];
+    FileLoader.readFile(file);
+	}
+
+FileLoader.handleFileSelect  = function(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
 		
 		file = evt.dataTransfer.files[0]; // file object uploaded
-		selfRef.readFile(file);
-	}
-    this.handleDragOver = function(evt) {
+		FileLoader.readFile(file);
+	}  
+FileLoader.handleDragOver = function(evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
 		evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 	}
-}
+  
 
 //Add functionality to native string, cause it sucks
 String.prototype.indexOfMultiple=function(Arr) 

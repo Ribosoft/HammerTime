@@ -247,13 +247,17 @@ function enableDisableDropdown()
         $("select[name='envVivo']").prop("disabled", !state);
 }
 
+
+
+
 window.onload = function() {
     $('#submit_ACN').click(FetchAccessionNumberSequence);
     $('#submit1').click(SubmitInput);
-    
-    $("#drop-zone").bind('dragover', fileLoader.handleDragOver);
-    $("#drop-zone").bind('drop', fileLoader.handleFileSelect);
-    
+    var dropZone = document.getElementById('drop-zone');
+    dropZone.addEventListener('dragover', FileLoader.handleDragOver, false);
+    dropZone.addEventListener('drop', FileLoader.handleFileSelect, false);
+
+    $('#selectFileInput').change(FileLoader.handleFileBrowsed);
     //enable/disable submit button depending on state of sequence
     $('#sequence-display').bind('input propertychange', setSubmitButtonStatus);
     
