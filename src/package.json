@@ -15,5 +15,10 @@
     "webworker": "~0.8.4",
     "shutdown": "0.0.2",
     "request": "~2.27.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.12.1",
+    "supertest": "~0.7.1",
+    "should": "~1.2.2"
   }
 }
