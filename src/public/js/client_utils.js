@@ -27,7 +27,7 @@ FileLoader.handleDragOver = function(evt) {
 	}
   
 
-//Add functionality to native string, cause it sucks
+//Add functionality to native string, cause it is limited
 String.prototype.indexOfMultiple=function(Arr) 
 {
 	var indexs = new Array();
