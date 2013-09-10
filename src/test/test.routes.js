@@ -5,7 +5,7 @@ var app = require(process.cwd()+'/app').app,
     
 var Request = mongoose.model('Request');
 
-describe('/design', function(){
+describe('API: /design', function(){
     it('POST /design with sequence only', function(done) {
         var sequence = 'ATGC'
         request(app).post('/ribosoft/design')

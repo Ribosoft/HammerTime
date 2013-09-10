@@ -2,14 +2,10 @@ var utils = require('route_utils');
 var url = require('url'),
     mongoose = require('mongoose'),
     algorithm = require('algorithm'),
-    execFile = require('child_process').execFile,
     fs = require('fs'),
     request = require('request');
 
 var Request = mongoose.model('Request');
-var Candidate = mongoose.model('Candidate');
-var Structure = mongoose.model('Structure');
-var Pair = mongoose.model('Pair');
 
 var RequestExecutor = algorithm.HandleRequest;
 var Model = algorithm.Model;
