@@ -1,6 +1,6 @@
 var express = require('express'),
     stylus = require ('stylus'),
-    db = require('./db'),
+    db = require('./models/db'),
     mongoose = require('mongoose'),
     engine = require('ejs-locals'),
     routes = require('./routes'),

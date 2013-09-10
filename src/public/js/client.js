@@ -8,13 +8,32 @@
 var fileLoader = new FileLoader();
 
 var accessionNumber = '';
-function FetchAccessionNumberSequence()
-{
+function fetchInputAccessionNumber(){
     var accessionAlert = $("#accession_alert");
     accessionAlert.removeClass("invisible alert-error alert-success");
     accessionAlert.text("Searching our database...");
-    var sequence = $("#accession").find("input").val();
+    fetchAccessionNumberSequence(
+            $("#accession").find("input").val(),
+            function(result){
+                if(setDisplay(result.toString())){
+                    $("#submit1").removeClass("disabled");              
+                }
+                accessionAlert.addClass("alert-success");
+                accessionAlert.text("Sequence found!");
+                accessionNumber = sequence;
 
+            },
+            function(error){
+                setDisplay("");
+                accessionAlert.removeClass("alert-success");
+                accessionAlert.addClass("alert-error");
+                accessionAlert.text("No results found for this accession number")
+                accessionNumber = '';
+            });
+};
+
+function fetchAccessionNumberSequence(sequence, successCallback, errorCallback)
+{
     $.ajax({
         type: "GET",
         url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
@@ -25,19 +44,10 @@ function FetchAccessionNumberSequence()
             retmode: 'text'
         },
         success: function(d) {
-            if( setDisplay(d.toString())){
-               $("#submit1").removeClass("disabled");              
-            }
-            accessionAlert.addClass("alert-success");
-            accessionAlert.text("Sequence found!");
-            accessionNumber = sequence;
+            successCallback(d);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            setDisplay("");
-            accessionAlert.removeClass("alert-success");
-            accessionAlert.addClass("alert-error");
-            accessionAlert.text("No results found for this accession number")
-            accessionNumber = '';
+            errorCallback(errorThrown);
         }
     });
 }
@@ -112,12 +122,10 @@ function validateAndAlert(str){
     var input = CleanInput(str);
     var validation = ValidateInput(input);
     sequenceAlert.removeClass("invisible");
-    if(validation.ok === false){
-      sequenceAlert.addClass("alert-error").removeClass("alert-success");
-    }
-    else{
+    validation.ok === false ?
+      sequenceAlert.addClass("alert-error").removeClass("alert-success"):
       sequenceAlert.removeClass("alert-error").addClass("alert-success");      
-    }
+
     sequenceAlert.text(validation.error);
     
     return validation.ok;
@@ -247,11 +255,8 @@ function enableDisableDropdown()
         $("select[name='envVivo']").prop("disabled", !state);
 }
 
-
-
-
 window.onload = function() {
-    $('#submit_ACN').click(FetchAccessionNumberSequence);
+    $('#submit_ACN').click(fetchInputAccessionNumber);
     $('#submit1').click(SubmitInput);
     var dropZone = document.getElementById('drop-zone');
     if (dropZone != null) {
