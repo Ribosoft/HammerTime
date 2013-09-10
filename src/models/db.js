@@ -1,6 +1,6 @@
 var mongoose = require( 'mongoose' ),
-    utils = require('route_utils');
-var Schema   = mongoose.Schema;
+    config = require('./config.json');
+var Schema = mongoose.Schema;
 
 /************************ Candidate Schema *****************/
 var Candidate = new Schema({
@@ -75,7 +75,7 @@ Request.statics.createRequest = function (id, seq, accessionNumber){
 
 Request.statics.flushOutdatedRequests = function(){
     var weekAgo = new Date();
-    weekAgo.setDate(weekAgo.getDate() - utils.getExpirationDelay());
+    weekAgo.setDate(weekAgo.getDate() - config.expirationDelay);
     this.find({createDate:{"$lte":weekAgo}}, function(err, result, count){
         if(err)
             console.log("Could not find old requests");
@@ -126,4 +126,4 @@ Request.statics.findRequest = function(uuid, callback) {
 };
 
 mongoose.model( 'Request', Request );
-mongoose.connect( 'mongodb://localhost/ribosoft-db' );
+mongoose.connect( config.ribosoftDbUrl );
