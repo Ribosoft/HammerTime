@@ -1,20 +1,19 @@
 var algorithm = require(process.cwd()+'/node_modules/algorithm'),
     should = require('should'),
     fs = require('fs'),
-    log = require('log');
+    log = require('log'),
+    test_utils = require('./test_utils.js');
     
 var RequestExecutor = algorithm.HandleRequest;
 var Model = algorithm.Model;
 var AlgoRequest = Model.DomainObjects.Request;
 
 var testID = 'Test';
+var pathToDir = process.cwd()+'/'+testID;
 
 beforeEach(function(done){
     log.setLogLevel(log.HIDE_ALL);
-    var pathToDir = process.cwd()+'/'+testID;
-    if(fs.existsSync(pathToDir)){
-        fs.rmdirSync(pathToDir);        
-    }
+    test_utils.rmDirIfExists(pathToDir);
     done();
 });
 
@@ -42,10 +41,20 @@ describe('Algorithm library', function(){
             {
                 if(request.Completed){
                     request.State.should.include('No candidates were generated!');
-                    done();                    
+                    var errorJsonExists = fs.existsSync(pathToDir+'/requestState.json')?
+                        new Error('requestState.json was created even when no candidates were generated.'):
+                                undefined;
+                    done(errorJsonExists);
                 }
             }//Promoter : Disabled due to change in algorithm sequence (e.g. non-annealing ones are removed earlier on)
         );
         RequestExecutor.HandleRequestPart1(algoRequest);
     });
+});
+
+
+// Always keep last
+after(function(done){
+    test_utils.rmDirIfExists(pathToDir);
+    done();
 });
