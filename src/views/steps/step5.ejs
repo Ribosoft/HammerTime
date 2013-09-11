@@ -1,32 +1,38 @@
 <h3 class="step-title"><%= stepTitle %></h3>
 <p class="step-description">Here are the results.</p>
-<div class="center">
-    <% if (results.length > 0) { %>
-    <table class="table table-striped">
-       <thead>
-           <th>Cutsite Number</th>
-           <th>Sequence</th>
-           <th>Shape Fitness</th>
-           <th>Fitness Specificity</th>
-           <th>Melting Temperature</th>
-           <th>Left Arm Length</th>
-           <th>Right Arm Length</th>
-       </thead>
-       <% results.forEach(function(type) { %>
-            <% type.Cutsites.forEach(function(cutsite) { %>
-                <% cutsite.Candidates.forEach(function(candidate) { %>
-                <tr>
-                  <td><%= cutsite.ID %></td>
-                  <td><%= candidate.Sequence %></td>
-                  <td><%= candidate.Fitness_Shape %></td>
-                  <td><%= candidate.Fitness_Specificity %></td>
-                  <td><%= candidate.MeltingTemperature %></td>
-                  <td><%= candidate.LeftArmLength %></td>
-                  <td><%= candidate.RightArmLength %></td>
-                </tr>
-                <% }) %>
-            <% }) %>
-       <% }) %>
-    </table>
-    <% } %>
-</div>
+<script>
+var results = <%- JSON.stringify(results) %>;
+DecompressRequest(results);
+var container = results.CutsiteTypesCandidateContainer;
+console.log("results "+JSON.stringify(results));
+if(results){
+  var html ="<div class='center'>\
+  <table class='table table-striped'>\
+       <thead>\
+           <th>Cutsite Number</th>\
+           <th>Sequence</th> \
+           <th>Shape Fitness</th> \
+           <th>Fitness Specificity</th> \
+           <th>Melting Temperature</th> \
+           <th>Left Arm Length</th> \
+           <th>Right Arm Length</th> \
+       </thead>";
+       container.forEach(function(type) {
+            type.Cutsites.forEach(function(cutsite) { 
+                 cutsite.Candidates.forEach(function(candidate) {
+		 html +="<tr> \
+                  <td>"+cutsite.ID+"</td> \
+                  <td>"+candidate.Sequence+"</td> \
+                  <td>"+candidate.Fitness_Shape+"</td> \
+                  <td>"+candidate.Fitness_Specificity+"</td> \
+                  <td>"+candidate.MeltingTemperature+" </td> \
+                  <td>"+candidate.LeftArmLength+" </td> \
+                  <td>"+candidate.RightArmLength+"</td> \
+                </tr>";
+                })
+            })
+       })
+    html += "</table></div>";
+    $('.step-container').append(html);
+}
+</script>

@@ -1,4 +1,4 @@
-var utils = require('route_utils');
+var utils = require('./route_utils');
 var url = require('url'),
     mongoose = require('mongoose'),
     algorithm = require('algorithm'),
@@ -181,8 +181,7 @@ exports.processing_page = function(req, res, next) {
                           result.state = request.State;
                           if(request.Completed) {
                               result.status = 4;
-                              console.log("Request " + result.uuid + " has finished.");
-                          }
+                              }
                           result.save(utils.onSaveHandler(function(result, next) {}));
                   });
               try {
@@ -248,6 +247,6 @@ exports.results_page = function(req, res) {
     res.render('results_page', {
             title: 'Ribosot - Results',
             stepTitle: 'Step 5 - Results',
-            results: json_output.CutsiteTypesCandidateContainer
+            results: json_output
         });
 }
