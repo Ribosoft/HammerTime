@@ -216,8 +216,9 @@ function showDesignHelp(e){
 
 function checkStatusResult() {
     var countErrors = 0;
-    var interval = setInterval(function(){
-        $.ajax({
+
+    function fetchState(){
+	$.ajax({
             type: "GET",
             url : window.location.href,
             data : {},
@@ -242,7 +243,10 @@ function checkStatusResult() {
               }
             }
         });
-    }, 1000 * 15);
+    };
+
+    var interval = setInterval(fetchState, 1000 * 15);
+    fetchState();
 };
 
 
