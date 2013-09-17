@@ -220,7 +220,7 @@ function checkStatusResult() {
     function fetchState(){
 	$.ajax({
             type: "GET",
-            url : window.location.href,
+            url : window.location.href.replace('processing','status'),
             data : {},
             success : function(data) {
                 var stateLog = data.state;
