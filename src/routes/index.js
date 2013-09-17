@@ -159,7 +159,6 @@ exports.processing_page = function(req, res, next) {
         if (err || !result) {
             utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
         } else {
-	    console.log( 'req.route.method'+req.route.method );
             if(result.status !== 3 && req.route.method === 'post') {
 		var request = new AlgoRequest(
                     result.sequence,
