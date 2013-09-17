@@ -159,38 +159,39 @@ exports.processing_page = function(req, res, next) {
         if (err || !result) {
             utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
         } else {
-            if(result.status !== 3) {
-              var request = new AlgoRequest(
-                      result.sequence,
-                      result.accessionNumber,
-              {
-                  'tempEnv': result.tempEnv,
-                  'naEnv': result.naEnv,
-                  'mgEnv': result.mgEnv,
-                  'oligoEnv': result.oligoEnv,
-                  'cutsites': result.cutsites,
-                  'left_arm_min': 3,
-                  'right_arm_min': 3,
-                  'left_arm_max': 8,
-                  'right_arm_max': 8
-              },
-              result.uuid,
-                      0,
-                      'blah',
-                      function(request){
-                          result.state = request.State;
-                          if(request.Completed) {
-                              result.status = 4;
-                              }
-                          result.save(utils.onSaveHandler(function(result, next) {}));
-                  });
-              try {
-                  RequestExecutor.HandleRequestPart1(request);
-                  result.status = 3;
-                  result.save(utils.onSaveHandler(function(result, next) {}));
-              } catch (ex) {
-                  utils.renderInternalError("Something went wrong when executing the request: "+ex, next);
-              }
+	    console.log( 'req.route.method'+req.route.method );
+            if(result.status !== 3 && req.route.method === 'post') {
+		var request = new AlgoRequest(
+                    result.sequence,
+                    result.accessionNumber,
+		    {
+			'tempEnv': result.tempEnv,
+			'naEnv': result.naEnv,
+			'mgEnv': result.mgEnv,
+			'oligoEnv': result.oligoEnv,
+			'cutsites': result.cutsites,
+			'left_arm_min': 3,
+			'right_arm_min': 3,
+			'left_arm_max': 8,
+			'right_arm_max': 8
+		    },
+		    result.uuid,
+                    0,
+                    'blah',
+                    function(request){
+                        result.state = request.State;
+                        if(request.Completed) {
+                            result.status = 4;
+                        }
+                        result.save(utils.onSaveHandler(function(result, next) {}));
+                    });
+		try {
+                    RequestExecutor.HandleRequestPart1(request);
+                    result.status = 3;
+                    result.save(utils.onSaveHandler(function(result, next) {}));
+		} catch (ex) {
+                    utils.renderInternalError("Something went wrong when executing the request: "+ex, next);
+		}
             }
             res.render('processing_page',
             {

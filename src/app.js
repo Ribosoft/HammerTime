@@ -53,7 +53,8 @@ app.post('/ribosoft/design', routes.design);
 app.get('/ribosoft/design/:id', routes.design_page);
 app.post('/ribosoft/summary/:id', routes.summary_page);
 app.post('/ribosoft/processing/:id', routes.processing_page);
-app.get('/ribosoft/processing/:id', routes.processing_status);
+app.get('/ribosoft/processing/:id', routes.processing_page);
+app.get('/ribosoft/status/:id', routes.processing_status);
 app.post('/ribosoft/remember/:id', routes.email_page);
 app.post('/ribosoft/results/:id', routes.results_page);
 
