@@ -1,10 +1,10 @@
 <h3 class="step-title"><%= stepTitle %></h3>
-<p class="step-description">Here are the results.</p>
-<script>
-var results = <%- JSON.stringify(results) %>;
-DecompressRequest(results);
-var container = results.CutsiteTypesCandidateContainer;
-if(results){
+<p class="step-description"><%= resultMessage %></p>
+<% if(results) { %>
+  <script>
+  var results = <%- JSON.stringify(results) %>;
+  DecompressRequest(results);
+  var container = results.CutsiteTypesCandidateContainer;
   var html ="<div class='center'>\
   <table class='table table-striped'>\
        <thead>\
@@ -32,5 +32,5 @@ if(results){
        })
     html += "</table></div>";
     $('.step-container').append(html);
-}
-</script>
+  </script>
+<% } %>
