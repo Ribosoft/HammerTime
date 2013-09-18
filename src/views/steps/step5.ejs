@@ -6,7 +6,7 @@
   DecompressRequest(results);
   var container = results.CutsiteTypesCandidateContainer;
   var html ="<div class='center'>\
-  <table class='table table-striped'>\
+  <table class='table table-striped' id='results'>\
        <thead>\
            <th>Cutsite Number</th>\
            <th>Sequence</th> \
@@ -25,6 +25,7 @@
                   <td>"+candidate.Fitness_Target+"</td> \
                   <td>"+candidate.Fitness_Shape+"</td> \
                   <td>"+candidate.Fitness_Shape_dG+"</td> \
+                  <td>"+candidate.MeltingTemperature+"</td> \
                   <td>"+candidate.rank+" </td> \
                 </tr>";
                 })
