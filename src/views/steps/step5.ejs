@@ -4,18 +4,17 @@
 var results = <%- JSON.stringify(results) %>;
 DecompressRequest(results);
 var container = results.CutsiteTypesCandidateContainer;
-console.log("results "+JSON.stringify(results));
 if(results){
   var html ="<div class='center'>\
   <table class='table table-striped'>\
        <thead>\
            <th>Cutsite Number</th>\
            <th>Sequence</th> \
+	   <th>Target Site Fitness</th> \
            <th>Shape Fitness</th> \
-           <th>Fitness Specificity</th> \
-           <th>Melting Temperature</th> \
-           <th>Left Arm Length</th> \
-           <th>Right Arm Length</th> \
+           <th>Shape Free energy change</th> \
+           <th>Specificity Fitness Melting Temperature (K)</th> \
+	   <th>Pareto Rank</th> \
        </thead>";
        container.forEach(function(type) {
             type.Cutsites.forEach(function(cutsite) { 
@@ -23,11 +22,10 @@ if(results){
 		 html +="<tr> \
                   <td>"+cutsite.ID+"</td> \
                   <td>"+candidate.Sequence+"</td> \
+                  <td>"+candidate.Fitness_Target+"</td> \
                   <td>"+candidate.Fitness_Shape+"</td> \
-                  <td>"+candidate.Fitness_Specificity+"</td> \
-                  <td>"+candidate.MeltingTemperature+" </td> \
-                  <td>"+candidate.LeftArmLength+" </td> \
-                  <td>"+candidate.RightArmLength+"</td> \
+                  <td>"+candidate.Fitness_Shape_dG+"</td> \
+                  <td>"+candidate.rank+" </td> \
                 </tr>";
                 })
             })
