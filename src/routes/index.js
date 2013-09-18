@@ -241,12 +241,16 @@ exports.email_page = function(req, res, next) {
     });
 };
 
-exports.results_page = function(req, res) {
+exports.results_page = function(req, res, next) {
     var path = require('path').join('/home/admin/ribosoft/', req.params.id, '/requestState.json');
-    var json_output = require(path);
-    res.render('results_page', {
+    try{
+	var json_output = require(path);
+	res.render('results_page', {
             title: 'Ribosot - Results',
             stepTitle: 'Step 5 - Results',
             results: json_output
         });
+    } catch( error ){
+	utils.renderInputError("Could not load results for "+req.params.id, next);
+    }
 }
