@@ -96,7 +96,7 @@ exports.design_page = function(req, res) {
         else {
             res.render('design_page',
             {
-                title: 'Ribosot - Design Options',
+                title: 'Ribosoft - Design Options',
                 stepTitle: 'Step 2 - Design Options',
                 submitButtonId: 'submit2',
                 showTarget: !result.accessionNumber,
@@ -130,7 +130,7 @@ exports.summary_page = function(req, res, next) {
                 var targetEnv = result.getEnv();
                 res.render('summary_page',
                         {
-                            title: 'Ribosot - Summary of Design',
+                            title: 'Ribosoft - Summary of Design',
                             stepTitle: 'Step 3 - Summary',
                             urlPost: "../processing/" + uuid,
                             seqLength: result.sequence.length,
@@ -245,7 +245,7 @@ exports.results_page = function(req, res) {
     var path = require('path').join('/home/admin/ribosoft/', req.params.id, '/requestState.json');
     var json_output = require(path);
     res.render('results_page', {
-            title: 'Ribosot - Results',
+            title: 'Ribosoft - Results',
             stepTitle: 'Step 5 - Results',
             results: json_output
         });
