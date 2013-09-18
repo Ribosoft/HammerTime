@@ -280,4 +280,8 @@ window.onload = function() {
     }
 
     $("input[name='env']").change(enableDisableDropdown);
+
+    if($("#results").length >0) {
+        $("#results").dataTable();
+    }
 };
