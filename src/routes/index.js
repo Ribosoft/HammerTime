@@ -249,9 +249,15 @@ exports.results_page = function(req, res, next) {
 	res.render('results_page', {
             title: 'Ribosoft - Results',
             stepTitle: 'Step 5 - Results',
-            results: json_output
+            results: json_output,
+	    resultMessage: 'Here are the results'
         });
     } catch( error ){
-	utils.renderInputError("Could not load results for "+req.params.id, next);
+	res.render('results_page', {
+            title: 'Ribosoft - Results',
+            stepTitle: 'Step 5 - Results',
+            results: '',
+	    resultMessage: 'No candidates could be generated'
+        });
     }
 }
