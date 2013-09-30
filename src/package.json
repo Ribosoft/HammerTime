@@ -14,7 +14,8 @@
     "ejs-locals": "~1.0.2",
     "webworker": "~0.8.4",
     "shutdown": "0.0.2",
-    "request": "~2.27.0"
+    "request": "~2.27.0",
+    "async": "~0.2.9"
   },
   "devDependencies": {
     "mocha": "~1.12.1",

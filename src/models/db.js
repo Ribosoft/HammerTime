@@ -1,6 +1,11 @@
 var mongoose = require( 'mongoose' ),
+    algorithm = require('algorithm'),
     config = require('./config.json');
 var Schema = mongoose.Schema;
+
+var RequestExecutor = algorithm.HandleRequest;
+var Model = algorithm.Model;
+var AlgoRequest = Model.DomainObjects.Request;
 
 /************************ Candidate Schema *****************/
 var Candidate = new Schema({
@@ -73,6 +78,35 @@ Request.statics.createRequest = function (id, seq, accessionNumber){
     });
 };
 
+Request.statics.createRequest = function (id,
+					  seq,
+					  accessionNumber,
+					  foldShape,
+					  tempEnv,
+					  naEnv,
+					  mgEnv,
+					  oligoEnv,
+					  cutsites,
+					  targetRegion,
+					  targetEnv,
+					  vivoEnv){
+    return new this({
+        uuid : id,
+        status : 2,
+        sequence: seq,
+        accessionNumber : accessionNumber,
+	foldShape : foldShape,
+	tempEnv: tempEnv,
+	naEnv: naEnv,
+	mgEnv: mgEnv,
+	oligoEnv: oligoEnv,
+	cutsites: cutsites,
+	targetRegion: targetRegion,
+	targetEnv: targetEnv,
+	vivoEnv: vivoEnv
+    });
+};
+
 Request.statics.flushOutdatedRequests = function(){
     var weekAgo = new Date();
     weekAgo.setDate(weekAgo.getDate() - config.expirationDelay);
@@ -94,11 +128,14 @@ Request.statics.flushOutdatedRequests = function(){
 };
 
 Request.methods.getEnv = function(){
-    return {env: this.getTargetEnv(), target: this.vivoEnv};
+    if (this.targetEnv)
+	return {type: this.getTargetEnv(), target: this.vivoEnv};
+    else
+	return {type: this.getTargetEnv(), target: ''};
 };
 
 Request.methods.getTargetEnv = function(){
-    return (this.targetEnv)? 'In-vivo':'In-vitro';
+    return (this.targetEnv)? 'vivo':'vitro';
 };
 
 Request.methods.getRegion = function(){
@@ -116,14 +153,34 @@ Request.methods.setStatus = function(newStatus){
     return true;
 };
 
-Request.statics.findRequest = function(uuid, callback) {
-    Request.findOne({'uuid': 'uuid'}, function (err, result){
-       if(err || !result) {
-           console.log("Request with uuid "+uuid+" does not exist");
-       }
-       callback(err, result);
+Request.statics.createAlgoRequest = function(uuid, algoCallback) {
+    Request.findOne({uuid: uuid}, function(err, result) {
+        if (err || !result) {
+            console.log("cannot find id with error " + err + "or result " + result );
+	    return null;
+        } else {
+	    var request = new AlgoRequest(
+                result.sequence,
+                result.accessionNumber,
+		{
+		    'tempEnv': result.tempEnv,
+		    'naEnv': result.naEnv,
+		    'mgEnv': result.mgEnv,
+		    'oligoEnv': result.oligoEnv,
+		    'cutsites': result.cutsites,
+		    'left_arm_min': 3,
+		    'right_arm_min': 3,
+		    'left_arm_max': 8,
+		    'right_arm_max': 8
+		},
+		result.uuid,
+                0,
+                'blah',
+		algoCallback);
+	    return request;
+        }
     });
-};
+}
 
 mongoose.model( 'Request', Request );
 mongoose.connect( config.ribosoftDbUrl );

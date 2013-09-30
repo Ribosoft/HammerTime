@@ -1,6 +1,6 @@
 <h3 class="step-title">Step 2 - Design Options</h3>
 <p>Please select the options that will be applied during the design of the ribozyme.</p>
-<form id = "design-form" method="post" action=<%= urlPost %> accept-charset="utf-8">
+<form id = "design-form" accept-charset="utf-8">
     <% if (showTarget) { %>
         <fieldset class="option-field">
         <legend>Regions for target design
@@ -77,5 +77,5 @@
 </form>
 <div class="offset6 step-buttons">
     <button type="reset" form="design-form" class="btn btn-large" >Reset defaults</button>
-    <button type="submit" form="design-form" class="btn btn-primary btn-large">Submit</button>
+    <button type="submit" class="submit btn btn-primary btn-large">Submit</button>
 </div>

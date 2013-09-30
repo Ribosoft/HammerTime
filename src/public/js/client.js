@@ -60,7 +60,6 @@ function ValidateInput(input)
 
     if(input == "")
             return {"ok" : false , "error" : "Empty Input: Is your FASTA comment terminated by a new line?"};
-
     for(var ii = 0; ii < input.length; ++ii)
     {
             if(input[ii] ==' ' || input[ii] =='\n')
@@ -163,11 +162,11 @@ function CleanInput( input )
     return input;
 }
 
-
+var inputSequence;
 function SubmitInput()
 {
-    var input = CleanInput($('#sequence-display')[0].value);
-    $.ajax({
+    inputSequence = CleanInput($('#sequence-display')[0].value);
+    /*$.ajax({
         type: "POST",
         url: window.location.href+"design",
         data: {
@@ -181,7 +180,9 @@ function SubmitInput()
             $("#sequence_alert").addClass("alert-error").removeClass("alert-success");
             $("#sequence_alert").text("Service currently unavailable. Please try again later.")
         }
-    });
+    });*/
+    $("step1").addClass("invisible");
+    $("step2").removeClass("visible");
 }
 
 function setSubmitButtonStatus(){
@@ -262,6 +263,7 @@ function enableDisableDropdown()
 window.onload = function() {
     $('#submit_ACN').click(fetchInputAccessionNumber);
     $('#submit1').click(SubmitInput);
+
     var dropZone = document.getElementById('drop-zone');
     if (dropZone != null) {
         dropZone.addEventListener('dragover', FileLoader.handleDragOver, false);
