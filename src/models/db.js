@@ -183,4 +183,9 @@ Request.statics.createAlgoRequest = function(uuid, algoCallback) {
 }
 
 mongoose.model( 'Request', Request );
-mongoose.connect( config.ribosoftDbUrl );
+
+if(process.env.NODE_ENV == 'test') {
+    mongoose.connect( config.ribosoftTestDbUrl );
+} else {
+    mongoose.connect( config.ribosoftDbUrl );
+}
