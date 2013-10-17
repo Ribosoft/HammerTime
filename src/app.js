@@ -30,8 +30,6 @@ app.configure(function(){
     app.use(express.static(path.join(__dirname, 'public')));
     app.use(app.router);
     app.use(function(err, req, res, next){
-	console.log( "err"+err );
-
 	if(err.statusCode){
 	    res.send(err.statusCode, { error: err.errorMessage });
 	}
