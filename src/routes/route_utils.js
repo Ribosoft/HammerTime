@@ -44,11 +44,9 @@ function renderInternalError(clientMessage, next) {
 };
 
 function renderError(clientMessage, consoleMessage, next) {
-    next(
-	{
-	    errorMessage: clientMessage
-	}
-    );
+    next({
+	errorMessage: clientMessage
+    });
 };
 
 function onSaveHandler(successCallback, next) {
