@@ -57,7 +57,7 @@ describe('API: /design', function(){
                 });
     });
 
-        it('POST /design, POST /summary', function(done) {
+    it('POST /design, POST /summary', function(done) {
         var sequence = 'ATGC'
         request(app).post('/ribosoft/design')
             .send({

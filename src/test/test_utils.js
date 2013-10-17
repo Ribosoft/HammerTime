@@ -71,7 +71,6 @@ function getInexistentRequest(app , data, done){
             .end(function(err, res) {
 		if(err)	callback(err, done);
 		else {
-		    console.log( JSON.stringify(res.body) );
 		    callback(null, done);
 		}
 	    });
