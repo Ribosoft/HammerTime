@@ -1,18 +1,15 @@
-var algorithm = require(process.cwd()+'/node_modules/algorithm'),
+var algorithm = require('hammerhead-design'),
     should = require('should'),
     fs = require('fs'),
-    log = require('log'),
     test_utils = require('./test_utils.js');
     
 var RequestExecutor = algorithm.HandleRequest;
-var Model = algorithm.Model;
-var AlgoRequest = Model.DomainObjects.Request;
+var AlgoRequest = algorithm.Model.DomainObjects.Request;
 
 var testID = 'Test';
 var pathToDir = process.cwd()+'/'+testID;
 
 beforeEach(function(done){
-    log.setLogLevel(log.HIDE_ALL);
     test_utils.rmDirIfExists(pathToDir);
     done();
 });
@@ -41,12 +38,15 @@ describe('Algorithm library', function(){
             {
                 if(request.Completed){
                     request.State.should.include('No candidates were generated!');
-                    var errorJsonExists = fs.existsSync(pathToDir+'/requestState.json')?
-                        new Error('requestState.json was created even when no candidates were generated.'):
-                                undefined;
-                    done(errorJsonExists);
+                    var jsonExists = fs.existsSync(pathToDir+'/requestState.json');
+		    if(jsonExists){
+			done(new Error('requestState.json was created even when no candidates were generated.'));
+		    }
+		    else{
+			done(null);
+		    }
                 }
-            }//Promoter : Disabled due to change in algorithm sequence (e.g. non-annealing ones are removed earlier on)
+            }
         );
         RequestExecutor.HandleRequestPart1(algoRequest);
     });
