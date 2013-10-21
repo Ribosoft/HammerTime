@@ -1,6 +1,7 @@
 var utils = require('./route_utils'),
-mongoose = require('mongoose'),
-request = require('request');
+    mongoose = require('mongoose'),
+    request = require('request'),
+    async = require('async');
 
 var Request = mongoose.model('Request');
 
@@ -113,5 +114,97 @@ module.exports = {
 		res.json(200, response);
 	    }
 	});
+    },
+    deleteRequest : function(req, res, next){
+	var uuid = req.params.id;
+	async.waterfall(
+	[
+	    function(callback){
+		callback(null, {uuid: uuid});
+	    },
+	    function(query, callback){
+		Request.findOne(query, callback);
+	    }
+	],
+	    function(err, result){
+		if (err)
+		    utils.returnInternalError(next);
+		else if(!result) {
+		    utils.returnError(404, "The request with id "+uuid+" does not exist", next);
+		}
+		else if(result.getDetailedStatus() === "In-Processing"){
+		    utils.returnError(405, "The request is currently being processed. It cannot be deleted anymore", next);
+		}
+		else {
+		    result.remove();
+		    res.send(204);
+		}
+	    });
+    },
+    getRequestStatus : function(req, res, next){
+	var uuid = req.params.id;
+	async.waterfall(
+	    [
+		function(callback){
+		    callback(null, {uuid:uuid});
+		},
+		function(query , callback){
+		    Request.findOne(query, callback);
+		}
+	    ], function(err, result){
+		if (err)
+		    utils.returnInternalError(next);
+		else if(!result) {
+		    utils.returnError(404, "The request with id "+uuid+" does not exist", next);
+		}
+		else if(result.getDetailedStatus() === "Processed"){
+		    var location = req.url.split('/status')[0] + '/results';
+		    res.location(req.protocol + "://"+ req.get('Host') + location);
+		    res.send(200);
+		} else {
+		    res.json(202, {duration: result.getRemainingTime('min')});
+		}
+	    });
+    },
+    getResults : function(req, res, next){
+	var uuid = req.params.id;
+	async.waterfall(
+	    [
+		function(callback){
+		    callback(null, {uuid:uuid});
+		},
+		function(query , callback){
+		    Request.findOne(query, callback);
+		}
+	    ], function(err, result){
+		if (err)
+		    utils.returnInternalError(next);
+		else if(!result) {
+		    utils.returnError(404, "The request with id "+uuid+" does not exist", next);
+		}
+		else{
+		    switch(result.getDetailedStatus()){
+		    case "In-Processing":
+			res.json(202, result.getRemainingTime('min'));
+			break;
+		    case "Ready for processing":
+		    default:
+			res.send(202);
+			break;
+		    case "Processed":
+			var results;
+			try{
+			    results = require(result.resultPath);
+			} catch(err) {
+			    results = {};
+			}
+			res.json(200, {'results': results});
+			break;
+		    case "Created":
+			res.send(404);
+			break;
+		    }
+		}
+	    });
     }
 };

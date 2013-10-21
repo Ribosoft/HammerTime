@@ -25,13 +25,12 @@ exports.about_page = function(req, res) {
 exports.api_page = function(req, res) {
     res.render('api', {title: 'Developer API'});
 };
-/*
-exports.processing_page = function(req, res, next) {
-    //TODO Rewrite as external lib
-    setInterval(Request.flushOutdatedRequests, utils.SECONDS_IN_WEEK * 1000);
-    
 
-    if(result.status !== 3 && req.route.method === 'post') {
+exports.processing_page = function(req, res, next) {
+    console.log( "TODO flush db for old requests" );
+    setInterval(Request.flushOutdatedRequests, utils.SECONDS_IN_WEEK * 1000);
+/*
+    if(result.getDetailedStatus() !== "In-Processing" && req.route.method === 'post') {
 	var request = Request.createAlgoRequest(id, function(request){
             result.state = request.State;
             if(request.Completed) {
@@ -47,7 +46,7 @@ exports.processing_page = function(req, res, next) {
 	} catch (ex) {
             utils.renderInternalError("Something went wrong when executing the request: "+ex, next);
 	}
-    }
+    }*/
     res.render('processing_page',
                {
                    title: 'Ribosoft - Processing',
@@ -57,10 +56,9 @@ exports.processing_page = function(req, res, next) {
                    urlEmail: "../remember/" + req.params.id,
                    urlResults: "../results/" + req.params.id
                });
-        }
-    });
 };
-*/
+
+/*
 exports.processing_status = function(req, res, next) {
     var uuid = req.params.id;
     Request.findOne({uuid: uuid}, function(err, result) {
@@ -74,7 +72,7 @@ exports.processing_status = function(req, res, next) {
         } 
     });
 };
-
+*/
 exports.email_page = function(req, res, next) {
     var uuid = req.params.id;
     if (!req.body.email) {
