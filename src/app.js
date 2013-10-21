@@ -1,14 +1,13 @@
 var express = require('express'),
-stylus = require ('stylus'),
-db = require('./models/db'),
-mongoose = require('mongoose'),
-engine = require('ejs-locals'),
-routes = require('./routes'),
-http = require('http'),
-nib = require('nib'),
-path = require('path'),
-shutdown = require('shutdown'),
-algorithm = require('algorithm');
+    stylus = require ('stylus'),
+    db = require('./models/db'),
+    mongoose = require('mongoose'),
+    engine = require('ejs-locals'),
+    routes = require('./routes'),
+    http = require('http'),
+    nib = require('nib'),
+    path = require('path'),
+    shutdown = require('shutdown');
 
 var app = express();
 
@@ -48,22 +47,22 @@ app.configure('development', function(){
     app.use(express.errorHandler());
 });
 
-//All the routes.* functions are defined in routes/index.js
+//All these routes.* functions are defined in routes/index.js
 app.get('/ribosoft/', routes.index);
 app.get('/ribosoft', routes.redirect);
 app.get('/ribosoft/about', routes.about_page);
 app.get('/ribosoft/api', routes.api_page);
-//app.get('/ribosoft/processing/:id', routes.processing_page);
-app.get('/ribosoft/status/:id', routes.processing_status);
-app.post('/ribosoft/remember/:id', routes.email_page);
+app.get('/ribosoft/processing/:id', routes.processing_page);
+//app.get('/ribosoft/status/:id', routes.processing_status);
+app.get('/ribosoft/remember/:id', routes.email_page);
 app.get('/ribosoft/results/:id', routes.results_page);
 
-//HTTP API
+//While routes.api.* are defined in routes/api.js
 app.post('/ribosoft/requests/', routes.api.createRequest);
 app.get('/ribosoft/requests/:id', routes.api.getRequest);
-/*app.delete('/ribosoft/requests/:id', routes.api.deleteRequest);
-  app.put('/ribosoft/requests/:id', routes.api.updateRequest);
-  app.get('/ribosoft/requests/:id/status', routes.api.getRequestStatus);*/
+app.del('/ribosoft/requests/:id', routes.api.deleteRequest);
+app.get('/ribosoft/requests/:id/status', routes.api.getRequestStatus);
+app.get('/ribosoft/requests/:id/results', routes.api.getResults);
 
 var server = http.createServer(app);
 shutdown.set('forceShutdown', 10*1000);
