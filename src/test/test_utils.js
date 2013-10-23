@@ -22,7 +22,9 @@ utils.createRequest = function(app, data, done){
             .send(data)
             .expect(201)
             .end(function(err, res) {
-		if(err)	callback(err, done);
+		if(err)	{
+		    callback(err, done);
+		}
 		else {
 		    var url = res.headers.location;
 		    var id = url.substring(url.lastIndexOf('/')+1);
@@ -107,8 +109,9 @@ utils.setRequestInProcessing = function(duration, done){
 		result.setStatus(3);
 		result.setRemainingTime(duration);
 		result.save(function(err, res){
-		    if(err) callback(err, done);
+		    if(err) callback(err);
 		    else {
+			console.log( "id"+id );
 			callback(null, id);
 		    }
 		});
@@ -124,7 +127,7 @@ utils.getRequest = function(app, data, done) {
             .end(function(err, res) {
 		if(err)	callback(err, done);
 		else {
-		    var request = res.body;
+		    var request = res.body.request;
 		    id.should.equal(request.id);
 		    delete request.id;
 		    request.should.eql(data);
@@ -164,6 +167,78 @@ utils.getInProcessingRequestStatus = function(app, duration, done){
 	    });    
     };
 };
+
+utils.updateRequest = function(app, newRequest, done){
+    return function(id, callback) {
+	request(app).put('/ribosoft/requests/'+id)
+            .send(newRequest)
+            .expect(200)
+            .end(function(err, res) {
+		if(err)	{
+		    callback(err, done);
+		}
+		else {
+		    var returnedId = res.body.request.id;
+		    var newEmail = res.body.request.emailUser;
+		    id.should.eql(returnedId);
+		    newRequest.emailUser.should.eql(newEmail);
+		    callback(null, done);
+		}
+	    });
+    };    
+}
+
+utils.updateInexistentRequest = function(app, newRequest, done){
+    return function(id, callback) {
+	request(app).put('/ribosoft/requests/'+id)
+            .send(newRequest)
+            .expect(404)
+            .end(function(err, res) {
+ 		if(err)	callback(err, done);
+		else {
+		    callback(null, done);
+		}
+	    });
+	}
+};
+
+utils.updateProcessedRequest = function(app, newRequest, done){
+    return function(id, callback) {
+	request(app).post('/ribosoft/requests/'+id)
+            .send(newRequest)
+            .expect(405)
+            .end(function(err, res) {
+		if(err)	{
+		    console.log( "err "+err );
+		    callback(err, done);
+		}
+		else {
+		    res.body.error.should.include(id);
+		    res.body.error.should.include("been processed");
+		    callback(null, done);
+		}
+	    });
+    };    
+}
+
+utils.updateInProcessingRequest = function(app, newRequest, done){
+    return function(id, callback) {
+	request(app).post('/ribosoft/requests/'+id)
+            .send(newRequest)
+            .expect(405)
+            .end(function(err, res) {
+		if(err)	{
+		    console.log( "err "+err );
+		    callback(err, done);
+		}
+		else {
+		    res.body.error.should.include(id);
+		    res.body.error.should.include("being processed");
+		    callback(null, done);
+		}
+	    });
+    };    
+}
 
 
 utils.checkResultsFileExist = function(results_data, done){

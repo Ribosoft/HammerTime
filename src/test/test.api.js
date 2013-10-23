@@ -48,6 +48,62 @@ describe('GET: /requests/<id>', function(){
     });
 });
 
+describe('PUT: /requests/<id>', function(){
+    var data = test_data.smallSequence.request;
+    var newRequest = test_data.smallSequence.newRequest;
+    var results_data = test_data.smallSequence.results;
+    var duration = test_data.smallSequence.duration;
+    it('PUT /requests/<id> modifies request to new request', function(done) {
+	async.waterfall([
+	    test_utils.createRequest(app, data, done),
+	    test_utils.updateRequest(app, newRequest, done)
+	],
+	function(err, done){
+	    test_utils.errorHandler(err, done);
+	    done();
+	});
+    });
+
+    it('PUT /requests/<id> with unknown id returns 404 error', function(done) {
+	async.waterfall([
+	    test_utils.createInexistentRequest(app, data, done),
+	    test_utils.updateInexistentRequest(app, newRequest, done)
+	],
+	function(err, done){
+	    test_utils.errorHandler(err, done);
+	    done();
+	});
+    });
+
+    it('PUT /requests/<id> with in-processing request returns 405 error', function(done) {
+	async.waterfall
+	([
+	    test_utils.createRequest(app, data, done),
+	    test_utils.setRequestProcessed(results_data, done),
+	    test_utils.updateProcessedRequest(app, newRequest, done)
+	],
+	 function(err, done){
+	     test_utils.errorHandler(err, done);
+	     done();
+	 });
+    });
+
+    it('PUT /requests/<id> with processed request returns 405 error', function(done) {
+	async.waterfall
+	([
+	    test_utils.createRequest(app, data, done),
+	    test_utils.setRequestInProcessing(duration, done),
+	    test_utils.updateInProcessingRequest(app, newRequest, done)
+	],
+	 function(err, done){
+	     test_utils.errorHandler(err, done);
+	     done();
+	 });
+    });
+
+});
+
+
 describe('DELETE: /requests/<id>', function(){
     var data = test_data.smallSequence.request;
     var duration = test_data.smallSequence.duration;

@@ -27,8 +27,6 @@ exports.api_page = function(req, res) {
 };
 
 exports.processing_page = function(req, res, next) {
-    console.log( "TODO flush db for old requests" );
-    setInterval(Request.flushOutdatedRequests, utils.SECONDS_IN_WEEK * 1000);
 /*
     if(result.getDetailedStatus() !== "In-Processing" && req.route.method === 'post') {
 	var request = Request.createAlgoRequest(id, function(request){
@@ -72,7 +70,7 @@ exports.processing_status = function(req, res, next) {
         } 
     });
 };
-*/
+
 exports.email_page = function(req, res, next) {
     var uuid = req.params.id;
     if (!req.body.email) {
@@ -94,7 +92,7 @@ exports.email_page = function(req, res, next) {
         }
     });
 };
-
+*/
 exports.results_page = function(req, res, next) {
     var path = require('path').join('/home/admin/ribosoft/', req.params.id, '/requestState.json');
 

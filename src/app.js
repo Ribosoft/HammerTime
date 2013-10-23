@@ -54,13 +54,15 @@ app.get('/ribosoft/about', routes.about_page);
 app.get('/ribosoft/api', routes.api_page);
 app.get('/ribosoft/processing/:id', routes.processing_page);
 //app.get('/ribosoft/status/:id', routes.processing_status);
-app.get('/ribosoft/remember/:id', routes.email_page);
+//The email page will be replaced by a confirmation on the processing page
+//app.get('/ribosoft/remember/:id', routes.email_page);
 app.get('/ribosoft/results/:id', routes.results_page);
 
 //While routes.api.* are defined in routes/api.js
 app.post('/ribosoft/requests/', routes.api.createRequest);
 app.get('/ribosoft/requests/:id', routes.api.getRequest);
 app.del('/ribosoft/requests/:id', routes.api.deleteRequest);
+app.put('/ribosoft/requests/:id', routes.api.updateRequest);
 app.get('/ribosoft/requests/:id/status', routes.api.getRequestStatus);
 app.get('/ribosoft/requests/:id/results', routes.api.getResults);
 

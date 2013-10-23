@@ -7,53 +7,6 @@ var Request = mongoose.model('Request');
 
 module.exports = {
     createRequest : function(req, res, next) {
-	function fetchAccession (accession, successCallback, errorCallback) {
-	    request({
-		uri: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=re&id="+accession+"&rettype=fasta&retmode=text",
-		method: "GET",
-		followRedirect : false
-	    }, function(err, res, body) {
-		if(!err && res.statusCode == 200) {
-		    var seq = body.split('\n');
-		    seq.shift();
-		    successCallback(seq.join(""));
-		} else {
-		    errorCallback(err);
-		}
-	    });
-	};
-
-	function checkAccession(sequence, accessionNumber, callback, next){
-	    if (!sequence && !accessionNumber)
-	    {
-		utils.returnError(400, "No sequence was submitted.", next);
-	    } 
-	    else if(!sequence && accessionNumber) {
-		fetchAccession(accessionNumber, function(seq) {
-		    callback(sequence, accessionNumber);
-		}, function(error){
-		    utils.returnError(400, "Accession Number is invalid.", next);
-		    accessionNumber = '';
-		});
-	    } 
-	    else if (sequence && accessionNumber) {
-		fetchAccession(accessionNumber, function(seq) {
-		    if(sequence !== seq){
-			utils.returnError(400, "Sequence and accession number do not match.", next);
-			accessionNumber = '';
-			sequence = '';
-		    } else {
-			callback(sequence, accessionNumber);
-		    }
-		}, function(error){
-		    utils.returnError(400, "Accession Number is invalid.", next);
-		    accessionNumber = '';
-		});
-	    } else {
-		callback(sequence, '');
-	    }
-	};
-
 	checkAccession(req.body.sequence,
 		       req.body.accessionNumber,
 		       function(seq, number) {
@@ -74,18 +27,21 @@ module.exports = {
 						     req.body.cutsites,
 						     region,
 						     (req.body.env.type === "vivo"),
-						     vivoEnv
-						    ).save(
-							utils.onSaveHandler(function(result) {
-							    if(!result){
-								utils.returnInternalError(next);
-							    } else {
-								res.location(req.protocol + "://"+ req.get('Host') + req.url + id);
-								res.status(201);
-								res.end();
-							    }
-							}),
-							next);
+						     vivoEnv,
+						     parseInt(req.body.left_arm_min),
+						     parseInt(req.body.right_arm_min),
+						     parseInt(req.body.left_arm_max),
+						     parseInt(req.body.right_arm_max),
+						     req.body.emailUser).save(function(err, result){
+							 if(err){
+							     utils.returnInternalError(next);
+							 }
+							 else {
+							     res.location(req.protocol + "://"+ req.get('Host') + req.url + id);
+							     res.status(201);
+							     res.end();
+							 }
+						     });
 			   }
 		       }, next);
     },
@@ -97,21 +53,7 @@ module.exports = {
 	    else if(!result) {
 		utils.returnError(404, "The request with id "+uuid+" does not exist", next);
             } else {
-		var response = {
-		    id: result.uuid,
-		    sequence: result.sequence,
-		    foldShape: result.foldShape,
-		    temperature : result.tempEnv,
-		    naC: result.naEnv,
-		    mgC: result.mgEnv,
-		    oligoC : result.oligoEnv,
-		    cutsites : result.cutsites,
-		    region: result.getRegion(),
-		    env: result.getEnv()
-		};
-		if(result.accessionNumber)
-		    response.accessionNumber = result.accessionNumber;
-		res.json(200, response);
+		sendRequestResponse(res, result);
 	    }
 	});
     },
@@ -206,5 +148,135 @@ module.exports = {
 		    }
 		}
 	    });
+    },
+    updateRequest : function(req, res, next){
+	var uuid = req.params.id;
+	async.waterfall([
+		function(callback){
+		    callback(null, {uuid:uuid});
+		},
+		function(query , callback){
+		    Request.findOne(query, callback);
+		}
+	    ], function(err, result){
+		if (err)
+		    utils.returnInternalError(next);
+		else if(!result) {
+		    utils.returnError(404, "The request with id "+uuid+" does not exist", next);
+		}
+		else{
+		    var status = result.getDetailedStatus();
+		    if(status == "Processed")
+			utils.returnError(405, "The request with id "+uuid+" cannot be modified because it has already been processed");
+		    else if(status == "In-Processing")
+			utils.returnError(405, "The request with id "+uuid+" cannot be modified because it is currently being processed");
+		    else {
+			checkAccession(req.body.sequence,
+				       req.body.accessionNumber,
+				       function(seq, number) {
+					   if(!seq) {
+					       utils.returnError(400, "No sequence was submitted.", next);
+					   } else {
+					       var vivoEnv = (req.body.env.type === "vivo") ? req.body.env.target : '';
+					       var region = utils.toTargetRegion(req.body.region);
+					       result.sequence = seq;
+					       result.accessionNumber = number;
+					       result.foldShape = req.body.foldShape;
+					       result.tempEnv = parseInt(req.body.temperature);
+					       result.naEnv =  parseInt(req.body.naC);
+					       result.mgEnv = parseInt(req.body.mgC);
+					       result.oligoEnv = parseInt(req.body.oligoC);
+					       result.cutsites = req.body.cutsites;
+					       result.targetRegion = region;
+					       result.targetEnv = (req.body.env.type === "vivo");
+					       result.vivoEnv = vivoEnv;
+					       result.emailUser = req.body.emailUser;
+					       result.left_arm_min = parseInt(req.body.left_arm_min);
+					       result.right_arm_min = parseInt(req.body.right_arm_min);
+					       result.left_arm_max = parseInt(req.body.left_arm_max);
+					       result.right_arm_max = parseInt(req.body.right_arm_max);
+					       result.save(function(err, result){
+						   if(err)
+						       utils.returnInternalError(next);
+						   else{
+						       sendRequestResponse(res, result);
+						   }
+					       });
+					   }
+				       });
+		    }			      
+		}
+	    });
+	}
+};
+
+function fetchAccession (accession, successCallback, errorCallback) {
+    request({
+	uri: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=re&id="+accession+"&rettype=fasta&retmode=text",
+	method: "GET",
+	followRedirect : false
+    }, function(err, res, body) {
+	if(!err && res.statusCode == 200) {
+	    var seq = body.split('\n');
+	    seq.shift();
+	    successCallback(seq.join(""));
+	} else {
+	    errorCallback(err);
+	}
+    });
+};
+
+function checkAccession(sequence, accessionNumber, callback, next){
+     if (!sequence && !accessionNumber)
+    {
+	utils.returnError(400, "No sequence was submitted.", next);
+    } 
+    else if(!sequence && accessionNumber) {
+	fetchAccession(accessionNumber, function(seq) {
+	    callback(sequence, accessionNumber);
+	}, function(error){
+	    utils.returnError(400, "Accession Number is invalid.", next);
+	    accessionNumber = '';
+	});
+    } 
+    else if (sequence && accessionNumber) {
+	fetchAccession(accessionNumber, function(seq) {
+	    if(sequence !== seq){
+		utils.returnError(400, "Sequence and accession number do not match.", next);
+		accessionNumber = '';
+		sequence = '';
+	    } else {
+		callback(sequence, accessionNumber);
+	    }
+	}, function(error){
+	    utils.returnError(400, "Accession Number is invalid.", next);
+	    accessionNumber = '';
+	});
+    } else {
+	callback(sequence, '');
     }
 };
+
+function sendRequestResponse(res, result){
+     var response = {
+	id: result.uuid,
+	sequence: result.sequence,
+	foldShape: result.foldShape,
+	temperature : result.tempEnv,
+	naC: result.naEnv,
+	mgC: result.mgEnv,
+	oligoC : result.oligoEnv,
+	cutsites : result.cutsites,
+	region: result.getRegion(),
+	env: result.getEnv(),
+	left_arm_min : result.left_arm_min,
+	right_arm_min : result.right_arm_min,
+	left_arm_max : result.left_arm_max,
+	right_arm_max : result.right_arm_max,
+	emailUser : result.emailUser
+    };
+    if(result.accessionNumber)
+	response.accessionNumber = result.accessionNumber;
+    res.json(200, {'request' : response});
+}
+		

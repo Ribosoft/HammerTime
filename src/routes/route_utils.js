@@ -26,11 +26,6 @@ function fromObjectToArrayStringUpper(obj){
     }();
 }
 
-function getExpirationDelay(){
-    //Currently set to a week
-    return 7;
-}
-
 function renderInputError(clientMessage, next) {
     renderError(clientMessage, "This should have been handled on client side", next);
 };
@@ -55,7 +50,7 @@ function onSaveHandler(successCallback, next) {
         {
             renderDatabaseError("Could not update process request", next);
         }
-        else {
+        else if(successCallback){
             successCallback(result);
         }
     };
@@ -83,10 +78,7 @@ function returnInternalError(next){
     return returnError(500, "Our servers are experiencing some difficulties. Please try again later, or contact the server's administrators.", next);
 }
 
-
-exports.SECONDS_IN_WEEK = 604800;
 exports.generateUID = generateUID;
-exports.getExpirationDelay = getExpirationDelay;
 exports.objectToArrayString = fromObjectToArrayString;
 exports.objectToArrayStringUpper = fromObjectToArrayStringUpper;
 exports.renderInputError = renderInputError;
