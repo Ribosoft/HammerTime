@@ -1,12 +1,11 @@
-var api = require('./api'),
-    utils = require('./route_utils'),
+var utils = require('./route_utils'),
     url = require('url'),
     mongoose = require('mongoose'),
     fs = require('fs');
 
 var Request = mongoose.model('Request');
 
-exports.api = api;
+exports.api = require('./api');
 
 exports.index = function(req, res) {
     res.render('index', {

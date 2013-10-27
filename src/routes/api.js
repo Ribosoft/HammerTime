@@ -167,10 +167,11 @@ module.exports = {
 		else{
 		    var status = result.getDetailedStatus();
 		    if(status == "Processed")
-			utils.returnError(405, "The request with id "+uuid+" cannot be modified because it has already been processed");
+			utils.returnError(405, "The request with id "+uuid+" cannot be modified because it has already been processed", next);
 		    else if(status == "In-Processing")
-			utils.returnError(405, "The request with id "+uuid+" cannot be modified because it is currently being processed");
+			utils.returnError(405, "The request with id "+uuid+" cannot be modified because it is currently being processed", next);
 		    else {
+
 			checkAccession(req.body.sequence,
 				       req.body.accessionNumber,
 				       function(seq, number) {
@@ -203,7 +204,7 @@ module.exports = {
 						   }
 					       });
 					   }
-				       });
+				       }, next);
 		    }			      
 		}
 	    });
