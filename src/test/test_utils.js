@@ -111,7 +111,6 @@ utils.setRequestInProcessing = function(duration, done){
 		result.save(function(err, res){
 		    if(err) callback(err);
 		    else {
-			console.log( "id"+id );
 			callback(null, id);
 		    }
 		});
@@ -204,12 +203,11 @@ utils.updateInexistentRequest = function(app, newRequest, done){
 
 utils.updateProcessedRequest = function(app, newRequest, done){
     return function(id, callback) {
-	request(app).post('/ribosoft/requests/'+id)
+	request(app).put('/ribosoft/requests/'+id)
             .send(newRequest)
             .expect(405)
             .end(function(err, res) {
 		if(err)	{
-		    console.log( "err "+err );
 		    callback(err, done);
 		}
 		else {
@@ -223,12 +221,11 @@ utils.updateProcessedRequest = function(app, newRequest, done){
 
 utils.updateInProcessingRequest = function(app, newRequest, done){
     return function(id, callback) {
-	request(app).post('/ribosoft/requests/'+id)
+	request(app).put('/ribosoft/requests/'+id)
             .send(newRequest)
             .expect(405)
             .end(function(err, res) {
 		if(err)	{
-		    console.log( "err "+err );
 		    callback(err, done);
 		}
 		else {
@@ -238,6 +235,25 @@ utils.updateInProcessingRequest = function(app, newRequest, done){
 		}
 	    });
     };    
+}
+
+utils.updateRequestNoSequence = function(app, newRequest, done){
+    var newRequest = newRequest;
+    return function(id, callback) {
+	newRequest.sequence = '';
+	request(app).put('/ribosoft/requests/'+id)
+            .send(newRequest)
+            .expect(400)
+            .end(function(err, res) {
+		if(err)	{
+		    callback(err, done);
+		}
+		else {
+		    res.body.error.should.include("No sequence was submitted");
+		    callback(null, done);
+		}
+	    });
+    };        
 }
 
 

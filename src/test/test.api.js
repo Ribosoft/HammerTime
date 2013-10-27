@@ -101,6 +101,18 @@ describe('PUT: /requests/<id>', function(){
 	 });
     });
 
+    it('PUT /requests/<id> returns 400 when no sequence submitted in new request', function(done) {
+	async.waterfall([
+	    test_utils.createRequest(app, data, done),
+	    test_utils.updateRequestNoSequence(app, newRequest, done),
+	],
+	function(err, done){
+	    test_utils.errorHandler(err, done);
+	    done();
+	});
+    });
+     
+
 });
 
 
@@ -210,3 +222,4 @@ after(function(done){
     }
     done();
 });
+
