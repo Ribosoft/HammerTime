@@ -21,44 +21,38 @@
                 <td>Target Environment</td>
                 <td id="targetEnv"></td>
             </tr>
-            <% if(vivoEnv){ %>
-            <tr>
+            <tr id="vivoEnvRow">
                 <td>In-vivo Environment</td>
-                <td><%= vivoEnv %></td>
+                <td id="vivoEnv"></td>
             </tr>
-            <% } %>
             <tr>
                 <td>Temperature</td>
-                <td><%= tempEnv %></td>
+                <td id="tempEnv"></td>
             </tr>
             <tr>
                 <td>Na&#8314; Concentration</td>
-                <td><%= naEnv %></td>
+                <td id="naEnv"></td>
             </tr>
             <tr>
                 <td>Mg&#8314;&#8314; Concentration</td>
-                <td><%= mgEnv %></td>
+                <td id="mgEnv"></td>
             </tr>
             <tr>
                 <td>Oligomer Concentration</td>
-                <td><%= oligoEnv %></td>
+                <td id="oligoEnv"></td>
             </tr>
             <tr>
-                <td>Cutsites Concentration</td>
-                <td><% for(var i = 0; i < cutsites.length; ++i){ %>
-                    <%= cutsites[i].toUpperCase() %>
-                    <% if(i< cutsites.length -1){%>,<%}%>
-                    <% } %>
-                </td>
+                <td>Cutsites</td>
+                <td id="cutsites"></td>
             </tr>
             <tr>
-                <td>Fold Shape Concentration</td>
-                <td><%= foldShape %></td>
+                <td>Fold Shape</td>
+                <td id="foldShape"></td>
             </tr>
         </tbody>
     </table>
 </div>
-<form method="post" action="<%= urlPost %>">
+<form method="post" action="">
     <div class="offset6 step-buttons">
         <button type="button" class="btn btn-large" >Back</button>
         <button type="submit" class="btn btn-primary btn-large" id="submit2">Submit</button>
