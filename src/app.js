@@ -29,17 +29,18 @@ app.configure(function(){
     app.use(express.static(path.join(__dirname, 'public')));
     app.use(app.router);
     app.use(function(err, req, res, next){
-	if(err.statusCode){
-	    res.send(err.statusCode, { error: err.errorMessage });
-	}
-	else {
+	console.log( "Error ="+err );
+	if(!err.statusCode){
 	    res.status(500);
 	    res.render('error', 
 		       {
-			   title: 'Ribosoft',
-			   stepTitle: err.clientMessage
+			   title: 'Ribosoft'
 		       });    
 	}
+	else if(err.statusCode == 500)
+	    res.send(500);
+	else
+	    res.send(err.statusCode, err.errorMessage);
     });
 });
 
