@@ -11,13 +11,8 @@ function Fibonacci(count)
 	return now;
 }
 
-var test = new UnitTest();
+var test = new UnitTest(Fibonacci);
 
-test.AddNew([0],0);
-test.AddNew([1],1);
-test.AddNew([2],1);
-test.AddNew([3],2);
-test.AddNew([4],3);
-test.AddNew([5],5);
+test.AddAllCases([[0],[1],[2],[3],[4],[5]],[0,1,1,2,3,5]);
 
-console.log(test.Execute(Fibonacci));
+console.log(floatCompare(test));

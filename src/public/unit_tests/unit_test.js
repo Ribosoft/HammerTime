@@ -1,67 +1,98 @@
-function UnitTest()
+function UnitTest(func, input, output)
 {
-	this._Input = new Array(); 
-	this._Output = new Array();
-
+    this._Input = input || new Array(); 
+    this._Output = output || new Array();
+    this._func = func;
 }
 
-UnitTest.prototype.AddNew = function (  input,  output)
+//input is an array of parameters to be passed to the function
+//output is a single-value expected return value
+UnitTest.prototype.AddNewCase = function (input,  output)
 {
-	this._Input.push(input);
-	this._Output.push(output);
+    this._Input.push(input);
+    this._Output.push(output);
 }
 
-		//Takes an object and a function belonging to that object
-UnitTest.prototype.Execute = function (func, tolerance)
+//inputs is an array of arrays of parameters to be passed to the function
+//outputs is an array of expected single-value return values
+UnitTest.prototype.AddAllCases = function(inputs, outputs)
 {
-	var use_tol = false;
-	if(tolerance == undefined)
-		use_tol = true; 
+    this._Input = this._Input.concat(inputs);
+    this._Output = this._Output.concat(outputs);
+};
+
+
+var compare = function(comparator){
+    return function(unitTest, obj){
+	var thisArg = obj || null;
 	var res = "Test\t\tInput\t\tOuput\t\tExpected\t\tP/F\n";
-	for(var ii = 0; ii < this._Input.length; ++ii)
+	for(var ii = 0; ii < unitTest._Input.length; ++ii)
 	{
-		var currentInputString = this._Input[ii];
-		var currentExpectedOutputString = this._Output[ii];
-		var trueOutputString ;
-		var pass = true;
-		trueOutputString = func.apply(null, currentInputString);
-		 
-		if(use_tol)
-		{
-			if(Math.abs(trueOutputString-currentExpectedOutputString) >= tolerance)
-				pass = false;
-		}
-		else
-		{
-			if(JSON.stringify(trueOutputString) != JSON.stringify(currentExpectedOutputString))
-				pass = false;			
-		}
-		res +=  "T" + ii + "\t\t";
-		res += currentInputString + "\t\t" + trueOutputString + "\t\t" + currentExpectedOutputString +"\t\t\t" + (pass? "pass":"fail") + '\n' ;
+	    var expectedOutput = unitTest._Output[ii];
+	    var output = unitTest._func.apply(thisArg, unitTest._Input[ii]);
+
+	    var pass = comparator(expectedOutput, output);
+	    
+	    res +=  "T" + ii + "\t\t";
+	    res += unitTest._Input[ii] + "\t\t" + output + "\t\t" + expectedOutput +"\t\t\t" + (pass? "pass":"fail") + '\n' ;
 	}
 	return res;
-}
+    };	
+};
 
-function Fibonacci(count)
+var floatCompare = function (unitTest, tolerance, obj)
 {
-	var now=0;
-	var next=1;
-	for(var ii = 0; ii < count; ++ii)
-	{
-		var temp = next;
-		next = next + now;
-		now = temp;
-	}
-	return now;
+    var tolerance = tolerance || 0.01;
+    return compare(function(expected, actual){
+	return Math.abs(actual - expected) <= tolerance;
+    })(unitTest, obj);
 }
 
-var test = new UnitTest();
 
-test.AddNew([0],0);
-test.AddNew([1],1);
-test.AddNew([2],1);
-test.AddNew([3],2);
-test.AddNew([4],3);
-test.AddNew([5],5);
+var objectCompare = function (unitTest, obj)
+{
+    return compare(function(expected, actual){
+	return JSON.stringify(expected) == JSON.stringify(actual);
+    })(unitTest, obj);
+}
 
-console.log(test.Execute(Fibonacci));
+var stringCompare = function(unitTest, obj){
+    return compare(function(expected, actual){
+	return expected == actual;
+    })(unitTest, obj);
+};
+
+var containsString = function(unitTest, obj){
+    var contains = function(str, substr){
+	return str.indexOf(substr) !== -1;
+    };
+
+    var thisArg = obj || null;
+    var res = "Test\t\tInput\t\tOuput\t\tExpected\t\tP/F\n";
+    for(var ii = 0; ii < unitTest._Input.length; ++ii)
+    {
+	var expectedSubstr = unitTest._Output[ii];
+	var output = unitTest._func.apply(thisArg, unitTest._Input[ii]);
+
+	var pass = contains(output, expectedSubstr);
+	
+	res +=  "T" + ii + "\t\t";
+	res += unitTest._Input[ii] + "\t\t" + output + "\t\t" + expectedOutput +"\t\t\t" + (pass? "pass":"fail") + '\n' ;
+    }
+    return res;    
+};
+
+var matchesRegex = function(unitTest, obj){
+    var thisArg = obj || null;
+    var res = "Test\t\tInput\t\tOuput\t\tExpected\t\tP/F\n";
+    for(var ii = 0; ii < unitTest._Input.length; ++ii)
+    {
+	var regex = unitTest._Output[ii];
+	var output = unitTest._func.apply(thisArg, unitTest._Input[ii]);
+
+	var pass = (!!output.match(regex));
+	
+	res +=  "T" + ii + "\t\t";
+	res += unitTest._Input[ii] + "\t\t" + output + "\t\t" + expectedOutput +"\t\t\t" + (pass? "pass":"fail") + '\n' ;
+    }
+    return res;    
