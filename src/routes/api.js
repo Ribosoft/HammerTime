@@ -34,7 +34,7 @@ module.exports = {
 						     parseInt(req.body.right_arm_max),
 						     req.body.emailUser).save(function(err, result){
 							 if(err){
-							     utils.returnInternalError(next);
+							     utils.returnInternalError(err, next);
 							 }
 							 else {
 							     res.location(req.protocol + "://"+ req.get('Host') + req.url + id);
@@ -49,7 +49,7 @@ module.exports = {
 	var uuid = req.params.id;
 	Request.findOne({uuid: uuid}, function(err, result) {
             if (err)
-		utils.returnInternalError(next);
+		utils.returnInternalError(err, next);
 	    else if(!result) {
 		utils.returnError(404, "The request with id "+uuid+" does not exist", next);
             } else {
@@ -70,7 +70,7 @@ module.exports = {
 	],
 	    function(err, result){
 		if (err)
-		    utils.returnInternalError(next);
+		    utils.returnInternalError(err, next);
 		else if(!result) {
 		    utils.returnError(404, "The request with id "+uuid+" does not exist", next);
 		}
@@ -95,7 +95,7 @@ module.exports = {
 		}
 	    ], function(err, result){
 		if (err)
-		    utils.returnInternalError(next);
+		    utils.returnInternalError(err, next);
 		else if(!result) {
 		    utils.returnError(404, "The request with id "+uuid+" does not exist", next);
 		}
@@ -120,7 +120,7 @@ module.exports = {
 		}
 	    ], function(err, result){
 		if (err)
-		    utils.returnInternalError(next);
+		    utils.returnInternalError(err, next);
 		else if(!result) {
 		    utils.returnError(404, "The request with id "+uuid+" does not exist", next);
 		}
@@ -160,7 +160,7 @@ module.exports = {
 		}
 	    ], function(err, result){
 		if (err)
-		    utils.returnInternalError(next);
+		    utils.returnInternalError(err, next);
 		else if(!result) {
 		    utils.returnError(404, "The request with id "+uuid+" does not exist", next);
 		}
@@ -198,7 +198,7 @@ module.exports = {
 					       result.right_arm_max = parseInt(req.body.right_arm_max);
 					       result.save(function(err, result){
 						   if(err)
-						       utils.returnInternalError(next);
+						       utils.returnInternalError(err, next);
 						   else{
 						       sendRequestResponse(res, result);
 						   }

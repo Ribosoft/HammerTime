@@ -26,24 +26,6 @@ exports.api_page = function(req, res) {
 };
 
 exports.processing_page = function(req, res, next) {
-/*
-    if(result.getDetailedStatus() !== "In-Processing" && req.route.method === 'post') {
-	var request = Request.createAlgoRequest(id, function(request){
-            result.state = request.State;
-            if(request.Completed) {
-		result.status = 4;
-            }
-            result.save(utils.onSaveHandler(function() {}, next));
-	});
-	try {
-            var estimate = RequestExecutor.HandleRequestPart1(request);
-            result.status = 3;
-	    result.estimatedDur = estimate;
-            result.save(utils.onSaveHandler(function(result, next) {}));
-	} catch (ex) {
-            utils.renderInternalError("Something went wrong when executing the request: "+ex, next);
-	}
-    }*/
     res.render('processing_page',
                {
                    title: 'Ribosoft - Processing',
@@ -54,22 +36,7 @@ exports.processing_page = function(req, res, next) {
                    urlResults: "../results/" + req.params.id
                });
 };
-
 /*
-exports.processing_status = function(req, res, next) {
-    var uuid = req.params.id;
-    Request.findOne({uuid: uuid}, function(err, result) {
-        if (err || !result) {
-            utils.renderDatabaseError("cannot find id with error " + err + "or result " + result, next);
-        } else {
-            res.json(200, {
-                finished: (result.status === 4),
-                state: result.state 
-            });
-        } 
-    });
-};
-
 exports.email_page = function(req, res, next) {
     var uuid = req.params.id;
     if (!req.body.email) {

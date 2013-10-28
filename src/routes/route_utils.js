@@ -34,10 +34,6 @@ function renderDatabaseError(clientMessage, next) {
     renderError(clientMessage, "Something went wrong when interacting with the database", next);
 };
 
-function renderInternalError(clientMessage, next) {
-    renderError(clientMessage, "Something went wrong on the server.", next);
-};
-
 function renderError(clientMessage, consoleMessage, next) {
     next({
 	errorMessage: clientMessage
@@ -74,8 +70,8 @@ function returnError(statusCode, errorMessage, next){
     });
 }
 
-function returnInternalError(next){
-    return returnError(500, "Our servers are experiencing some difficulties. Please try again later, or contact the server's administrators.", next);
+function returnInternalError(err, next){
+    return returnError(500, JSON.stringify(err) , next);
 }
 
 exports.generateUID = generateUID;
@@ -83,7 +79,6 @@ exports.objectToArrayString = fromObjectToArrayString;
 exports.objectToArrayStringUpper = fromObjectToArrayStringUpper;
 exports.renderInputError = renderInputError;
 exports.renderDatabaseError = renderDatabaseError;
-exports.renderInternalError = renderInternalError;
 exports.onSaveHandler = onSaveHandler;
 exports.toTargetRegion = toTargetRegion;
 exports.returnError = returnError;
