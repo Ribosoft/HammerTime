@@ -3,61 +3,49 @@
 //Candidate generation functions are moved to client_algo.js
 
 /********* Step 1 **********/
-var fileLoader = new FileLoader();
+
 var request = new Request();
-var seqInput = new SequenceInput($('#sequence-display')[0].value);
+var seqInput = new SequenceInput($('#sequence-display'));
+var fileLoader = new FileLoader();
 var seqAlert = new SequenceAlert($("#sequence_alert"));
+var submit1 = new Button($("#submit1"));
+
 function fetchInputAccessionNumber(){
     var accessionAlert = new accessionAlert($("#accession_alert"));
     accessionAlert.setState("Searching");
     var validator = new  AccNumberValidator($("#accession").find("input").val());
+    submit1.disable();
+    seqAlert.hide();
     validator.validate(
 	function(result){
-            if(setDisplay(result.toString())){
-		$("#submit1").removeClass("disabled");              
+	    var input = result.toString();
+	    var validation = inputValid(input);
+	    seqInput.setText(input);
+	    //Setting request.sequence
+	    request.sequence = seqInput.cleanInput(input);
+	    seqAlert.setState(validation);
+            if(validation.ok){
+		submit1.enabled();
             }
 	    accessionAlert.setState("Success");
+	    //Setting request.sequence
             request.accessionNumber = validator.getAccessionNumber();
 	},
 	function(error){
-	    setDisplay("");
 	    accessionAlert.setState("Failure");
+	    //Setting request.sequence
 	    request.accessionNumber = validator.getAccessionNumber();
 	});
 };
 
-function setDisplay(str){
-    var sequenceAlert = ;
-    $("#submit1").addClass("disabled");
-    sequenceAlert.addClass("invisible");
-    sequenceAlert.removeClass("alert-error");
-    
-    $("#sequence-display")[0].value = str;
-    if(str !== ""){
-        return validateAndAlert(str);
-    }
-}
 
-function validateAndAlert(str){
-    var sequenceAlert = $("#sequence_alert");
-    var input = seqInput.cleanInput(str);
-    var validation = seqInput.validateInput(input);
-    sequenceAlert.removeClass("invisible");
-    validation.ok === false ?
-	sequenceAlert.addClass("alert-error").removeClass("alert-success"):
-	sequenceAlert.removeClass("alert-error").addClass("alert-success");      
-
-    sequenceAlert.text(validation.error);
-    
+function inputValid(str){
+    var validation = seqInput.validateInput(seqInput.cleanInput(str));
     return validation.ok;
 }
 
-
-
-var inputSequence;
-function SubmitInput()
+function finishStep1()
 {
-    inputSequence = CleanInput($('#sequence-display')[0].value);
     $("step1").addClass("invisible");
     $("step2").removeClass("visible");
 }
@@ -139,7 +127,7 @@ function enableDisableDropdown()
 
 window.onload = function() {
     $('#submit_ACN').click(fetchInputAccessionNumber);
-    $('#submit1').click(SubmitInput);
+    submit1.click(finishStep1);
 
     var dropZone = document.getElementById('drop-zone');
     if (dropZone != null) {

@@ -1,10 +1,10 @@
 function FileLoader() {}
 
-FileLoader.readFile = function(fileToRead) {
+FileLoader.readFile = function(fileToRead, textField) {
     var reader = new FileReader();
     reader.readAsText(fileToRead);
     reader.onload = function() {
-	setDisplay(reader.result);
+	textField.setText(reader.result);
     };
 }
 
@@ -106,7 +106,7 @@ AccNumberValidator.prototype.validate = function(successCallback, errorCallkack)
     });
 }
 
-AccessionNumberValidator.prototype.getAccessionNumber(){
+AccNumberValidator.prototype.getAccessionNumber = function(){
     return this.isValid? this.accessionNumber : '';
 }
 
@@ -221,18 +221,45 @@ SequenceInput.prototype.cleanInput = function( input )
     return input;
 }
 
-SequenceInput.prototype.setText = 
+SequenceInput.prototype.setText = function(text){
+    this.el.value = text;
+};
+
 
 function SequenceAlert(el){
     this.el = el;
 }
 
-//States = ["Error", "Success"]
-SequenceAlert.prototype.setSuccess = function(state){
-    if( state == "Error"){
-	
+//state = {"ok": "true/false" , "error" : "<str>"}
+SequenceAlert.prototype.setState = function(state){
+    this.el.removeClass("invisible");
+    if(state.ok === false){
+	this.el.addClass("alert-error").removeClass("alert-success");	
     }
-    else if(state == "Success"){
+    else {
+	this.el.removeClass("alert-error").addClass("alert-success");
     }
+    this.el.setText(validation.error);
 };
 
+SequenceAlert.prototype.hide = function(){
+    this.el.addClass("invisible");
+    this.el.removeClass("alert-error alert-success");
+};
+
+
+function Button(el){
+    this.el = el;
+}
+
+Button.prototype.click = function(callback){
+    this.el.click(callback);
+}
+
+Button.prototype.disable = function(){
+    this.el.addClass("disabled");
+}
+
+Button.prototype.enable = function(){
+    this.el.removeClass("disabled");
+};
