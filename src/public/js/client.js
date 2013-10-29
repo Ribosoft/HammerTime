@@ -5,13 +5,13 @@
 /********* Step 1 **********/
 
 var request = new Request();
-var seqInput = new SequenceInput($('#sequence-display'));
+var seqInput = new SequenceInput($('#sequence-display')[0]);
 var fileLoader = new FileLoader();
 var seqAlert = new SequenceAlert($("#sequence_alert"));
 var submit1 = new Button($("#submit1"));
 
 function fetchInputAccessionNumber(){
-    var accessionAlert = new accessionAlert($("#accession_alert"));
+    var accessionAlert = new AccessionAlert($("#accession_alert"));
     accessionAlert.setState("Searching");
     var validator = new  AccNumberValidator($("#accession").find("input").val());
     submit1.disable();
@@ -25,7 +25,7 @@ function fetchInputAccessionNumber(){
 	    request.sequence = seqInput.cleanInput(input);
 	    seqAlert.setState(validation);
             if(validation.ok){
-		submit1.enabled();
+		submit1.enable();
             }
 	    accessionAlert.setState("Success");
 	    //Setting request.sequence
@@ -40,14 +40,13 @@ function fetchInputAccessionNumber(){
 
 
 function inputValid(str){
-    var validation = seqInput.validateInput(seqInput.cleanInput(str));
-    return validation.ok;
+    return seqInput.validateInput(seqInput.cleanInput(str));
 }
 
 function finishStep1()
 {
-    $("step1").addClass("invisible");
-    $("step2").removeClass("visible");
+    $("#step1").addClass("invisible");
+    $("#step2").removeClass("invisible");
 }
 
 function setSubmitButtonStatus(){
@@ -128,12 +127,7 @@ function enableDisableDropdown()
 window.onload = function() {
     $('#submit_ACN').click(fetchInputAccessionNumber);
     submit1.click(finishStep1);
-
-    var dropZone = document.getElementById('drop-zone');
-    if (dropZone != null) {
-        dropZone.addEventListener('dragover', FileLoader.handleDragOver, false);
-        dropZone.addEventListener('drop', FileLoader.handleFileSelect, false);
-    }
+    seqInput.emptyText();
 
     $('#selectFileInput').change(FileLoader.handleFileBrowsed);
     //enable/disable submit button depending on state of sequence

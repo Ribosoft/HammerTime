@@ -1,10 +1,10 @@
-function FileLoader() {}
+function FileLoader(textField) {}
 
-FileLoader.readFile = function(fileToRead, textField) {
+FileLoader.readFile = function(fileToRead) {
     var reader = new FileReader();
     reader.readAsText(fileToRead);
     reader.onload = function() {
-	textField.setText(reader.result);
+	seqInput.setText(reader.result);
     };
 }
 
@@ -12,21 +12,6 @@ FileLoader.handleFileBrowsed  = function(evt) {
     file = $('#selectFileInput')[0].files[0];
     FileLoader.readFile(file);
 }
-
-FileLoader.handleFileSelect  = function(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-    
-    file = evt.dataTransfer.files[0]; // file object uploaded
-    FileLoader.readFile(file);
-}
-
-FileLoader.handleDragOver = function(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-}
-
 
 //Add functionality to native string, cause it is limited
 String.prototype.indexOfMultiple=function(Arr) 
@@ -225,6 +210,11 @@ SequenceInput.prototype.setText = function(text){
     this.el.value = text;
 };
 
+SequenceInput.prototype.emptyText = function(){
+    this.el.value = "";
+};
+
+
 
 function SequenceAlert(el){
     this.el = el;
@@ -239,7 +229,7 @@ SequenceAlert.prototype.setState = function(state){
     else {
 	this.el.removeClass("alert-error").addClass("alert-success");
     }
-    this.el.setText(validation.error);
+    this.el.text(state.error);
 };
 
 SequenceAlert.prototype.hide = function(){
