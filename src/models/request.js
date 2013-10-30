@@ -133,7 +133,12 @@ Request.methods = {
 	    return "Processed";
 	}
     },
+    getState : function(){
+	return this.state;
+    },
     getRemainingTime : function(unit){
+	if(this.getDetailedStatus() == "Processed")
+	    return {remainingDuration: 0, unit: 'min'};
 	switch(unit){
 	case 'min':
 	default:
