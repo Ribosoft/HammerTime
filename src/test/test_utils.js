@@ -108,6 +108,7 @@ utils.setRequestInProcessing = function(duration, done){
 	    else {
 		result.setStatus(3);
 		result.setRemainingTime(duration);
+		result.state= "\n";
 		result.save(function(err, res){
 		    if(err) callback(err);
 		    else {
@@ -136,7 +137,7 @@ utils.getRequest = function(app, data, done) {
     }
 };
 
-utils.getRequestStatus = function(app, done){
+utils.getRequestStatus = function(app, duration, done){
     return function(id, callback) {
 	request(app).get('/ribosoft/requests/'+id+'/status')
             .expect(200)
@@ -146,6 +147,8 @@ utils.getRequestStatus = function(app, done){
 		    var url = res.headers.location;
 		    url.should.include(id);
 		    url.should.include('results');
+		    res.body.duration.should.eql({remainingDuration: 0, unit: 'min'});
+		    res.body.status.should.eql("Processed");
 		    callback(null, id);
 		}
 	    });    
@@ -159,13 +162,31 @@ utils.getInProcessingRequestStatus = function(app, duration, done){
             .end(function(err, res) {
 		if(err)	callback(err, done);
 		else {
-		    var remainingDuration = res.body.duration;
-		    remainingDuration.should.eql(duration);
+		    res.body.duration.should.eql(duration);
+		    res.body.status.should.eql("In-Processing");
 		    callback(null, done);
 		}
 	    });    
     };
 };
+
+utils.getInProcessingRequestStatusExtra = function(app, duration, done){
+    return function(id, callback) {
+	request(app).get('/ribosoft/requests/'+id+'/status')
+	    .send({extraInfo : 'true'})
+            .expect(202)
+            .end(function(err, res) {
+		if(err)	callback(err, done);
+		else {
+		    res.body.duration.should.eql(duration);
+		    res.body.status.should.eql("In-Processing");
+		    res.body.state.should.include("\n");
+		    callback(null, done);
+		}
+	    });    
+    };
+};
+
 
 utils.updateRequest = function(app, newRequest, done){
     return function(id, callback) {

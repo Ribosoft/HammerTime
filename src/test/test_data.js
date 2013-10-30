@@ -37,7 +37,7 @@ module.exports = {
 	    left_arm_max : 8,
 	    right_arm_min : 3,
 	    right_arm_max : 8,
-	    emailUser : 'user@example.org',
+	    emailUser : 'test@test.test',
 	    env: {
 		type: 'vitro',
 		target: ''
