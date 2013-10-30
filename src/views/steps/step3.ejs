@@ -1,67 +1,69 @@
-<h3 class="step-title"><%= stepTitle %></h3>
+<h3 class="step-title">Step 3 - Summary</h3>
 <p class="step-description">Here are the design options that will be applied to the sequence.</p>
 <div class="summary">
+  <div id="submitAlert" class="alert alert-error invisible"></div>
+  <div>
     <table class="table table-hover table-condensed">
-        <thead>
-            <tr>
-                <th>Design Option</th>
-                <th>Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Length of sequence</td>
-                <td><%= seqLength %> nucleotides</td>
-            </tr>
-            <tr>
-                <td>Target Region</td>
-                <td><%= targetRegion %>
-                </td>
-            </tr>
-            <tr>
-                <td>Target Environment</td>
-                <td><%= targetEnv %></td>
-            </tr>
-            <% if(vivoEnv){ %>
-            <tr>
-                <td>In-vivo Environment</td>
-                <td><%= vivoEnv %></td>
-            </tr>
-            <% } %>
-            <tr>
-                <td>Temperature</td>
-                <td><%= tempEnv %></td>
-            </tr>
-            <tr>
-                <td>Na&#8314; Concentration</td>
-                <td><%= naEnv %></td>
-            </tr>
-            <tr>
-                <td>Mg&#8314;&#8314; Concentration</td>
-                <td><%= mgEnv %></td>
-            </tr>
-            <tr>
-                <td>Oligomer Concentration</td>
-                <td><%= oligoEnv %></td>
-            </tr>
-            <tr>
-                <td>Cutsites Concentration</td>
-                <td><% for(var i = 0; i < cutsites.length; ++i){ %>
-                    <%= cutsites[i].toUpperCase() %>
-                    <% if(i< cutsites.length -1){%>,<%}%>
-                    <% } %>
-                </td>
-            </tr>
-            <tr>
-                <td>Fold Shape Concentration</td>
-                <td><%= foldShape %></td>
-            </tr>
-        </tbody>
+      <thead>
+        <tr>
+          <th>Design Option</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Length of sequence</td>
+          <td id="seqLength"></td>
+        </tr>
+        <tr>
+          <td>Target Region</td>
+          <td id="targetRegion"></td>
+        </tr>
+        <tr>
+          <td>Target Environment</td>
+          <td id="targetEnv"></td>
+        </tr>
+        <tr id="vivoEnvRow" class="invisible">
+          <td>In-vivo Environment</td>
+          <td id="vivoEnv"></td>
+        </tr>
+        <tr>
+          <td>Temperature</td>
+          <td id="tempEnv"></td>
+        </tr>
+        <tr>
+          <td>Na&#8314; Concentration</td>
+          <td id="naEnv"></td>
+        </tr>
+        <tr>
+          <td>Mg&#8314;&#8314; Concentration</td>
+          <td id="mgEnv"></td>
+        </tr>
+        <tr>
+          <td>Oligomer Concentration</td>
+          <td id="oligoEnv"></td>
+        </tr>
+        <tr>
+          <td>Cutsites</td>
+          <td id="cutsites"></td>
+        </tr>
+        <tr>
+          <td>Fold Shape</td>
+          <td id="foldShape"></td>
+        </tr>
+	<tr>
+          <td>Left Arm Length</td>
+          <td id="leftArm"></td>
+        </tr>
+	<tr>
+          <td>Right Arm Length</td>
+          <td id="rightArm"></td>
+        </tr>
+      </tbody>
     </table>
+  </div>
 </div>
-<form method="post" action="<%= urlPost %>">
-    <div class="offset6 step-buttons">
-        <button type="button" class="btn btn-large" >Back</button>
-        <button type="submit" class="btn btn-primary btn-large" id="submit2">Submit</button>
-    </div>
-</form>
+<div class="offset8 step-buttons">
+  <button type="button" class="btn btn-large">Back</button>
+  <button type="submit" class="btn btn-primary btn-large" id="submit3">Submit</button>
+</div>

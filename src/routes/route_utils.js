@@ -1,3 +1,5 @@
+var request = require('request');
+
 //Can generate up to 1.3 Million unique ids
 function generateUID() {
    return ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).substr(-4);
@@ -24,45 +26,60 @@ function fromObjectToArrayStringUpper(obj){
     }();
 }
 
-function getExpirationDelay(){
-    //Currently set to a week
-    return 7;
-}
-
-var renderInputError = function(clientMessage, next) {
+function renderInputError(clientMessage, next) {
     renderError(clientMessage, "This should have been handled on client side", next);
 };
 
-var renderDatabaseError = function(clientMessage, next) {
+function renderDatabaseError(clientMessage, next) {
     renderError(clientMessage, "Something went wrong when interacting with the database", next);
 };
 
-var renderInternalError = function(clientMessage, next) {
-    renderError(clientMessage, "Something went wrong on the server.", next);
+function renderError(clientMessage, consoleMessage, next) {
+    next({
+	errorMessage: clientMessage
+    });
 };
 
-var renderError = function(clientMessage, consoleMessage, next) {
-    next({errorMessage: clientMessage});
-};
-
-var onSaveHandler = function(successCallback, next) {
+function onSaveHandler(successCallback, next) {
     return function(err, result){
-        if (err)
+        if(err)
         {
             renderDatabaseError("Could not update process request", next);
         }
-        else{
+        else if(successCallback){
             successCallback(result);
         }
     };
 };
 
-exports.SECONDS_IN_WEEK = 604800;
+function toTargetRegion(region){
+    switch(region){
+	case "ORF":
+	  return 4;
+	case "5\'":
+	  return 5;
+        case "3\'":
+	  return 3;
+    }
+}
+
+function returnError(statusCode, errorMessage, next){
+     next({
+	statusCode : statusCode,
+	errorMessage: errorMessage
+    });
+}
+
+function returnInternalError(err, next){
+    return returnError(500, JSON.stringify(err) , next);
+}
+
 exports.generateUID = generateUID;
-exports.getExpirationDelay = getExpirationDelay;
 exports.objectToArrayString = fromObjectToArrayString;
 exports.objectToArrayStringUpper = fromObjectToArrayStringUpper;
 exports.renderInputError = renderInputError;
 exports.renderDatabaseError = renderDatabaseError;
-exports.renderInternalError = renderInternalError;
 exports.onSaveHandler = onSaveHandler;
+exports.toTargetRegion = toTargetRegion;
+exports.returnError = returnError;
+exports.returnInternalError = returnInternalError;
