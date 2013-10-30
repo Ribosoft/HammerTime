@@ -26,15 +26,7 @@ exports.api_page = function(req, res) {
 };
 
 exports.processing_page = function(req, res, next) {
-    res.render('processing_page',
-               {
-                   title: 'Ribosoft - Processing',
-                   stepTitle: 'Step 4 - Processing',
-                   estimatedDur: '2 hours',
-                   estimatedDurInMin: 120,
-                   urlEmail: "../remember/" + req.params.id,
-                   urlResults: "../results/" + req.params.id
-               });
+    res.render('processing_page', { title: 'Ribosoft - Processing' });
 };
 /*
 exports.email_page = function(req, res, next) {

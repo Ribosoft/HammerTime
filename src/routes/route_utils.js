@@ -54,7 +54,7 @@ function onSaveHandler(successCallback, next) {
 
 function toTargetRegion(region){
     switch(region){
-	case "OTR":
+	case "ORF":
 	  return 4;
 	case "5\'":
 	  return 5;

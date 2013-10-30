@@ -85,6 +85,7 @@ module.exports = {
     },
     getRequestStatus : function(req, res, next){
 	var uuid = req.params.id;
+	var extraInfo = req.body.extraInfo;
 	async.waterfall(
 	    [
 		function(callback){
@@ -99,12 +100,22 @@ module.exports = {
 		else if(!result) {
 		    utils.returnError(404, "The request with id "+uuid+" does not exist", next);
 		}
-		else if(result.getDetailedStatus() === "Processed"){
-		    var location = req.url.split('/status')[0] + '/results';
-		    res.location(req.protocol + "://"+ req.get('Host') + location);
-		    res.send(200);
-		} else {
-		    res.json(202, {duration: result.getRemainingTime('min')});
+		else {
+		    var returnData = {
+			duration: result.getRemainingTime('min'),
+			status: result.getDetailedStatus()
+		    };
+		    var status = 202;
+
+		    if(result.getDetailedStatus() === "Processed"){
+			var location = req.url.split('/status')[0] + '/results';
+			res.location(req.protocol + "://"+ req.get('Host') + location);
+			status = 200;
+		    }
+		    if(extraInfo){
+			returnData.state = result.getState();
+		    }
+		    res.json(status, returnData);
 		}
 	    });
     },
@@ -171,7 +182,6 @@ module.exports = {
 		    else if(status == "In-Processing")
 			utils.returnError(405, "The request with id "+uuid+" cannot be modified because it is currently being processed", next);
 		    else {
-
 			checkAccession(req.body.sequence,
 				       req.body.accessionNumber,
 				       function(seq, number) {
