@@ -91,9 +91,14 @@ AccNumberValidator.prototype.validate = function(successCallback, errorCallkack)
     });
 }
 
-AccNumberValidator.prototype.getAccessionNumber = function(){
+AccNumberValidator.prototype.getValidAccessionNumber = function(){
     return this.isValid? this.accessionNumber : '';
 }
+
+AccNumberValidator.prototype.getAccessionNumber = function(){
+    return this.accessionNumber;
+}
+
 
 function AccessionAlert(el){
     this.el = el;
@@ -121,11 +126,9 @@ AccessionAlert.prototype.setState = function(state){
     }
 }
 
-function SequenceInput(el){
-    this.el = el;
-}
+function InputValidation(){}
 
-SequenceInput.prototype.validateInput= function(input){
+InputValidation.validateInput= function(input){
     var badInput = false;
     var Problems = '';
     var isRNA = true;
@@ -174,7 +177,8 @@ SequenceInput.prototype.validateInput= function(input){
     return {"ok" : true, "error" : "All OK!" };
 }
 
-SequenceInput.prototype.cleanInput = function( input )
+
+InputValidation.cleanInput = function( input )
 {
     //FASTA
     input = input.toUpperCase();
@@ -206,14 +210,31 @@ SequenceInput.prototype.cleanInput = function( input )
     return input;
 }
 
+InputValidation.isInputValid = function(str){
+    return InputValidation.validateInput(InputValidation.cleanInput(str));
+};
+
+
+function SequenceInput(el){
+    this.el = el;
+}
+
+SequenceInput.prototype.isInputValid = function(){
+    return InputValidation.isInputValid(this.el.value);
+};
+
 SequenceInput.prototype.setText = function(text){
     this.el.value = text;
 };
 
+SequenceInput.prototype.getText = function(){
+    return this.el.value;
+};
+
+
 SequenceInput.prototype.emptyText = function(){
     this.el.value = "";
 };
-
 
 
 function SequenceAlert(el){
@@ -237,6 +258,10 @@ SequenceAlert.prototype.hide = function(){
     this.el.removeClass("alert-error alert-success");
 };
 
+SequenceAlert.prototype.show = function(){
+    this.el.removeClass("invisible");
+};
+
 
 function Button(el){
     this.el = el;
@@ -253,3 +278,124 @@ Button.prototype.disable = function(){
 Button.prototype.enable = function(){
     this.el.removeClass("disabled");
 };
+
+function DesignContent(formEl, iconEls, designHelpEl) {
+    this.mapHelp = {
+	'region' : "Region describes the specific region in the sequence which will be targetted by the Hammerhead Ribozyme",
+	'env' : "The target environment is either in-vivo or in-vitro",
+	'envProperties' : "These parameters describe the environment of operation of the Hammerhead Ribozyme",
+	'cutsites' : "Cutsites represent a sequence of DNA which will be targeted by the Hammerhead Ribozyme",
+	'shape' : "Wishbone is a U-shaped form, while basic is a non-wishbon form",
+	'advanced' : "These parameters relate to the length of each arm strand on the Ribozyme"
+    };
+    this.designForm = formEl;
+    this.questionIcons = iconEls;
+    this.designHelp = designHelpEl;
+}
+
+DesignContent.prototype.showDesignHelp = function(event){
+    var elem = $(event.target);
+    if(!elem.attr('expanded'))
+    {
+	this.designHelp.removeClass("invisible");
+	var css1 = this.designForm.css('width');
+	var css2 = this.questionIcons.css('margin-right');
+	elem.attr('expanded', css1+';' + css2 );
+        this.designForm.animate({'width':'50%'},250);
+	this.questionIcons.animate({'margin-right':'0%'},250);
+	this.designForm.addClass("pressed");
+	$(elem).popover();
+    }
+    else
+    {
+	this.designHelp.addClass("invisible");
+	var css = elem.attr('expanded').split(';');
+	elem.attr('expanded','');
+	this.designForm.removeClass("pressed");
+	this.designForm.animate({'width':css[0]},250);
+	this.questionIcons.animate({'margin-right':css[1]},250);
+    }
+}
+
+function SmartDropdown(el){
+    this.el = el;
+}
+
+SmartDropdown.prototype.setState = function(currentState, disable){
+    disable?
+	this.el.prop("disabled", currentState):
+	this.el.prop("disabled", !currentState);
+}
+
+function SmartFieldSet(el, mustHide){
+    if(mustHide)
+	el.addClass("invisible");
+}
+
+function SummaryTable(){}
+
+SummaryTable.prototype.setTableData = function(data){
+    if(data.env.target){
+	$("#vivoEnvRow").removeClass("invisible");
+    }
+    $("#seqLength").text(data.sequence.length + " nucleotides");
+    $("#targetRegion").text(data.region);
+    $("#targetEnv").text("In-"+data.env.type);
+    $("#vivoEnv").text(data.env.target);
+    $("#tempEnv").text(data.temperature);
+    $("#naEnv").text(data.naC);
+    $("#mgEnv").text(data.mgC);
+    $("#oligoEnv").text(data.oligoC);
+    $("#cutsites").text(data.cutsites.join(", "));
+    $("#foldShape").text(data.foldShape);
+    $("#leftArm").text("Between "+ data.left_arm_min + " and "+data.left_arm_max);
+    $("#rightArm").text("Between "+ data.right_arm_min + " and "+data.right_arm_max);
+}
+
+function BackPressHandler(){}
+
+BackPressHandler.handler = function(event){
+    if(!$("#step2").hasClass("invisible"))
+	;
+};
+
+function ProgressBar(el, elText, request){
+    this.el = el;
+    this.elText = elText;
+    this.request = request;
+    this.timeSoFar = 0; //in min
+    this.now = new Date();
+}
+
+ProgressBar.prototype.update = function(duration){
+    this.elText.text(duration + " minutes"); 
+    this.timeSoFar += (this.now - new Date()) / (1000 * 60);
+    var percentage = this.timeSoFar / (this.timeSoFar + duration);
+    this.el.css('width',(percentage+1)+"%");
+    this.now = new Date();
+}
+
+function StateReporter(el){
+    this.el = el
+};
+
+// str is a '\n'-separated string
+StateReporter.prototype.updateState = function(str){
+    var stateLog = str;
+    while(stateLog.indexOf('\n') != -1)
+    {
+        stateLog = stateLog.replace('\n','</div><br><div class="state-log">');
+    }
+    this.el.html('<div class="state-log">' + stateLog + '</div>' );
+}
+
+function ResultsPanel(el){
+    this.el = el;
+};
+
+ResultsPanel.prototype.updatePanel = function(status){
+    if(status == "Processed") {
+        this.el.removeClass("invisible");
+    }
+}
+
