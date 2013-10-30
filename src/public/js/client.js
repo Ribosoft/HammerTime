@@ -9,135 +9,170 @@ var seqInput = new SequenceInput($('#sequence-display')[0]);
 var fileLoader = new FileLoader();
 var seqAlert = new SequenceAlert($("#sequence_alert"));
 var submit1 = new Button($("#submit1"));
+var searchAccession = new Button($('#submit_ACN'));
 
 function fetchInputAccessionNumber(){
     var accessionAlert = new AccessionAlert($("#accession_alert"));
-    accessionAlert.setState("Searching");
     var validator = new  AccNumberValidator($("#accession").find("input").val());
+    //If accesionNumber is empty
+    if(!validator.getAccessionNumber()){
+	return;
+    }
+    accessionAlert.setState("Searching");
     submit1.disable();
     seqAlert.hide();
     validator.validate(
 	function(result){
 	    var input = result.toString();
-	    var validation = inputValid(input);
+	    var validation = InputValidation.isInputValid(input);
 	    seqInput.setText(input);
 	    //Setting request.sequence
-	    request.sequence = seqInput.cleanInput(input);
+	    request.sequence = InputValidation.cleanInput(input);
 	    seqAlert.setState(validation);
             if(validation.ok){
 		submit1.enable();
             }
 	    accessionAlert.setState("Success");
 	    //Setting request.sequence
-            request.accessionNumber = validator.getAccessionNumber();
+            request.accessionNumber = validator.getValidAccessionNumber();
 	},
 	function(error){
 	    accessionAlert.setState("Failure");
 	    //Setting request.sequence
-	    request.accessionNumber = validator.getAccessionNumber();
+	    request.accessionNumber = validator.getValidAccessionNumber();
 	});
 };
 
-
-function inputValid(str){
-    return seqInput.validateInput(seqInput.cleanInput(str));
-}
-
 function finishStep1()
 {
+    $(".jumbotron").addClass("invisible");
     $("#step1").addClass("invisible");
     $("#step2").removeClass("invisible");
 }
 
 function setSubmitButtonStatus(){
-    validateAndAlert($('#sequence-display')[0].value)?
-        $("#submit1").removeClass("disabled"):
-        $("#submit1").addClass("disabled");
+    var validation = seqInput.isInputValid();
+    seqAlert.setState(validation);
+    if(validation.ok){
+	submit1.enable();
+	//Setting request.sequence
+	request.sequence = InputValidation.cleanInput(seqInput.getText());
+    } else {
+	submit1.disable();
+	request.sequence = '';
+    }
 }
 
-function showDesignHelp(e){
+
+/****** Step 2 **********/
+var designContent = new DesignContent(
+    $('#design-form'),
+    $(".icon-question-sign"),
+    $(".design-help")
+);
+
+var submit2 = new Button($("#submit2"));
+var dropdown = new SmartDropdown($("select[name='envVivo']"));
+var fieldSet = new SmartFieldSet(
+    $("fieldset[name='region']"),
+    request.accessionNumber
+);
+var summary = new SummaryTable();
+
+function handleQuestionClick(event){
     $(".icon-question-sign").off('click');
-    var elem = $(this);
-    setTimeout(function(){
-        $(".icon-question-sign").click(showDesignHelp);
-    },300);
-    if(elem.attr('expanded')== '' || elem.attr('expanded')== undefined)
-    {
-	var css1 = $('#design-form').css('width');
-	var css2 = $('#design-form i').css('margin-right');
-	elem.attr('expanded', css1+';' + css2 );
-        $('#design-form i').animate({'margin-right':'0%'},250);
-        $('#design-form').animate({'width':'50%'},250);
-    }
-    else
-    {
-	var css = elem.attr('expanded').split(';');
-	elem.attr('expanded','');
-	$('#design-form').animate({'width':css[0]},250);
-	$('#design-form i').animate({'margin-right':css[1]},250);
-    }
-    
+	designContent.showDesignHelp(event);
+	setTimeout(function(){
+            $(".icon-question-sign").click(handleQuestionClick);
+	},300);
 }
-
-function checkStatusResult() {
-    var countErrors = 0;
-
-    function fetchState(){
-	$.ajax({
-            type: "GET",
-            url : window.location.href.replace('processing','status'),
-            data : {},
-            success : function(data) {
-                var stateLog = data.state;
-                while(stateLog.indexOf('\n') != -1)
-                {
-                    stateLog = stateLog.replace('\n','</div><br><div class="state-log">');
-                }
-                $(".resultsButton").next().html('<div class="state-log">' + stateLog + '</div>' );
-                if(data.finished) {
-                    $(".resultsButton").removeClass("invisible");
-                    clearInterval(interval);
-                }
-            },
-            dataType : "json",
-            error : function(err) {
-		countErrors += 1;
-		if(countErrors > 3) {
-                    clearInterval(interval);
-                    alert("Server seems to be inaccessible. Please try again later");
-		}
-            }
-        });
-    };
-
-    var interval = setInterval(fetchState, 1000 * 15);
-    fetchState();
-};
-
 
 function enableDisableDropdown()
 {
-    var state = this.checked;
-    if(this.defaultValue === 'vitro')
-        $("select[name='envVivo']").prop("disabled", state);
-    else
-        $("select[name='envVivo']").prop("disabled", !state);
+    dropdown.setState(this.checked, this.defaultValue === 'vitro');
 }
 
-window.onload = function() {
-    $('#submit_ACN').click(fetchInputAccessionNumber);
-    submit1.click(finishStep1);
-    seqInput.emptyText();
-
-    $('#selectFileInput').change(FileLoader.handleFileBrowsed);
-    //enable/disable submit button depending on state of sequence
-    $('#sequence-display').bind('input propertychange', setSubmitButtonStatus);
+function finishStep2(event)
+{
+    event.preventDefault();
+    var data = $("#design-form").serializeArray();
+    request.extractData(data);
+    summary.setTableData(request);
     
-    //Handles showing the help panel
-    $(".icon-question-sign").click(showDesignHelp);
+    $("#step2").addClass("invisible");
+    $("#step3").removeClass("invisible");
+}
+
+/******* Step 3 ********/
+var submit3 = new Button($("#submit3"));
+var submissionAlert = new SequenceAlert($("#submitAlert"));
+
+function finishStep3(){
+    submissionAlert.hide();
+    request.submitRequest(function(err, location){
+	if(err){
+	    submissionAlert.setState({ok:"false", error:""+err});
+	    submissionAlert.show();
+	}
+	else {
+	    window.location.replace(location.replace('requests','processing'));
+	}
+    });
+};
+
+
+/******* Step 4 *********/
+var progressBar = new ProgressBar($(".bar"), $("#timeLeft"), request);
+var stateReporter = new StateReporter($(".resultsButton").next());
+var resultsPanel = new ResultsPanel($(".resultsButton"));
+var submit4 = new Button($("#submit4"));
+
+function updatePage() {
+    var countErrors = 0;
+    var timeoutInterval = 1000 * 60 * 1;
+    request.getRequestStatus(function(err, data){
+	if(!err){
+	    var remainingMin = data.duration.remainingDuration * 1000 * 60;
+	    timeoutInterval = remainingMin / 10;
+	    progressBar.update(data.duration.remainingDuration);
+	    stateReporter.updateState(data.state);
+	    resultsPanel.updatePanel(data.status);
+	} else {
+	    countErrors +=1;
+	    if(countErrors > 3)
+		clearTimeout(timeout);
+	}
+	var timeout = setTimeout(updatePage, timeoutInterval);
+    });
+};
+
+function finishStep4(){
+    window.location.replace(window.location.replace('processing','results'));
+};
+
+
+window.onload = function() {
+    if($("#step1").length){
+	//Step1
+	searchAccession.click(fetchInputAccessionNumber);
+	submit1.click(finishStep1);
+	seqInput.emptyText();
+	$('#selectFileInput').change(FileLoader.handleFileBrowsed);
+	$('#sequence-display').bind('input propertychange', setSubmitButtonStatus);
+	
+	//Step2
+	$(".icon-question-sign").click(handleQuestionClick);
+	$("input[name='env']").change(enableDisableDropdown);
+	submit2.click(finishStep2);
+
+	//Step3
+	submit3.click(finishStep3);
+    }
     
     if($(".progress").length > 0) {
-        checkStatusResult();
+//        checkStatusResult();
+	updatePage();
+	submit4.click(finishStep4);
     }
 
     $("input[name='env']").change(enableDisableDropdown);
@@ -145,4 +180,8 @@ window.onload = function() {
     if($("#results").length >0) {
         $("#results").dataTable();
     }
+};
+
+window.onbeforeunload = function(){
+//TODO
 };
