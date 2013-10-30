@@ -1,7 +1,7 @@
 var indexUrl = window.location.href.indexOf("client_tests");
 var testMode = (indexUrl !== -1);
 if(testMode){   
-    var urlLocation = window.location.href.substr(0, indexUrl) + 'ribosoft/';
+    var urlLocation =  window.location.href.substr(0, indexUrl) + 'ribosoft/';
     var testEmailUser = "test@test.test";
 }
 
@@ -61,3 +61,54 @@ Request.prototype.submitRequest = function(callback){
         }
     });
 };
+
+Request.prototype.getRequest = function(callback){
+    url = window.location.href.replace('processing' , 'requests');
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {},
+	contentType: "application/json; charset=utf-8",
+        success: function(data, status, xhr) {
+	    callback(null, data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+	    callback(new Error("Getting request information failed because "+errorThrown)); 
+        }
+    });
+}
+
+Request.prototype.getRequestStatus = function(callback){
+    $.ajax({
+        type: "GET",
+        url : window.location.href.replace('processing','requests') + '/status',
+        data : {extraInfo: 'true'},
+        success : function(data) {
+	    callback(null, data);
+        },
+        dataType : "json",
+	contentType: "application/json; charset=utf-8",
+        error : function(err) {
+	    callback(new Error("Server not responding"));
+        }
+    });
+};
+
+
+Request.prototype.extractData = function(obj){
+    for(var i = 0; i < obj.length; ++i){
+	this[obj[i].name] = obj[i].value;
+    }
+
+    var cutsites = [];
+    for(var i = 0; i < obj.length; ++i) {
+	if(obj[i].name == "cutsites")
+	    cutsites.push(obj[i].value);
+    }
+    this.cutsites = cutsites;
+
+    this.env = new Env(this.env, this.env =="vivo" ? this.envVivo: "");
+    delete this.envVivo;
+};
+
+
