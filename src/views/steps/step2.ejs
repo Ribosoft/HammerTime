@@ -1,79 +1,97 @@
 <h3 class="step-title">Step 2 - Design Options</h3>
 <p>Please select the options that will be applied during the design of the ribozyme.</p>
-<form id = "design-form" accept-charset="utf-8">
-  <fieldset class="option-field">
-    <legend>Regions for target design
-      <i class="icon-question-sign pull-right"></i>
-    </legend>
-    <div class="offset2"><input required="true" type="radio" name="region" value="5"/>5'UTR<br/></div>
-    <div class="offset2"><input required="true" type="radio" name="region" value="4"/>Open Reading Frame (ORF)<br/></div>
-    <div class="offset2"><input required="true" type="radio" name="region" value="3"/>3'UTR<br/></div>
-  </fieldset>
-  <fieldset class="option-field">
-    <legend>Target environment
-      <i class="icon-question-sign pull-right"></i>
-    </legend>
-    <div class="offset2">
-      <input type="radio" required="true" name="env" value="vitro"/>In-vitro<br/>
-    </div>
-    <div class="offset2" >
-      <input type="radio" required="true" name="env" value="vivo"/>In-vivo<br/>
-      <select name="envVivo">
-        <option value="mouse">Mouse</option>
-        <option value="rat">Rat</option>
-        <option value="bYeast">S. cerevisiae</option>
-        <option value="fYeast">S. pombe</option>
-        <option value="neurospora">Neurospora</option>
-        <option value="amoebae">D. discoideum</option>
-        <option value="worm">C. elegans</option>
-        <option value="flea">Daphnia</option>
-        <option value="fly">D. melanogaster</option>
-        <option value="zebrafish">D. rerio</option>
-        <option value="frog">Xenopus</option>
-        <option value="chicken">Gallus</option>
-        <option value="arabidopsis">Arabidopsis</option>
-      </select>
-    </div>
-  </fieldset>
-  <fieldset class="option-field">
-    <legend>Environment Properties
-      <i class="icon-question-sign pull-right"></i></legend>
-    <div class="offset2">
-      <label for="temperature">Temperature</label>
-      <input type="number" name="temperature" value="37"/> &#176;C<br/>
-      <label for="naC">Na&#8314; Concentration</label>
-      <input type="number" name="naC" value="150"/> mM<br/>
-      <label for="mgC">Mg&#8314;&#8314; Concentration</label>
-      <input type="number" name="mgC" value="0"/> mM<br/>
-      <label for="oligoC">Oligomer Concentration</label>
-      <input type="number" name="oligoC" value="200"/> nM<br/>
-    </div>
-  </fieldset>
-  <fieldset class="option-field">
-    <legend>Potential Cut-sites
-      <i class="icon-question-sign pull-right"></i></legend>
-    <div class="offset2">
-      <label for="cutsites">Preferred cutsite(s)</label>
-      <select name="cutsites" multiple="multiple">
-        <option value="guc" selected="selected">GUC</option>
-        <option value="auc">AUC</option>
-        <option value="cuc">CUC</option>
-        <option value="cug">CUG</option>
-        <option value="cua">CUA</option>
-      </select>
-    </div>
-  </fieldset>
-  <fieldset class="option-field">
-    <legend>Ribozyme Shape<i class="icon-question-sign pull-right"></i></legend>
-    <div class="offset2">
-      <input type="radio" name="foldShape" value="Basic" checked="checked">Basic</input>
-    </div>
-    <div class="offset2">
-      <input type="radio" name="foldShape" value="Wishbone">Wishbone</input>
-    </div>
-  </fieldset>
-</form>
-<div class="offset6 step-buttons">
-  <button type="reset" form="design-form" class="btn btn-large" >Reset defaults</button>
-  <button type="submit" class="submit btn btn-primary btn-large">Submit</button>
+<div class="design-content">
+  <form id="design-form" accept-charset="utf-8">
+    <fieldset class="option-field" name="region">
+      <legend>Regions for target design
+	<i class="icon-question-sign pull-right"></i>
+      </legend>
+      <div class="offset2"><input required="true" type="radio" name="region" value="5'"/>5'UTR<br/></div>
+      <div class="offset2"><input required="true" type="radio" name="region" value="ORF"/>Open Reading Frame (ORF)<br/></div>
+      <div class="offset2"><input required="true" type="radio" name="region" value="3'"/>3'UTR<br/></div>
+    </fieldset>
+    <fieldset class="option-field" name="env">
+      <legend>Target environment
+	<i class="icon-question-sign pull-right"></i>
+      </legend>
+      <div class="offset2">
+	<input type="radio" required="true" name="env" value="vitro"/>In-vitro<br/>
+      </div>
+      <div class="offset2" >
+	<input type="radio" required="true" name="env" value="vivo"/>In-vivo<br/>
+	<select name="envVivo">
+          <option value="mouse">Mouse</option>
+          <option value="rat">Rat</option>
+          <option value="bYeast">S. cerevisiae</option>
+          <option value="fYeast">S. pombe</option>
+          <option value="neurospora">Neurospora</option>
+          <option value="amoebae">D. discoideum</option>
+          <option value="worm">C. elegans</option>
+          <option value="flea">Daphnia</option>
+          <option value="fly">D. melanogaster</option>
+          <option value="zebrafish">D. rerio</option>
+          <option value="frog">Xenopus</option>
+          <option value="chicken">Gallus</option>
+          <option value="arabidopsis">Arabidopsis</option>
+	</select>
+      </div>
+    </fieldset>
+    <fieldset class="option-field" name="envProperties">
+      <legend>Environment Properties
+	<i class="icon-question-sign pull-right"></i></legend>
+      <div class="offset2">
+	<label for="temperature">Temperature</label>
+	<input type="number" name="temperature" value="37"/> &#176;C<br/>
+	<label for="naC">Na&#8314; Concentration</label>
+	<input type="number" name="naC" value="150"/> mM<br/>
+	<label for="mgC">Mg&#8314;&#8314; Concentration</label>
+	<input type="number" name="mgC" value="0"/> mM<br/>
+	<label for="oligoC">Oligomer Concentration</label>
+	<input type="number" name="oligoC" value="200"/> nM<br/>
+      </div>
+    </fieldset>
+    <fieldset class="option-field" name="cutsites">
+      <legend>Potential Cut-sites
+	<i class="icon-question-sign pull-right"></i></legend>
+      <div class="offset2">
+	<label for="cutsites">Preferred cutsite(s)</label>
+	<select name="cutsites" multiple="multiple">
+          <option value="GUC" selected="selected">GUC</option>
+          <option value="AUC">AUC</option>
+          <option value="CUC">CUC</option>
+          <option value="CUG">CUG</option>
+          <option value="CUA">CUA</option>
+	</select>
+      </div>
+    </fieldset>
+    <fieldset class="option-field" name="shape">
+      <legend>Ribozyme Shape<i class="icon-question-sign pull-right"></i></legend>
+      <div class="offset2">
+	<input type="radio" name="foldShape" value="Basic" checked="checked">Basic</input>
+      </div>
+      <div class="offset2">
+	<input type="radio" name="foldShape" value="Wishbone">Wishbone</input>
+      </div>
+    </fieldset>
+    <fieldset class="option-field" name="advanced">
+      <legend>Advanced Options<i class="icon-question-sign pull-right"></i></legend>
+      <div class="offset2">
+	<label for="left_arm_min">Left Arm Minimum Length</label>
+	<input type="number" name="left_arm_min" value="3"/> nucleotides<br/>
+	<label for="left_arm_max">Left Arm Maximum Length</label>
+	<input type="number" name="left_arm_max" value="8"/> nucleotides<br/>
+	<label for="right_arm_min">Right Arm Minimum Length</label>
+	<input type="number" name="right_arm_min" value="3"/> nucleotides<br/>
+	<label for="right_arm_max">Right Arm Maximum Length</label>
+	<input type="number" name="right_arm_max" value="8"/> nucleotides<br/>
+      </div>
+    </fieldset>
+  </form>
+  <div class="design-help invisible">
+    <div class="well well-lg" id="region-help"></div>
+  </div>
+  <div class="offset8 step-buttons">
+    <button form="design-form" type="reset" class="btn btn-large">Reset</button>
+    <button form="design-form" id="submit2" class="submit btn btn-primary btn-large">Submit</button>
+  </div>
 </div>

@@ -1,24 +1,23 @@
 <h3 class="step-title">Step 1 - Selecting the sequence</h3>
 <div class="span5 tile" id="accession">
-    <p class="substep-description">Search for sequence number</p>
-    <input id="accession" type="text" placeholder="Accession number"></input>
-    <input id="submit_ACN" class="btn" type="button" value="Search"/>
-    <div id="accession_alert" class="alert invisible"></div>
+  <p class="substep-description">Search for sequence number</p>
+  <input id="accession" type="text" placeholder="Accession number"></input>
+  <input id="submit_ACN" class="btn" type="button" value="Search"/>
+  <div id="accession_alert" class="alert invisible"></div>
 </div>
-<div class="bar-separator span2"><div class="filler"></div><span class="emp">Or</div>
+<div class="bar-separator span2"><span class="emp">Or</div>
 <div class="span5 tile" id="drop">
-	<div class="btn" style="height: 23px; width:59px;" id="selectFileButton" onclick="$('#selectFileInput').click()">
-	Select File
-	</div>
-	<input type="file" style="visibility:hidden;" id="selectFileInput"> 
-    <p class="substep-description">OR Drop your file here</p>
-    <div id="drop-zone"></div>
+  <p class="substep-description">Select a file to upload</p>
+  <div class="btn" id="selectFileButton" onclick="$('#selectFileInput').click()">
+    Select File
+  </div>
+  <input type="file" style="visibility:hidden;" id="selectFileInput"> 
 </div>
 <div id="sequence-wrap" class="span10">
-    <div id="sequence_alert" class="span10 alert alert-error invisible"></div>
-    <textarea id="sequence-display" class="span10 input-block-level" rows="10" placeholder="Paste your sequence here..."></textarea>
-    <div id="sequence_alert" class="alert invisible"></div>
+  <div id="sequence_alert" class="span10 alert alert-error invisible"></div>
+  <textarea id="sequence-display" class="span10 input-block-level" rows="10" placeholder="Paste your sequence here..."></textarea>
+  <div id="sequence_alert" class="alert invisible"></div>
 </div>
 <div class="offset8 step-buttons">
-    <button type="button" class="btn btn-primary btn-large disabled" id="submit1">Submit</button>
+  <button type="button" class="btn btn-primary btn-large disabled" id="submit1">Submit</button>
 </div>

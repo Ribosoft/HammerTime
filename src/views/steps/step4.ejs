@@ -1,25 +1,23 @@
-<h3 class="step-title"><%= stepTitle %></h3>
-<p class="step-description">You can wait for the design process to finish, or enter your email and we will send you a link once it is finished.</p>
+<h3 class="step-title">Step 4 - Processing</h3>
+<p class="step-description">Your request has been submitted under ID # <span id="requestId"></span>.You can wait for the design process to finish, or enter your email and we will send you a link once it is completed.</p>
 <div class="center">
     <div class="jumbotron">
-        <h5>Estimated Time Left:<%= estimatedDur %></h5>
+        <h5>Estimated Time Left:<span id="timeLeft"></span></h5>
         <div class="progress progress-striped active">
-            <div class="bar" style="width: 60%;"></div>
+            <div class="bar"></div>
         </div>
     </div>
     <div class="emailInvite container">
-        <form method="post" action="<%= urlEmail %>" class="form-signin">
+        <div class="form-signin">
         <h2 class="form-signin-heading">Don't feel like waiting?</h2>
         <p>Enter your email address, and we will email you a link to the result page once it is done.</p>
             <input class="input-block-level" type="email" name="email" required="true"/>
             <input type="submit" class="btn btn-large btn-primary form-submit" value="Submit"/>
-        </form>
+        </div>
     </div>
     <div class="resultsButton invisible container">
-        <form method="get" action="<%= urlResults %>" class="form-signin">
-            <input type="submit" class="btn btn-large btn-success" value="Results"/>
-        </form>
-    </div>
-    <div class='state-container'>
+        <div class="form-signin">
+            <input type="submit" id="submit4" class="btn btn-large btn-success" value="Results"/>
+        </div>
     </div>
 </div>
