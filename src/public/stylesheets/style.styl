@@ -23,6 +23,9 @@ transition()
   -o-transition arguments
   transition arguments
 
+input[type="number"]
+    width 56px
+
 .invisible
     display none
 
@@ -97,7 +100,7 @@ $step-content-minHeight = 396px
         float left
 
 #sequence-wrap
-    margin 5% 12.5% 0
+    margin 0% 12.5%
     overflow hidden
 
 #accession
@@ -106,10 +109,17 @@ $step-content-minHeight = 396px
 #design-form i
     margin-right 50%
 
+#design-form.pressed
+    float left
+
 #design-form.smaller-form 
     width 50%
     & i
         margin-right 0%
+
+.design-help
+    width 49.5%
+    float left
 
 .form-signin
         max-width: 300px;
