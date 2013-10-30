@@ -29,7 +29,6 @@ app.configure(function(){
     app.use(express.static(path.join(__dirname, 'public')));
     app.use(app.router);
     app.use(function(err, req, res, next){
-	console.log( "Error ="+err );
 	if(!err.statusCode){
 	    res.status(500);
 	    res.render('error', 
@@ -37,10 +36,13 @@ app.configure(function(){
 			   title: 'Ribosoft'
 		       });    
 	}
-	else if(err.statusCode == 500)
+	else if(err.statusCode == 500){
+	    console.log( "Server is returning a 500 because "+JSON.stringify(err) );
 	    res.send(500);
-	else
-	    res.send(err.statusCode, err.errorMessage);
+	}
+	else {
+	    res.send(err.statusCode, {error: err.errorMessage});
+	}
     });
 });
 
