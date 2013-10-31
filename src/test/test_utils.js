@@ -383,8 +383,21 @@ utils.errorHandler = function(err, done){
 	done(err)
 }
 
-utils.clearDatabase = function(){
-    console.log( 'clearDatabase TODO' );
+utils.clearDatabase = function(callback){
+    Request.find({}, function(err, requests){
+	if(err)
+	    callback("Error cleaning database "+err );
+	else {
+	    for(var i = 0; i < requests.length; ++i)
+	    {
+		requests[i].remove(function(err){
+		    if(err)
+			callback("Error cleaning database "+err);
+		});
+	    }
+	    setTimeout(callback, 1000);
+	}
+    });
 };
 
 utils.removeFolders = function(){

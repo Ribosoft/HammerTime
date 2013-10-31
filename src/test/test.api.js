@@ -227,11 +227,10 @@ describe('GET: /requests/<id>/status', function(){
 // Always keep last
 after(function(done){
     try{
-	test_utils.clearDatabase();
 	test_utils.removeFolders();
+	test_utils.clearDatabase(done);
     } catch(err){
 	done(err);
     }
-    done();
 });
 
