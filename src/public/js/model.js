@@ -107,7 +107,10 @@ Request.prototype.extractData = function(obj){
     }
     this.cutsites = cutsites;
 
-    this.env = new Env(this.env, this.env =="vivo" ? this.envVivo: "");
+    var tmp = this.env;
+    delete this.env;
+    
+    this.env = new Env(tmp, tmp =="vivo" ? this.envVivo: "");
     delete this.envVivo;
 };
 

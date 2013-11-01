@@ -45,8 +45,8 @@ function fetchInputAccessionNumber(){
 
 function finishStep1()
 {
-    $(".jumbotron").addClass("invisible");
     $("#step1").addClass("invisible");
+    fieldSet.setState(!!request.accessionNumber);
     $("#step2").removeClass("invisible");
 }
 
@@ -71,13 +71,13 @@ var designContent = new DesignContent(
     $(".design-help")
 );
 
+var typeahead = new TypeaheadInput("otherEnv");
+
 var submit2 = new Button($("#submit2"));
 var dropdown = new SmartDropdown($("select[name='envVivo']"));
-var fieldSet = new SmartFieldSet(
-    $("fieldset[name='region']"),
-    request.accessionNumber
-);
+var fieldSet = new SmartFieldSet($("fieldset[name='region']"), $("#region-help"), $("#targetRegionRow"));
 var summary = new SummaryTable();
+var designAlert = new SequenceAlert($("#designAlert"));
 
 function handleQuestionClick(event){
     $(".icon-question-sign").off('click');
@@ -92,15 +92,41 @@ function enableDisableDropdown()
     dropdown.setState(this.checked, this.defaultValue === 'vitro');
 }
 
+function dropdownListen(event){
+    if(this.value == "other"){
+	$(".otherEnv").removeClass("invisible");/*
+	var smartInput = completely(document.getElementById("#otherEnv"));
+	smartInput.onChange = function(text){
+	    if(text){
+		TypeaheadInput.fetchOptions(text, function(err, options){
+		    if(!err){
+			console.log( "options ="+options );
+			smartInput.options = options;
+			smartInput.repaint();
+		    }
+		});
+	    }
+	};*/
+    }
+    else
+	$(".otherEnv").addClass("invisible");
+};
+
+
 function finishStep2(event)
 {
     event.preventDefault();
     var data = $("#design-form").serializeArray();
     request.extractData(data);
     summary.setTableData(request);
-    
-    $("#step2").addClass("invisible");
-    $("#step3").removeClass("invisible");
+    if(request.accessionNumber && !request.region)
+	designAlert.setState({ok:false, error:"You must specify the target region when using the accession number"});
+    else if(!request.env.type || (request.env.type == "vivo" && !request.env.target)){
+	designAlert.setState({ok:false, error:"You must specify the target environment and target organism (if in-vivo)"});
+    } else {
+	$("#step2").addClass("invisible");
+	$("#step3").removeClass("invisible");
+    }
 }
 
 /******* Step 3 ********/
@@ -111,7 +137,7 @@ function finishStep3(){
     submissionAlert.hide();
     request.submitRequest(function(err, location){
 	if(err){
-	    submissionAlert.setState({ok:"false", error:""+err});
+	    submissionAlert.setState({ok:false, error:""+err});
 	    submissionAlert.show();
 	}
 	else {
@@ -152,6 +178,11 @@ function finishStep4(){
 
 
 window.onload = function() {
+    //Step 0
+    $("#start_now").click(function(){
+	$("#step0").addClass("invisible");
+	$("#step1").removeClass("invisible");
+    });
     if($("#step1").length){
 	//Step1
 	searchAccession.click(fetchInputAccessionNumber);
@@ -163,7 +194,9 @@ window.onload = function() {
 	//Step2
 	$(".icon-question-sign").click(handleQuestionClick);
 	$("input[name='env']").change(enableDisableDropdown);
+	$("#envVivo").change(dropdownListen);
 	submit2.click(finishStep2);
+
 
 	//Step3
 	submit3.click(finishStep3);
