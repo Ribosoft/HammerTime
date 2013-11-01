@@ -10,22 +10,24 @@
        <thead>\
            <th>Cutsite Number</th>\
            <th>Sequence</th> \
-	   <th>Target Site Fitness</th> \
+           <th>Melting Temperature (C)</th> \
+           <th>Target Site Fitness</th> \
+           <th>Target Delta Free Energy</th> \
            <th>Shape Fitness</th> \
-           <th>Shape Free energy change</th> \
-           <th>Specificity Fitness Melting Temperature (K)</th> \
-	   <th>Pareto Rank</th> \
+           <th>Weighted off-target hits</th> \
+           <th>Pareto Rank</th> \
        </thead>";
-       container.forEach(function(type) {
-            type.Cutsites.forEach(function(cutsite) { 
-                 cutsite.Candidates.forEach(function(candidate) {
+       container.forEach(function(type, ind1) {
+            type.Cutsites.forEach(function(cutsite,ind2) { 
+                 cutsite.Candidates.forEach(function(candidate,ind3) {
 		 html +="<tr> \
                   <td>"+cutsite.ID+"</td> \
                   <td>"+candidate.Sequence+"</td> \
-                  <td>"+candidate.Fitness_Target+"</td> \
-                  <td>"+candidate.Fitness_Shape+"</td> \
-                  <td>"+candidate.Fitness_Shape_dG+"</td> \
                   <td>"+candidate.MeltingTemperature+"</td> \
+                  <td>"+candidate.Fitness_Target+"</td> \
+                  <td>"+candidate.Fitness_Target_dG+"</td> \
+                  <td>"+candidate.Fitness_Shape+"</td> \
+                  <td  info='"+ind1+","+ind2+","+ind3+"' class='specificity-entry' style='color: blue; cursor: pointer;'>"+candidate.Fitness_Specificity+"</td> \
                   <td>"+candidate.rank+" </td> \
                 </tr>";
                 })
@@ -33,5 +35,20 @@
        })
     html += "</table></div>";
     $('.step-container').append(html);
+    $('.specificity-entry').click
+    (  
+    function(e)
+    {
+      var target = $(e.target);
+      try{
+        var inx = target.attr('info').split(',');
+        var offtar_hits = results.CutsiteTypesCandidateContainer[parseInt(inx[0])].Cutsites[parseInt(inx[1])].OfftargetLocations ;
+        var print = offtar_hits.join('\n');
+        alert(print);
+      }
+      catch (err)
+      {console.log(err);console.log(err.message);}
+    
+    });
   </script>
 <% } %>
