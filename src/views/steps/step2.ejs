@@ -1,4 +1,5 @@
 <h3 class="step-title">Step 2 - Design Options</h3>
+<div id="designAlert" class="alert alert-error invisible"></div>
 <p>Please select the options that will be applied during the design of the ribozyme.</p>
 <div class="design-content">
   <form id="design-form" accept-charset="utf-8">
@@ -19,21 +20,15 @@
       </div>
       <div class="offset2" >
 	<input type="radio" required="true" name="env" value="vivo"/>In-vivo<br/>
-	<select name="envVivo">
-          <option value="mouse">Mouse</option>
-          <option value="rat">Rat</option>
-          <option value="bYeast">S. cerevisiae</option>
-          <option value="fYeast">S. pombe</option>
-          <option value="neurospora">Neurospora</option>
-          <option value="amoebae">D. discoideum</option>
-          <option value="worm">C. elegans</option>
-          <option value="flea">Daphnia</option>
-          <option value="fly">D. melanogaster</option>
-          <option value="zebrafish">D. rerio</option>
-          <option value="frog">Xenopus</option>
-          <option value="chicken">Gallus</option>
-          <option value="arabidopsis">Arabidopsis</option>
-	</select>
+	<select name="envVivo" id="envVivo">
+          <option value="mouse (taxid:10090)" selected="selected">Mouse</option>
+          <option value="rat (taxid:10114)">Rat</option>
+          <option value="human (taxid:9606)">Human</option>
+          <option value="Daphnia (taxid:6668)">Daphnia</option>
+	  <option value="other">Other</option>
+	</select><br/>
+	<label for="otherEnv" class="otherEnv invisible">Please Specify    </label>
+	<input id="otherEnv" class="invisible otherEnv" type="text" name="otherEnv" placeholder="Example: mouse (taxid:10090)" />
       </div>
     </fieldset>
     <fieldset class="option-field" name="envProperties">
@@ -88,7 +83,29 @@
     </fieldset>
   </form>
   <div class="design-help invisible">
-    <div class="well well-lg" id="region-help"></div>
+    <div class="well well-lg well-help" id="region-help">
+      Select what part of the RNA you will be targeting.
+    </div>
+    <div class="well well-lg well-help" id="target-help">
+      Select what environment the ribozyme will be tested on.
+      If in-vivo, you may specify an organism so that we may
+      test that the ribozyme does not attach off-target.
+    </div>
+    <div class="well well-lg well-help" id="env-help">
+      Provide the environment in which the ribozyme will 
+      be used. This will allow to optimize for a large enough
+      annealing temperature as well as will help the algorithms
+      predict better the secondary structure of the ribozyme.
+    </div>
+    <div class="well well-lg well-help" id="cutsites-help">
+      Provide the environment in which the ribozyme will 
+      be used. This will allow to optimize for a large enough
+      annealing temperature as well as will help the algorithms
+      predict better the secondary structure of the ribozyme.
+    </div>
+    <div class="well well-lg well-help" id="shape-help">
+      Chose the catalitic core that will be used to design the ribozyme.
+    </div>
   </div>
   <div class="offset8 step-buttons">
     <button form="design-form" type="reset" class="btn btn-large">Reset</button>

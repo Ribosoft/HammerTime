@@ -70,7 +70,7 @@ function AccNumberValidator(accessionNumber){
     this.isValid = false;
 }
 
-AccNumberValidator.prototype.validate = function(successCallback, errorCallkack){
+AccNumberValidator.prototype.validate = function(successCallback, errorCallback){
         $.ajax({
         type: "GET",
         url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
@@ -327,10 +327,55 @@ SmartDropdown.prototype.setState = function(currentState, disable){
 	this.el.prop("disabled", !currentState);
 }
 
-function SmartFieldSet(el, mustHide){
-    if(mustHide)
-	el.addClass("invisible");
+function TypeaheadInput(id){
+    this.id = id;
+    var input = this.input = completely(document.getElementById(id));
+    var fetch = this.fetchOptions;
+    this.input.onChange = function(text){
+	if(text){
+	    fetch(text, function(err, options){
+		if(!err){
+		    input.options = options;
+		    input.repaint();
+		}
+	    });
+	}
+    };
 }
+
+TypeaheadInput.fetchOptions = function(query, callback){
+        $.ajax({
+        type: "GET",
+        url: "http://blast.ncbi.nlm.nih.gov/portal/utils/autocomp.fcgi?dict=taxids_sg&q="+query,
+        data: {},
+        success: function(str) {
+	    var regex = new RegExp("^(.*)Array\((.*)\, \d\);$");
+	    if(str.match(regex)){
+		console.log( str.match(regex) );
+	    }
+            callback(null, str);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            callback(errorThrown);
+        }
+    });    
+};
+
+
+function SmartFieldSet(el, elHelp, elRow){
+    this.el = el;
+    this.elHelp = elHelp;
+    this.elRow = elRow;
+}
+
+SmartFieldSet.prototype.setState = function(show){
+    if(!show){
+	this.el.addClass("invisible");
+	this.elHelp.addClass("invisible");
+	this.elRow.addClass("invisible");
+    }
+}
+	
 
 function SummaryTable(){}
 

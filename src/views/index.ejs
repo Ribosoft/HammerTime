@@ -1,7 +1,10 @@
 <% include header %>
-<% include reusables/jumbotron %>
+<div id="step0">
+  <% include reusables/jumbotron %>
+  <% include reusables/marketing %>
+</div>
 <div class="row-fluid step-header span12">
-  <div id="step1" class="step-container">
+  <div id="step1" class="invisible step-container">
     <% include steps/step1 %>
   </div>
   <div id="step2" class="invisible step-container">

@@ -23,6 +23,13 @@ transition()
   -o-transition arguments
   transition arguments
 
+body
+    height 100%
+
+.big-container
+    min-height 100%
+    position relative
+
 input[type="number"]
     width 56px
 
@@ -49,11 +56,15 @@ input[type="number"]
     margin 0 auto
     
     & h1
-       font-size 42px
+       font-size 48px
+       line-height 115%
    
     & .emp
         font-family gentium_book-bold_italic
-        font-size 44.5px
+        font-size 50.5px
+    
+    & #start_now
+        font-size 22px
         
 .btn,
 .nav-pills>li>a
@@ -70,6 +81,21 @@ $step-content-minHeight = 396px
 .row-fluid .tile
     width 40%
     margin-left 0
+
+.container-marketing-tiles
+    width 90%
+    margin 0 auto
+    overflow hidden
+
+.marketing-tile
+    width 26%
+    margin 1% 1.5%
+    padding 2%
+    border-bottom 1px solid #DDDDDD;
+    box-shadow 0 0 5px rgba(0, 0, 0, 0.6);
+ 
+    & h3
+        text-align center
 
 .row-fluid .bar-separator
     float left
@@ -99,9 +125,13 @@ $step-content-minHeight = 396px
     & > input
         float left
 
+.input-selection,
 #sequence-wrap
     margin 0% 12.5%
     overflow hidden
+
+#drop
+    text-align right
 
 #accession
     margin-bottom 0
@@ -121,6 +151,20 @@ $step-content-minHeight = 396px
     width 49.5%
     float left
 
+#region-help
+    margin-bottom 17%
+
+#target-help
+    margin-bottom 14%
+
+#env-help
+    margin-bottom 33%
+
+#cutsites-help
+    margin-bottom 11%
+
+#shape-help
+    margin-bottom 2%
 .form-signin
         max-width: 300px;
         padding: 19px 29px 29px;
@@ -145,14 +189,20 @@ $step-content-minHeight = 396px
         display block
 
 #footer
-    background-image url("../images/bg_footer.jpg");
-    height: 220px;
-    margin-bottom: 0;
-    min-width: 960px;
+    background #333;
+    padding-top 1%
+    height: 10em;
     text-align: left;
-    width: 100%;
     color: white
     clear both
+    position relative
+    bottom 0
+    font-family gentium_book-bold
+
+    & .copyright
+      width 90%
+      margin 0 auto
+      text-align right
 
 .icon-question-sign:hover
     cursor pointer
