@@ -36,6 +36,23 @@ utils.createRequest = function(app, data, done){
     };
 };
 
+utils.createBadRequest = function(app, data, done){
+    return function(callback) {
+	request(app).post('/ribosoft/requests/')
+            .send(data)
+            .expect(400)
+            .end(function(err, res) {
+		if(err)	{
+		    callback(err, done);
+		}
+		else {
+		    var error = res.body.error;
+		    callback(null, error);
+		}
+	    });
+    };
+};
+
 
 utils.createInexistentRequest = function(app, data, done){
     return function(callback){
@@ -73,12 +90,23 @@ utils.setRequestProcessed = function(results_data, done){
     };
 };
 
+utils.checkBadRequestError = function(expectedError, done){
+    return function(error, callback) {
+	error.should.eql(expectedError);
+	callback(null, done);
+    };
+};
+
+
 utils.requestChecker = function(data, done){
     return function(id, callback) {
 	Request.findOne({uuid: id}, function(err, result) {
 	    if(err) callback(err, done);
 	    else {
-		data.sequence.should.equal(result.sequence);
+		if(data.sequence)
+		    data.sequence.should.equal(result.sequence);
+		if(data.accessionNumber)
+		    data.accessionNumber.should.equal(result.accessionNumber);
 		callback(null, done);
 	    }
 	});
