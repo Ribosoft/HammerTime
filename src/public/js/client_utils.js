@@ -71,6 +71,7 @@ function AccNumberValidator(accessionNumber){
 }
 
 AccNumberValidator.prototype.validate = function(successCallback, errorCallback){
+    var self = this;
         $.ajax({
         type: "GET",
         url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
@@ -81,11 +82,11 @@ AccNumberValidator.prototype.validate = function(successCallback, errorCallback)
             retmode: 'text'
         },
         success: function(d) {
-	    this.isValid = true;
+	    self.isValid = true;
             successCallback(d);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-	    this.isValid = false;
+	    self.isValid = false;
             errorCallback(errorThrown);
         }
     });
