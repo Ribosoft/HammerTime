@@ -223,7 +223,7 @@ module.exports = {
 
 function fetchAccession (accession, successCallback, errorCallback) {
     request({
-	uri: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=re&id="+accession+"&rettype=fasta&retmode=text",
+	uri: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id="+accession+"&rettype=fasta&retmode=text",
 	method: "GET",
 	followRedirect : false
     }, function(err, res, body) {
@@ -238,13 +238,13 @@ function fetchAccession (accession, successCallback, errorCallback) {
 };
 
 function checkAccession(sequence, accessionNumber, callback, next){
-     if (!sequence && !accessionNumber)
+    if (!sequence && !accessionNumber)
     {
 	utils.returnError(400, "No sequence was submitted.", next);
     } 
     else if(!sequence && accessionNumber) {
 	fetchAccession(accessionNumber, function(seq) {
-	    callback(sequence, accessionNumber);
+	    callback(seq, accessionNumber);
 	}, function(error){
 	    utils.returnError(400, "Accession Number is invalid.", next);
 	    accessionNumber = '';
