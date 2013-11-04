@@ -30,7 +30,7 @@ describe('POST: /requests/', function(){
 	});
     });
 
-    it('POST /requests with accession number only @fail', function(done) {
+    it('POST /requests with accession number only', function(done) {
 	async.waterfall([
 	    test_utils.createRequest(app, accessionOnlyData, done),
 	    test_utils.requestChecker(accessionOnlyData, done)
@@ -44,7 +44,7 @@ describe('POST: /requests/', function(){
     });
 
     
-    it('POST /requests with sequence and accessionNumber @new', function(done) {
+    it('POST /requests with sequence and accessionNumber', function(done) {
 	async.waterfall([
 	    test_utils.createRequest(app, sequenceAndAccessionData, done),
 	    test_utils.requestChecker(sequenceAndAccessionData, done)
@@ -57,7 +57,7 @@ describe('POST: /requests/', function(){
 	});
     });
 
-    it('POST /requests with no sequence nor accessionNumber @new', function(done) {
+    it('POST /requests with no sequence nor accessionNumber', function(done) {
 	async.waterfall([
 	    test_utils.createRequest(app,sequenceOnlyData, done),
 	    test_utils.requestChecker(sequenceOnlyData, done)
@@ -71,7 +71,7 @@ describe('POST: /requests/', function(){
     });
     
 
-    it('POST /requests with sequence and wrong accessionNumber @new', function(done) {
+    it('POST /requests with sequence and wrong accessionNumber', function(done) {
 	async.waterfall([
 	    test_utils.createBadRequest(app, seqAndWrongAccessionData, done),
 	    test_utils.checkBadRequestError("Sequence and accession number do not match.", done)
@@ -85,7 +85,7 @@ describe('POST: /requests/', function(){
     });
 
     
-    it('POST /requests with wrong accessionNumber only @new', function(done) {
+    it('POST /requests with wrong accessionNumber only', function(done) {
 	async.waterfall([
 	    test_utils.createBadRequest(app, wrongAccessionData, done),
 	    test_utils.checkBadRequestError("Accession Number is invalid.", done)
