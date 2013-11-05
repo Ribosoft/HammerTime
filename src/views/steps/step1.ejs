@@ -1,25 +1,27 @@
 <h3 class="step-title">Step 1 - Selecting the sequence</h3>
-<div class="input-selection">
-  <div class="span5 tile" id="accession">
-    <p class="substep-description">Search for sequence number</p>
-    <input id="accession" type="text" placeholder="Accession number"></input>
-    <input id="submit_ACN" class="btn" type="button" value="Search"/>
-    <div id="accession_alert" class="alert invisible"></div>
-  </div>
-  <div class="bar-separator span2"><span class="emp">Or</div>
-  <div class="span5 tile" id="drop">
-    <p class="substep-description">Select a file with your sequence to upload</p>
-    <div class="btn" id="selectFileButton" onclick="$('#selectFileInput').click()">
-      Select File
+<div class="step-contents">
+  <div class="input-selection">
+    <div class="span5 tile" id="accession">
+      <p class="substep-description">Search for sequence number</p>
+      <input id="accession" type="text" placeholder="Accession number"></input>
+      <input id="submit_ACN" class="btn" type="button" value="Search"/>
+      <div id="accession_alert" class="alert invisible"></div>
     </div>
-    <input type="file" style="visibility:hidden;" id="selectFileInput"> 
+    <div class="bar-separator span2"><span class="emp">Or</div>
+    <div class="span5 tile" id="drop">
+      <p class="substep-description">Select a file with your sequence to upload</p>
+      <div class="btn" id="selectFileButton" onclick="$('#selectFileInput').click()">
+	Select File
+      </div>
+      <input type="file" style="visibility:hidden;" id="selectFileInput"> 
+    </div>
   </div>
-</div>
-<div id="sequence-wrap">
-  <div id="sequence_alert" class="alert alert-error invisible"></div>
-  <textarea id="sequence-display" class="input-block-level" rows="10" placeholder="Paste your sequence here..."></textarea>
-  <div id="sequence_alert" class="alert invisible"></div>
-</div>
-<div class="offset9 step-buttons">
-  <button type="button" class="btn btn-primary btn-large disabled" id="submit1">Submit</button>
+  <div id="sequence-wrap">
+    <div id="sequence_alert" class="alert alert-error invisible"></div>
+    <textarea id="sequence-display" class="input-block-level" rows="10" placeholder="Paste your sequence here..."></textarea>
+    <div id="sequence_alert" class="alert invisible"></div>
+  </div>
+  <div class="offset9 step-buttons">
+    <button type="button" class="btn btn-primary btn-large disabled" id="submit1">Submit</button>
+  </div>
 </div>
