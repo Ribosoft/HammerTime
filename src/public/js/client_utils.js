@@ -4,7 +4,15 @@ FileLoader.readFile = function(fileToRead) {
     var reader = new FileReader();
     reader.readAsText(fileToRead);
     reader.onload = function() {
-	seqInput.setText(reader.result);
+	var input = reader.result;
+	var validation = InputValidation.isInputValid(input);
+	seqInput.setText(input);
+	request.sequence = InputValidation.cleanInput(input);
+	seqAlert.setState(validation);
+        if(validation.ok){
+	    submit1.enable();
+        }
+        request.accessionNumber = '';
     };
 }
 
@@ -134,7 +142,7 @@ InputValidation.validateInput= function(input){
     var Problems = '';
     var isRNA = true;
     if(input == "")
-        return {"ok" : false , "error" : "Empty Input: Is your FASTA comment terminated by a new line?"};
+        return {"ok" : false , "error" : "Empty Input"};
     for(var ii = 0; ii < input.length; ++ii)
     {
         if(input[ii] ==' ' || input[ii] =='\n')
