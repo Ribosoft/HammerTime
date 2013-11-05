@@ -32,6 +32,7 @@ module.exports = {
 						     parseInt(req.body.right_arm_min),
 						     parseInt(req.body.left_arm_max),
 						     parseInt(req.body.right_arm_max),
+						     req.body.promoter,
 						     req.body.emailUser).save(function(err, result){
 							 if(err){
 							     utils.returnInternalError(err, next);
@@ -269,7 +270,7 @@ function checkAccession(sequence, accessionNumber, callback, next){
 };
 
 function sendRequestResponse(res, result){
-     var response = {
+    var response = {
 	id: result.uuid,
 	sequence: result.sequence,
 	foldShape: result.foldShape,
@@ -284,7 +285,8 @@ function sendRequestResponse(res, result){
 	right_arm_min : result.right_arm_min,
 	left_arm_max : result.left_arm_max,
 	right_arm_max : result.right_arm_max,
-	emailUser : result.emailUser
+	emailUser : result.emailUser,
+	promoter : result.promoter
     };
     if(result.accessionNumber)
 	response.accessionNumber = result.accessionNumber;

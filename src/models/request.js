@@ -23,6 +23,7 @@ var Request = new Schema({
     mgEnv: {type: Number, default: 0},
     oligoEnv: {type: Number, default: 0},
     cutsites: [String],
+    promoter : { type: Boolean, default: false},
     left_arm_min : {type: Number, default: 3},
     right_arm_min : {type: Number, default: 3},
     left_arm_max : {type: Number, default: 8},
@@ -48,11 +49,12 @@ Request.statics = {
 			      targetRegion,
 			      targetEnv,
 			      vivoEnv,
-			     left_arm_min,
-			     right_arm_min,
-			     left_arm_max,
-			     right_arm_max,
-			     emailUser){
+			      left_arm_min,
+			      right_arm_min,
+			      left_arm_max,
+			      right_arm_max,
+			      promoter,
+			      emailUser){
 	return new this({
             uuid : id,
             status : 2,
@@ -64,6 +66,7 @@ Request.statics = {
 	    mgEnv: mgEnv,
 	    oligoEnv: oligoEnv,
 	    cutsites: cutsites,
+	    promoter : promoter,
 	    left_arm_min : left_arm_min,
 	    right_arm_min : right_arm_min,
 	    left_arm_max : left_arm_max,

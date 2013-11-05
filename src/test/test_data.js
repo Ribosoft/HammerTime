@@ -14,6 +14,7 @@ module.exports = {
 	    right_arm_min : 3,
 	    right_arm_max : 8,
 	    emailUser : '',
+	    promoter : false,
 	    env: {
 		type: 'vitro',
 		target: ''
@@ -38,6 +39,7 @@ module.exports = {
 	    right_arm_min : 3,
 	    right_arm_max : 8,
 	    emailUser : 'test@test.test',
+	    promoter: 0,
 	    env: {
 		type: 'vitro',
 		target: ''
@@ -60,6 +62,7 @@ module.exports = {
 	    right_arm_min : 3,
 	    right_arm_max : 8,
 	    emailUser : '',
+	    promoter : false,
 	    env: {
 		type: 'vitro',
 		target: ''
@@ -81,6 +84,7 @@ module.exports = {
 	    left_arm_max : 8,
 	    right_arm_min : 3,
 	    right_arm_max : 8,
+	    promoter : false,
 	    emailUser : '',
 	    env: {
 		type: 'vitro',
@@ -102,6 +106,7 @@ module.exports = {
 	    right_arm_min : 3,
 	    right_arm_max : 8,
 	    emailUser : '',
+	    promoter : false,
 	    env: {
 		type: 'vitro',
 		target: ''
@@ -121,6 +126,7 @@ module.exports = {
 	    left_arm_min : 3,
 	    left_arm_max : 8,
 	    right_arm_min : 3,
+	    promoter : false,
 	    right_arm_max : 8,
 	    emailUser : '',
 	    env: {
@@ -137,6 +143,7 @@ module.exports = {
 	    naC: 150,
 	    mgC: 0,
 	    oligoC: 0,
+	    promoter : false,
 	    cutsites: ['GUC'],
 	    region: '5\'',
 	    left_arm_min : 3,
@@ -150,5 +157,4 @@ module.exports = {
 	    }
 	}
     }
-
 };
