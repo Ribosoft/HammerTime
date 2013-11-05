@@ -21,7 +21,6 @@ FileLoader.handleFileBrowsed  = function(evt) {
     FileLoader.readFile(file);
 }
 
-//Add functionality to native string, cause it is limited
 String.prototype.indexOfMultiple=function(Arr) 
 {
     var indexs = new Array();
@@ -295,7 +294,8 @@ function DesignContent(formEl, iconEls, designHelpEl) {
 	'envProperties' : "These parameters describe the environment of operation of the Hammerhead Ribozyme",
 	'cutsites' : "Cutsites represent a sequence of DNA which will be targeted by the Hammerhead Ribozyme",
 	'shape' : "Wishbone is a U-shaped form, while basic is a non-wishbon form",
-	'advanced' : "These parameters relate to the length of each arm strand on the Ribozyme"
+	'advanced-arm' : "These parameters relate to the length of each arm strand on the Ribozyme",
+	'advanced-promoter' : "T7 promoter"
     };
     this.designForm = formEl;
     this.questionIcons = iconEls;
@@ -402,6 +402,7 @@ SummaryTable.prototype.setTableData = function(data){
     $("#oligoEnv").text(data.oligoC);
     $("#cutsites").text(data.cutsites.join(", "));
     $("#foldShape").text(data.foldShape);
+    $("#promoter").text(data.promoter ? "Yes" : "No");
     $("#leftArm").text("Between "+ data.left_arm_min + " and "+data.left_arm_max);
     $("#rightArm").text("Between "+ data.right_arm_min + " and "+data.right_arm_max);
 }

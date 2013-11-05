@@ -1,7 +1,7 @@
 <h3 class="step-title">Step 2 - Design Options</h3>
-<div id="designAlert" class="alert alert-error invisible"></div>
-<p>Please select the options that will be applied during the design of the ribozyme.</p>
-<div class="design-content">
+<p class="step-description">Please select the options that will be applied during the design of the ribozyme.</p>
+<div class="step-contents design-content">
+  <div id="designAlert" class="alert alert-error invisible"></div>
   <form id="design-form" accept-charset="utf-8">
     <fieldset class="option-field" name="region">
       <legend>Regions for target design
@@ -68,9 +68,9 @@
 	<input type="radio" name="foldShape" value="Wishbone">Wishbone</input>
       </div>
     </fieldset>
-    <fieldset class="option-field" name="advanced">
-      <legend>Advanced Options<i class="icon-question-sign pull-right"></i></legend>
-      <div class="offset2">
+    <fieldset class="option-field" name="advanced-arm">
+      <legend>Advanced Options - Arm Length<i class="icon-question-sign pull-right"></i></legend>
+      <div class="offset2" id="arm-options">
 	<label for="left_arm_min">Left Arm Minimum Length</label>
 	<input type="number" name="left_arm_min" value="3"/> nucleotides<br/>
 	<label for="left_arm_max">Left Arm Maximum Length</label>
@@ -79,6 +79,14 @@
 	<input type="number" name="right_arm_min" value="3"/> nucleotides<br/>
 	<label for="right_arm_max">Right Arm Maximum Length</label>
 	<input type="number" name="right_arm_max" value="8"/> nucleotides<br/>
+      </div>
+    </fieldset>
+    <fieldset class="option-field" name="advanced-promoter">
+      <legend>Advanced Options - T7 Promoter<i class="icon-question-sign pull-right"></i></legend>
+      <div class="offset2">
+	<label for="promoter">Use T7 Promoter?</label>
+	<input type="radio" name="promoter" value="1"/>Yes<br/>
+	<input type="radio" name="promoter" value="0" checked="checked"/>No<br/>
       </div>
     </fieldset>
   </form>
@@ -104,7 +112,13 @@
       predict better the secondary structure of the ribozyme.
     </div>
     <div class="well well-lg well-help" id="shape-help">
-      Chose the catalitic core that will be used to design the ribozyme.
+      Choose the catalitic core that will be used to design the ribozyme.
+    </div>
+    <div class="well well-lg well-help" id="arm-help">
+      These parameters relate to the length of each arm strand on the Ribozyme.
+    </div>
+    <div class="well well-lg well-help" id="promoter-help">
+      The T7 promoter will be attached to the hammerhead and taken into consideration in the folding if the check-box is checked.
     </div>
   </div>
   <div class="offset8 step-buttons">

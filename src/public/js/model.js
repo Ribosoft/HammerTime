@@ -27,6 +27,7 @@ function Request(
     right_arm_min,
     left_arm_max,
     right_arm_max,
+    promoter,
     emailUser){
     this.id = '';
     this.sequence = seq;
@@ -43,6 +44,7 @@ function Request(
     this.right_arm_max = right_arm_max;
     this.env = new Env(targetEnv, vivoEnv);
     this.region = targetRegion;
+    this.promoter = (promoter == "yes") ? 1 : 0;
     this.emailUser = testEmailUser || emailUser;
 }
 
@@ -106,6 +108,8 @@ Request.prototype.extractData = function(obj){
 	    cutsites.push(obj[i].value);
     }
     this.cutsites = cutsites;
+
+    this.promoter = parseInt(this.promoter) == 1;
 
     var tmp = this.env;
     delete this.env;
