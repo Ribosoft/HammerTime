@@ -110,7 +110,7 @@ AccessionAlert.prototype.setState = function(state){
     switch(state){
     case "Searching":
 	this.el.removeClass("invisible alert-error alert-success");
-	this.el.text("Searching our database...");
+	this.el.text("Searching NCBI database...");
 	break;
     case "Success":
 	this.el.addClass("alert-success");
