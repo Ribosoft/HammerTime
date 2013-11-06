@@ -1,12 +1,8 @@
 var mongoose = require( 'mongoose' ),
-    algorithm = require('hammerhead-design'),
     config = require('./config.json');
 var Schema = mongoose.Schema;
 
 var Request = require('./request');
-
-var RequestExecutor = algorithm.HandleRequest;
-var AlgoRequest = algorithm.Model.DomainObjects.Request;
 
 /************************ Candidate Schema *****************/
 var Candidate = new Schema({
