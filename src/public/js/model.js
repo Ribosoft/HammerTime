@@ -42,7 +42,7 @@ function Request(
     this.right_arm_min = right_arm_min;
     this.left_arm_max = left_arm_max;
     this.right_arm_max = right_arm_max;
-    this.env = new Env(targetEnv, vivoEnv);
+    this.env = undefined;// new Env(targetEnv, vivoEnv);
     this.region = targetRegion;
     this.promoter = (promoter == "yes") ? 1 : 0;
     this.emailUser = testEmailUser || emailUser;
@@ -111,10 +111,12 @@ Request.prototype.extractData = function(obj){
 
     this.promoter = parseInt(this.promoter) == 1;
 
-    var tmp = this.env;
-    delete this.env;
+    if(this.env){
+	var tmp = this.env;
+	delete this.env;
     
-    this.env = new Env(tmp, tmp =="vivo" ? this.envVivo: "");
+	this.env = new Env(tmp, tmp =="vivo" ? this.envVivo: "");
+    }
     delete this.envVivo;
 };
 
