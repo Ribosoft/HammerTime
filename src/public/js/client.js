@@ -48,6 +48,7 @@ function finishStep1()
     $("#step1").addClass("invisible");
     fieldSet.setState(!!request.accessionNumber);
     $("#step2").removeClass("invisible");
+    $(".section-collapse").click(ToggleVisibilityClick);
 }
 
 function setSubmitButtonStatus(){
@@ -111,6 +112,48 @@ function dropdownListen(event){
     else
 	$(".otherEnv").addClass("invisible");
 };
+
+
+/* The functions below are taken from https://bitbucket.org/gbelmonte/jsutilities */
+
+
+function _toggleVisibility( target )
+{
+    var now = target.next().css('display');
+    var speed = target.attr('speed');
+    if(now != 'none')
+    {
+        target.removeClass('section-collapse')
+        target.addClass('section-expand');
+        target.next().hide( speed == undefined? 0 : parseInt(speed));
+      //  target.html(target.html().replaceAll('-','+'));
+    }
+    else
+    {
+        target.addClass('section-collapse')
+        target.removeClass('section-expand');
+        target.next().show( speed == undefined? 0 : parseInt(speed));
+       // target.html(target.html().replaceAll('\\+','-')); // plus is a regex expression reserved character. we must escape it
+    }
+}
+
+/*
+  For events bound with OnClick or onclick attributes
+*/
+function ToggleVisibilityOnClick(e)
+{
+    var target = $(e);
+    _toggleVisibility(target);
+}
+
+/*
+  For events bound with jQuery $().click()
+*/
+function ToggleVisibilityClick(e)
+{
+    var target = $(e.target);
+    _toggleVisibility(target);
+}
 
 
 function finishStep2(event)
@@ -177,6 +220,7 @@ function finishStep4(){
 };
 
 
+
 window.onload = function() {
     //Step 0
     $("#start_now").click(function(){
@@ -218,3 +262,6 @@ window.onload = function() {
 window.onbeforeunload = function(){
 //TODO
 };
+
+
+
