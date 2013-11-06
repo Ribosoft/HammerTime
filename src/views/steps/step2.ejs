@@ -4,7 +4,7 @@
   <div id="designAlert" class="alert alert-error invisible"></div>
   <form id="design-form" accept-charset="utf-8">
     <fieldset class="option-field" name="region">
-      <legend class="section-collapse">Regions for target design
+      <legend class="section-collapse" speed="200">Regions for target design
 	<i class="icon-question-sign pull-right"></i>
       </legend>
       <div class="offset2"><input required="true" type="radio" name="region" value="5'"/>5'UTR<br/></div>
@@ -12,9 +12,10 @@
       <div class="offset2"><input required="true" type="radio" name="region" value="3'"/>3'UTR<br/></div>
     </fieldset>
     <fieldset class="option-field" name="env">
-      <legend class="section-collapse">Target environment
+      <legend class="section-collapse" speed="200">Target environment
 	<i class="icon-question-sign pull-right"></i>
       </legend>
+      <div>
       <div class="offset2">
 	<input type="radio" required="true" name="env" value="vitro"/>In-vitro<br/>
       </div>
@@ -30,9 +31,10 @@
 	<label for="otherEnv" class="otherEnv invisible">Please Specify    </label>
 	<input id="otherEnv" class="invisible otherEnv" type="text" name="otherEnv" placeholder="Example: mouse (taxid:10090)" />
       </div>
+      </div>
     </fieldset>
     <fieldset class="option-field" name="envProperties">
-      <legend class="section-collapse">Environment Properties
+      <legend class="section-collapse" speed="200">Environment Properties
 	<i class="icon-question-sign pull-right"></i></legend>
       <div class="offset2">
 	<label for="temperature">Temperature</label>
@@ -46,7 +48,7 @@
       </div>
     </fieldset>
     <fieldset class="option-field" name="cutsites">
-      <legend class="section-collapse" >Potential Cut-sites
+      <legend class="section-collapse" speed="200" >Potential Cut-sites
 	<i class="icon-question-sign pull-right"></i></legend>
       <div class="offset2">
 	<label for="cutsites">Preferred cutsite(s)</label>
@@ -60,16 +62,18 @@
       </div>
     </fieldset>
     <fieldset class="option-field" name="shape">
-      <legend class="section-collapse" >Ribozyme Shape<i class="icon-question-sign pull-right"></i></legend>
-      <div class="offset2">
-	<input type="radio" name="foldShape" value="Basic" checked="checked">Basic</input>
-      </div>
-      <div class="offset2">
-	<input type="radio" name="foldShape" value="Wishbone">Wishbone</input>
+      <legend class="section-collapse" speed="200" >Ribozyme Shape<i class="icon-question-sign pull-right"></i></legend>
+      <div>  
+        <div class="offset2">
+        <input type="radio" name="foldShape" value="Basic" checked="checked">Basic</input>
+        </div>
+        <div class="offset2">
+        <input type="radio" name="foldShape" value="Wishbone">Wishbone</input>
+        </div>
       </div>
     </fieldset>
     <fieldset class="option-field" name="advanced-arm">
-      <legend class="section-collapse" >Advanced Options - Arm Length<i class="icon-question-sign pull-right"></i></legend>
+      <legend class="section-collapse" speed="200" >Advanced Options - Arm Length<i class="icon-question-sign pull-right"></i></legend>
       <div class="offset2" id="arm-options">
 	<label for="left_arm_min">Left Arm Minimum Length</label>
 	<input type="number" name="left_arm_min" value="3"/> nucleotides<br/>
@@ -82,7 +86,7 @@
       </div>
     </fieldset>
     <fieldset class="option-field" name="advanced-promoter">
-      <legend class="section-collapse" >Advanced Options - T7 Promoter<i class="icon-question-sign pull-right"></i></legend>
+      <legend class="section-collapse" speed="200" >Advanced Options - T7 Promoter<i class="icon-question-sign pull-right"></i></legend>
       <div class="offset2">
 	<label for="promoter">Use T7 Promoter?</label>
 	<input type="radio" name="promoter" value="1"/>Yes<br/>
