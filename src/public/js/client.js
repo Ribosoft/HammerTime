@@ -126,14 +126,14 @@ function _toggleVisibility( target )
         target.removeClass('section-collapse')
         target.addClass('section-expand');
         target.next().hide( speed == undefined? 0 : parseInt(speed));
-        target.html(target.html().replaceAll('-','+'));
+      //  target.html(target.html().replaceAll('-','+'));
     }
     else
     {
         target.addClass('section-collapse')
         target.removeClass('section-expand');
         target.next().show( speed == undefined? 0 : parseInt(speed));
-        target.html(target.html().replaceAll('\\+','-')); // plus is a regex expression reserved character. we must escape it
+       // target.html(target.html().replaceAll('\\+','-')); // plus is a regex expression reserved character. we must escape it
     }
 }
 
