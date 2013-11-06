@@ -118,12 +118,12 @@ function finishStep2(event)
     event.preventDefault();
     var data = $("#design-form").serializeArray();
     request.extractData(data);
-    summary.setTableData(request);
     if(request.accessionNumber && !request.region)
 	designAlert.setState({ok:false, error:"You must specify the target region when using the accession number"});
-    else if(!request.env.type || (request.env.type == "vivo" && !request.env.target)){
+    else if(!request.env || (request.env.type == "vivo" && !request.env.target)){
 	designAlert.setState({ok:false, error:"You must specify the target environment and target organism (if in-vivo)"});
     } else {
+	summary.setTableData(request);
 	$("#step2").addClass("invisible");
 	$("#step3").removeClass("invisible");
     }
