@@ -10,6 +10,7 @@ var Request = mongoose.model('Request');
 
 describe('POST: /requests/', function(){
     var sequenceOnlyData = test_data.smallSequence.request;
+    var noTargetData = test_data.noTarget.request;
     var sequenceAndAccessionData = test_data.sequenceWithAcc.request;
     var seqAndWrongAccessionData = test_data.sequenceWithWrongAcc.request;
     var wrongAccessionData = test_data.wrongAcc.request;
@@ -34,6 +35,19 @@ describe('POST: /requests/', function(){
 	async.waterfall([
 	    test_utils.createRequest(app, accessionOnlyData, done),
 	    test_utils.requestChecker(accessionOnlyData, done)
+	],
+	function(err, done){
+	    if(err)
+		test_utils.errorHandler(err, done);
+	    else
+		done();
+	});
+    });
+
+    it('POST /requests with no targetRegion', function(done) {
+	async.waterfall([
+	    test_utils.createRequest(app, noTargetData, done),
+	    test_utils.requestChecker(noTargetData, done)
 	],
 	function(err, done){
 	    if(err)

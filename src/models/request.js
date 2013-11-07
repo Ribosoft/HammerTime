@@ -28,7 +28,7 @@ var Request = new Schema({
     right_arm_min : {type: Number, default: 3},
     left_arm_max : {type: Number, default: 8},
     right_arm_max : {type: Number, default: 8},
-    targetRegion : { type: Number, min: 3, max: 5, default:4 },
+    targetRegion : { type: Number, default:4 },
     //targetEnv = false for vitro, true for vivo
     targetEnv : Boolean,
     vivoEnv : {type: String, default:""},

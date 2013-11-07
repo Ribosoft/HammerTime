@@ -69,7 +69,28 @@ module.exports = {
 	    }
 	}
     },
-        sequenceWithWrongAcc : {
+    noTarget : {
+	request : {
+	    sequence : 'TTTA',
+	    foldShape : 'Basic',
+	    temperature : 37,
+	    naC: 150,
+	    mgC: 0,
+	    oligoC: 0,
+	    cutsites: ['GUC'],
+	    left_arm_min : 3,
+	    left_arm_max : 8,
+	    right_arm_min : 3,
+	    right_arm_max : 8,
+	    emailUser : '',
+	    promoter : false,
+	    env: {
+		type: 'vitro',
+		target: ''
+	    }
+	}
+    },
+    sequenceWithWrongAcc : {
 	request : {
 	    sequence : 'TTTGAGGTCAAGCCAGAGAAGAGGTGGCAACACATCAGCATGATGCATGTGAAGATCATCAGGGAGCACATCTTGGCCCACATCCAACACGAGGTCGACTTCCTCTTCTGCATGGATGTAGACCAGGTCTTCCAAGACAATTTTGGGGTGGACACCCTAGGCCAGTCAGTGGATCAGCTACAGCCCTGGTGGTACAAGGCAGATCCTGAGGACTTTACCTAGGAAAGGCAGAAAGAGTCAGCAGCATGCATTCCATTTGGCCAGGGGGATTTTTATTACCACACAGCCATGTTTGGAGGAACACCCATTCAGGTTCTCAACATCCCCCAGGAGTGCTTTAAAGGAATCCTCCTGGAAAAGAAAAATGACAT',
 	    accessionNumber : 'M73306',
