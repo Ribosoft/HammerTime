@@ -21,6 +21,11 @@ FileLoader.handleFileBrowsed  = function(evt) {
     FileLoader.readFile(file);
 }
 
+String.prototype.endsWith = function(substr){
+    return this.substring(this.indexOf(substr)) == substr;
+};
+
+
 String.prototype.indexOfMultiple=function(Arr) 
 {
     var indexs = new Array();
@@ -133,6 +138,11 @@ AccessionAlert.prototype.setState = function(state){
 	this.el.text("");
     }
 }
+
+AccessionAlert.prototype.hide = function(){
+    this.el.addClass("invisible");
+};
+
 
 function InputValidation(){}
 

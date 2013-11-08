@@ -50,9 +50,10 @@ function Request(
 
 Request.prototype.submitRequest = function(callback){
     var data = JSON.stringify(this);
+    var url = window.location.href.substr(0, window.location.href.indexOf("#"));
     $.ajax({
         type: "POST",
-        url: (urlLocation || window.location.href)+"requests/",
+        url: (urlLocation || url)+"requests/",
         data: data,
 	contentType: "application/json; charset=utf-8",
         success: function(data, status, xhr) {
