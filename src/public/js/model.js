@@ -117,6 +117,10 @@ Request.prototype.extractData = function(obj){
 	delete this.env;
     
 	this.env = new Env(tmp, tmp =="vivo" ? this.envVivo: "");
+	if(this.env.target == "other"){
+	    this.env.target = this.otherEnv;
+	    delete this.otherEnv;
+	}
     }
     delete this.envVivo;
 };
