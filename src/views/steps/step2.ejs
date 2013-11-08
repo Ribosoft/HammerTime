@@ -7,19 +7,18 @@
       <legend class="section-collapse" speed="200">Regions for target design
 	<i class="icon-question-sign pull-right"></i>
       </legend>
-      <div class="offset2"><input required="true" type="radio" name="region" value="5'"/>5'UTR<br/></div>
-      <div class="offset2"><input required="true" type="radio" name="region" value="ORF"/>Open Reading Frame (ORF)<br/></div>
-      <div class="offset2"><input required="true" type="radio" name="region" value="3'"/>3'UTR<br/></div>
+      <div class="offset2">
+	<input required="true" type="radio" name="region" value="5'"/>5'UTR<br/>
+	<input required="true" type="radio" name="region" value="ORF"/>Open Reading Frame (ORF)<br/>
+	<input required="true" type="radio" name="region" value="3'"/>3'UTR<br/>
+      </div>
     </fieldset>
     <fieldset class="option-field" name="env">
       <legend class="section-collapse" speed="200">Target environment
 	<i class="icon-question-sign pull-right"></i>
       </legend>
-      <div>
       <div class="offset2">
 	<input type="radio" required="true" name="env" value="vitro"/>In-vitro<br/>
-      </div>
-      <div class="offset2" >
 	<input type="radio" required="true" name="env" value="vivo"/>In-vivo<br/>
 	<select name="envVivo" id="envVivo">
           <option value="mouse (taxid:10090)" selected="selected">Mouse</option>
@@ -30,7 +29,6 @@
 	</select><br/>
 	<label for="otherEnv" class="otherEnv invisible">Please Specify    </label>
 	<input id="otherEnv" class="invisible otherEnv" type="text" name="otherEnv" placeholder="Example: mouse (taxid:10090)" />
-      </div>
       </div>
     </fieldset>
     <fieldset class="option-field" name="envProperties">
@@ -63,13 +61,9 @@
     </fieldset>
     <fieldset class="option-field" name="shape">
       <legend class="section-collapse" speed="200" >Ribozyme Shape<i class="icon-question-sign pull-right"></i></legend>
-      <div>  
-        <div class="offset2">
-        <input type="radio" name="foldShape" value="Basic" checked="checked">Basic</input>
-        </div>
-        <div class="offset2">
+      <div class="offset2">  
+        <input type="radio" name="foldShape" value="Basic" checked="checked">Basic</input><br/>
         <input type="radio" name="foldShape" value="Wishbone">Wishbone</input>
-        </div>
       </div>
     </fieldset>
     <fieldset class="option-field" name="advanced-arm">
@@ -127,6 +121,6 @@
   </div>
   <div class="offset8 step-buttons">
     <button form="design-form" type="reset" class="btn btn-large">Reset</button>
-    <button form="design-form" id="submit2" class="submit btn btn-primary btn-large">Submit</button>
+    <a href="#step3" id="submit2" class="submit btn btn-primary btn-large">Submit</a>
   </div>
 </div>

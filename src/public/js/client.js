@@ -2,6 +2,12 @@
 //FileLoader is defined in client_utils.js
 //Candidate generation functions are moved to client_algo.js
 
+/********* Step 0 **********/
+function finishStep0(){
+    $("#step0").addClass("invisible");
+    $("#step1").removeClass("invisible");
+}
+
 /********* Step 1 **********/
 
 var request = new Request();
@@ -10,9 +16,10 @@ var fileLoader = new FileLoader();
 var seqAlert = new SequenceAlert($("#sequence_alert"));
 var submit1 = new Button($("#submit1"));
 var searchAccession = new Button($('#submit_ACN'));
+var accessionAlert = new AccessionAlert($("#accession_alert"));
 
 function fetchInputAccessionNumber(){
-    var accessionAlert = new AccessionAlert($("#accession_alert"));
+
     var validator = new  AccNumberValidator($("#accession").find("input").val());
     //If accesionNumber is empty
     if(!validator.getAccessionNumber()){
@@ -46,6 +53,9 @@ function fetchInputAccessionNumber(){
 function finishStep1()
 {
     $("#step1").addClass("invisible");
+    accessionAlert.hide();
+    seqAlert.hide();
+    seqInput.emptyText();
     fieldSet.setState(!!request.accessionNumber);
     $("#step2").removeClass("invisible");
     $(".section-collapse").click(ToggleVisibilityClick);
@@ -115,8 +125,6 @@ function dropdownListen(event){
 
 
 /* The functions below are taken from https://bitbucket.org/gbelmonte/jsutilities */
-
-
 function _toggleVisibility( target )
 {
     var now = target.next().css('display');
@@ -158,11 +166,11 @@ function ToggleVisibilityClick(e)
 
 function finishStep2(event)
 {
-    event.preventDefault();
     var data = $("#design-form").serializeArray();
     request.extractData(data);
-    if(request.accessionNumber && !request.region)
+    if(request.accessionNumber && !request.region) {
 	designAlert.setState({ok:false, error:"You must specify the target region when using the accession number"});
+    }
     else if(!request.env || (request.env.type == "vivo" && !request.env.target)){
 	designAlert.setState({ok:false, error:"You must specify the target environment and target organism (if in-vivo)"});
     } else {
@@ -216,30 +224,27 @@ function updatePage() {
 };
 
 function finishStep4(){
-    window.location.replace(window.location.replace('processing','results'));
+    window.location.replace(window.location.href.replace('processing','results'));
 };
 
 
 
 window.onload = function() {
-    //Step 0
-    $("#start_now").click(function(){
-	$("#step0").addClass("invisible");
-	$("#step1").removeClass("invisible");
-    });
+    $("#start_now").click(finishStep0);
+
     if($("#step1").length){
 	//Step1
-	searchAccession.click(fetchInputAccessionNumber);
 	submit1.click(finishStep1);
+	searchAccession.click(fetchInputAccessionNumber);
 	seqInput.emptyText();
 	$('#selectFileInput').change(FileLoader.handleFileBrowsed);
 	$('#sequence-display').bind('input propertychange', setSubmitButtonStatus);
 	
 	//Step2
+	submit2.click(finishStep2);
 	$(".icon-question-sign").click(handleQuestionClick);
 	$("input[name='env']").change(enableDisableDropdown);
 	$("#envVivo").change(dropdownListen);
-	submit2.click(finishStep2);
 
 
 	//Step3
@@ -252,16 +257,30 @@ window.onload = function() {
 	submit4.click(finishStep4);
     }
 
-    $("input[name='env']").change(enableDisableDropdown);
-
-    if($("#results").length >0) {
+    if($("#results").length > 0) {
         $("#results").dataTable();
     }
 };
 
-window.onbeforeunload = function(){
-//TODO
+var replayStep1 = function(){
+    $("#step2").addClass("invisible");
+    $("#step1").removeClass("invisible");
 };
 
+var replayStep2 = function(){
+    $("#step3").addClass("invisible");
+    $("#step2").removeClass("invisible");
+};
 
+window.onhashchange = function(event){
+    var stepBack = function(oldURL, newURL){
+	return newURL < oldURL;
+    }
 
+    if(stepBack(event.oldURL, event.newURL)){
+	if(event.newURL.endsWith("#step1"))
+	    replayStep1();
+	else if(event.newURL.endsWith("#step2"))
+	    replayStep2();
+    }
+}
