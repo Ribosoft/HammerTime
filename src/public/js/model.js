@@ -42,7 +42,7 @@ function Request(
     this.right_arm_min = right_arm_min;
     this.left_arm_max = left_arm_max;
     this.right_arm_max = right_arm_max;
-    this.env = undefined;// new Env(targetEnv, vivoEnv);
+    this.env = targetEnv? new Env(targetEnv, vivoEnv) : undefined;
     this.region = targetRegion;
     this.promoter = (promoter == "yes") ? 1 : 0;
     this.emailUser = testEmailUser || emailUser;
@@ -65,7 +65,24 @@ Request.prototype.submitRequest = function(callback){
     });
 };
 
-Request.prototype.getRequest = function(callback){
+Request.prototype.updateRequest = function(callback){
+    var data = JSON.stringify(this);
+    var url = window.location.href.replace('processing', 'requests');
+    $.ajax({
+        type: "PUT",
+        url: (urlLocation || url),
+        data: data,
+	contentType: "application/json; charset=utf-8",
+        success: function(data, status, xhr) {
+	    callback(null, data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+	    callback(new Error("Submitting request failed because "+errorThrown)); 
+        }
+    });
+};
+
+Request.getRequest = function(callback){
     url = window.location.href.replace('processing' , 'requests');
     $.ajax({
         type: "GET",
@@ -73,7 +90,27 @@ Request.prototype.getRequest = function(callback){
         data: {},
 	contentType: "application/json; charset=utf-8",
         success: function(data, status, xhr) {
-	    callback(null, data);
+	    var response = data.request;
+	    var request = new Request(
+		response.sequence,
+		response.accessionNumber,
+		response.foldShape,
+		response.temperature,
+		response.naC,
+		response.mgC,
+		response.oligoC,
+		response.cutsites,
+		response.region,
+		response.env.type,
+		response.env.target,
+		response.left_arm_min,
+		response.right_arm_min,
+		response.left_arm_max,
+		response.right_arm_max,
+		(response.promoter)? "yes" : "",
+		response.emailUser
+	    );
+	    callback(null, request);
         },
         error: function(jqXHR, textStatus, errorThrown) {
 	    callback(new Error("Getting request information failed because "+errorThrown)); 
