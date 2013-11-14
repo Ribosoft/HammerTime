@@ -2,7 +2,26 @@
 <% include reusables/jumbotron_api %>
     <div class="row-fluid step-header span12">
         <div class="step-container">
-        Include API here
+	  <h3>Requests</h3>
+	  <p>Requests represent design requests, e.g. the objects to be processed by our service. To start designing a hammerhead ribozyme, one needs to create a request, and supply it with the necessary parameters.</p>
+	  <table class="table table-striped api-table">
+	    <thead>
+	      <tr>
+		<th>Resource</th>
+		<th>Description</th>
+	      </tr>
+	      <tbody>
+		<tr>
+		  <td>POST /ribosoft/requests/</td>
+		  <td>Creates a new design request using the given design parameters<br/>
+		    <br/>
+		    <h4>Parameters</h4>
+		    <ul>
+		      <li class="design-parameter"><em>sequence : String</em><br/>When provided, the sequence will be used as the target of the Hammerhead ribozyme.</li>
+		      <li class="design-parameter"><em>accessionNumber: String</em><br/>When provided, it will be used as the target of the Hammerhead ribozyme.<br/>Note that, when both the sequence and the accessionNumber are provided, they are validated to belong to the same organism.<br/> For a list of possible accession number values, have a look at the <a href="http://www.ncbi.nlm.nih.gov/books/NBK25500/">NCBI database</a></li>
+		      <li class="design-parameter"><em>foldShape : String</em><br/>describes the shape of the ribozyme.<br/> Possible values are: "Basic" and "Wishbone"</li>
+		      <li class="design-parameter"><em>temperature : Integer</em><br/>When provided, represents the temperature of the target.<br/> Default value is 37&#8451;</li>
+		      <li class="design-parameter"><em> : Integer</em><br/>When provided, represents the temperature of the target.<br/> Default value is 37&#8451;</li>
         </div>
     </div>
 <% include footer %>

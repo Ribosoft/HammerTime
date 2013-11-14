@@ -53,7 +53,6 @@ app.configure('development', function(){
 //All these routes.* functions are defined in routes/index.js
 app.get('/ribosoft/', routes.index);
 app.get('/ribosoft', routes.redirect);
-app.get('/ribosoft/about', routes.about_page);
 app.get('/ribosoft/api', routes.api_page);
 app.get('/ribosoft/processing/:id', routes.processing_page);
 //app.get('/ribosoft/status/:id', routes.processing_status);
