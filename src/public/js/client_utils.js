@@ -464,3 +464,39 @@ ResultsPanel.prototype.updatePanel = function(status){
     }
 }
 
+function EmailReporter(panel1, panel2, alert){
+    this.panel1 = panel1;
+    this.panel2 = panel2;
+    this.alert = new SequenceAlert(alert);
+}
+
+EmailReporter.prototype.submit = function(value){
+    this.alert.hide();
+    if(!value)
+    {
+	this.alert.setState({ok: false, error:"Email Input is empty."});
+	this.alert.show();
+	return;
+    }
+    var self = this;
+    Request.getRequest(function(err, request){
+	if(err){
+	    self.alert.setState({ok: false, error:"Could not reach the server. Please try again later."});
+	    self.alert.show();
+	}
+	else{
+	    request.emailUser = value;
+	    request.updateRequest(function(err, request){
+		if(err) {
+		    self.alert.setState({ok: false, error:"Could not reach the server. Please try again later."});
+		    self.alert.show();
+		}
+		else {
+		    self.panel1.addClass("invisible");
+		    self.panel2.removeClass("invisible");
+		}
+	    });
+	}
+    });
+}
+
