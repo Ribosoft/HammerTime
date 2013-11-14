@@ -82,7 +82,7 @@ var designContent = new DesignContent(
     $(".design-help")
 );
 
-var typeahead = new TypeaheadInput("otherEnv");
+//var typeahead = new TypeaheadInput("otherEnv");
 
 var submit2 = new Button($("#submit2"));
 var dropdown = new SmartDropdown($("select[name='envVivo']"));
@@ -105,19 +105,7 @@ function enableDisableDropdown()
 
 function dropdownListen(event){
     if(this.value == "other"){
-	$(".otherEnv").removeClass("invisible");/*
-	var smartInput = completely(document.getElementById("#otherEnv"));
-	smartInput.onChange = function(text){
-	    if(text){
-		TypeaheadInput.fetchOptions(text, function(err, options){
-		    if(!err){
-			console.log( "options ="+options );
-			smartInput.options = options;
-			smartInput.repaint();
-		    }
-		});
-	    }
-	};*/
+	$(".otherEnv").removeClass("invisible");
     }
     else
 	$(".otherEnv").addClass("invisible");
@@ -203,6 +191,11 @@ var progressBar = new ProgressBar($(".bar"), $("#timeLeft"), request);
 var stateReporter = new StateReporter($(".resultsButton").next());
 var resultsPanel = new ResultsPanel($(".resultsButton"));
 var submit4 = new Button($("#submit4"));
+var emailReporter = new EmailReporter(
+    $("#input-email"),
+    $("#confirmation-email"),
+    $("#emailAlert"));
+
 
 function updatePage() {
     var countErrors = 0;
@@ -212,7 +205,8 @@ function updatePage() {
 	    var remainingMin = data.duration.remainingDuration * 1000 * 60;
 	    timeoutInterval = remainingMin / 10;
 	    progressBar.update(data.duration.remainingDuration);
-	    stateReporter.updateState(data.state);
+//	    console.log( "State of request = "+data.state );
+//	    stateReporter.updateState(data.state);
 	    resultsPanel.updatePanel(data.status);
 	} else {
 	    countErrors +=1;
@@ -252,9 +246,11 @@ window.onload = function() {
     }
     
     if($(".progress").length > 0) {
-//        checkStatusResult();
 	updatePage();
 	submit4.click(finishStep4);
+	$("#emailSubmit").click(function(){
+	    emailReporter.submit($("#emailInput").val());
+	});
     }
 
     if($("#results").length > 0) {

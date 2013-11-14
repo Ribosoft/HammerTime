@@ -1,5 +1,5 @@
 <h3 class="step-title">Step 4 - Processing</h3>
-<p class="step-description">Your request has been submitted under ID # <span id="requestId"></span>.You can wait for the design process to finish, or enter your email and we will send you a link once it is completed.</p>
+<p class="step-description">Your request has been submitted. You can wait for the design process to finish, or enter your email and we will send you a link once it is completed.</p>
 <div class="step-contents center">
     <div class="jumbotron">
         <h5>Estimated Time Left:<span id="timeLeft"></span></h5>
@@ -8,16 +8,19 @@
         </div>
     </div>
     <div class="emailInvite container">
-        <div class="form-signin">
+        <div class="form-signin" id="input-email">
         <h2 class="form-signin-heading">Don't feel like waiting?</h2>
         <p>Enter your email address, and we will email you a link to the result page once it is done.</p>
-            <input class="input-block-level" type="email" name="email" required="true"/>
-            <input type="submit" class="btn btn-large btn-primary form-submit" value="Submit"/>
+            <input class="input-block-level" id="emailInput" type="email" name="email" required="true"/>
+            <input type="submit" id="emailSubmit" class="btn btn-large btn-primary form-submit" value="Submit"/>
+	    <div id="emailAlert" class="alert alert-error invisible"></div>
+        </div>
+	<div class="form-signin invisible" id="confirmation-email">
+          <h2 class="form-signin-heading">Email saved</h2>
+          <p>We got you covered. You can now close the tab and wait for the results to be emailed to you.</p>
         </div>
     </div>
-    <div class="resultsButton invisible container">
-        <div class="form-signin">
+    <div class="resultsButton invisible">
             <input type="submit" id="submit4" class="btn btn-large btn-success" value="Results"/>
-        </div>
     </div>
 </div>
