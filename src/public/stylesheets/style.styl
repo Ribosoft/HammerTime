@@ -21,6 +21,7 @@ transition()
   -o-transition arguments
   transition arguments
 
+html,
 body
     height 100%
 
@@ -31,8 +32,8 @@ h1,h2,h3,h4,h5,h6
     margin 0
 
 .big-container
-    min-height 100%
-    position relative
+    min-height 80%
+    height auto !important
 
 input[type="number"]
     width 56px
@@ -193,12 +194,11 @@ $step-content-minHeight = 396px
 #footer
     background #333;
     padding-top 1%
-    height: 10em;
+    height: 20%;
     text-align: left;
     color: white
     clear both
     position relative
-    bottom 0
     font-family gentium_book-bold
 
     & .copyright
@@ -208,3 +208,12 @@ $step-content-minHeight = 396px
 
 .icon-question-sign:hover
     cursor pointer
+
+/**** API ****/
+.parameter-desc
+    padding-left 20px
+
+.design-parameter > em
+    font-size 14px
+    font-style normal
+    font-weight bold

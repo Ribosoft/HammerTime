@@ -17,10 +17,6 @@ exports.redirect = function(req, res) {
     res.redirect('/ribosoft/');
 };
 
-exports.about_page = function(req, res) {
-    res.render('about', {title: 'About Ribosoft'});
-};
-
 exports.api_page = function(req, res) {
     res.render('api', {title: 'Developer API'});
 };
