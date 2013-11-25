@@ -59,6 +59,7 @@ function finishStep1()
     fieldSet.setState(!!request.accessionNumber);
     $("#step2").removeClass("invisible");
     $(".section-collapse").click(ToggleVisibilityClick);
+    $(".section-expand").click(ToggleVisibilityClick);
 }
 
 function setSubmitButtonStatus(){
@@ -121,6 +122,8 @@ function _toggleVisibility( target )
     {
         target.removeClass('section-collapse')
         target.addClass('section-expand');
+	$("#arm-help").addClass("invisible");
+	$("#promoter-help").addClass("invisible");
         target.next().hide( speed == undefined? 0 : parseInt(speed));
       //  target.html(target.html().replaceAll('-','+'));
     }
@@ -128,7 +131,9 @@ function _toggleVisibility( target )
     {
         target.addClass('section-collapse')
         target.removeClass('section-expand');
-        target.next().show( speed == undefined? 0 : parseInt(speed));
+        $("#arm-help").removeClass("invisible");
+	$("#promoter-help").removeClass("invisible");
+	target.next().show( speed == undefined? 0 : parseInt(speed));
        // target.html(target.html().replaceAll('\\+','-')); // plus is a regex expression reserved character. we must escape it
     }
 }
@@ -256,6 +261,8 @@ window.onload = function() {
     if($("#results").length > 0) {
         $("#results").dataTable();
     }
+
+    _toggleVisibility($("fieldset[name^=advanced] > legend"));
 };
 
 var replayStep1 = function(){
