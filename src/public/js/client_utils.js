@@ -35,7 +35,7 @@ String.prototype.indexOfMultiple=function(Arr)
 	indexs.push(this.indexOf(Arr[ii]));
     }
     
-    var min = this.length;//The first instance of an element in *this cannot be at an index greater than length (e.g. this is a big number)
+    var min = this.length;
     for(var ii = 0; ii < indexs.length; ++ii)
     {
 	if(indexs[ii] != -1 && indexs[ii] < min)
