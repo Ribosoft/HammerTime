@@ -428,16 +428,23 @@ function ProgressBar(el, elText, request){
     this.el = el;
     this.elText = elText;
     this.request = request;
-    this.timeSoFar = 0; //in min
-    this.now = new Date();
 }
 
 ProgressBar.prototype.update = function(duration){
-    this.elText.text(duration + " minutes"); 
-    this.timeSoFar += (this.now - new Date()) / (1000 * 60);
-    var percentage = this.timeSoFar / (this.timeSoFar + duration);
+    var newVal = duration;
+    var arr;
+    if(arr = $("#timeLeft").text().match(/(\d)+\sminutes/))
+	var oldValue = Number(arr[1]);
+    else
+	var oldValue = 120;
+
+    this.elText.text(duration + " minutes");
+    if(duration == 0)
+	var percentage = 99;
+    else {
+	var percentage = Math.max(1, (oldValue - newVal)/oldValue);
+    }
     this.el.css('width',(percentage+1)+"%");
-    this.now = new Date();
 }
 
 function StateReporter(el){
