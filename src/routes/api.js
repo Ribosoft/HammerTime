@@ -86,7 +86,7 @@ module.exports = {
     },
     getRequestStatus : function(req, res, next){
 	var uuid = req.params.id;
-	var extraInfo = req.body.extraInfo;
+	var extraInfo = req.query.extraInfo;
 	async.waterfall(
 	    [
 		function(callback){
