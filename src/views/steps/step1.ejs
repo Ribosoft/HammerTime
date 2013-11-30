@@ -3,16 +3,17 @@
   <div class="input-selection">
     <div class="span5 tile" id="accession">
       <p class="substep-description">Search for sequence number</p>
-      <input id="accession" type="text" placeholder="Accession number"></input>
+      <p class="substep-description">Find the sequence number <a href="http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi">here</a></p>
+      <input id="accession" type="text" placeholder="(example: M73307)"/>
       <input id="submit_ACN" class="btn" type="button" value="Search"/>
       <div id="accession_alert" class="alert invisible"></div>
     </div>
     <div class="bar-separator span2"><span class="emp">Or</div>
     <div class="span5 tile" id="drop">
-      <p class="substep-description">Select a file with your sequence to upload</p>
-      <div class="btn" id="selectFileButton" onclick="$('#selectFileInput').click()">
+      <p class="substep-description">Select a file with your sequence to upload. (TXT or FASTA format)</p>
+      <button class="btn" id="selectFileButton" onclick="$('#selectFileInput').click()">
 	Select File
-      </div>
+      </button>
       <input type="file" style="visibility:hidden;" id="selectFileInput"> 
     </div>
   </div>
