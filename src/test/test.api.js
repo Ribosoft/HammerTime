@@ -290,11 +290,11 @@ describe('GET: /requests/<id>/status', function(){
 	});
     });
 
-    it('GET /requests/<id>/status returns 202, status and duration for in-processing request', function(done) {
+    it('GET /requests/<id>/status returns 202, status and duration for ready for processing requests', function(done) {
 	async.waterfall([
 	    test_utils.createRequest(app, data, done),
-	    test_utils.setRequestInProcessing(duration, done),
-	    test_utils.getInProcessingRequestStatus(app, duration, done)
+	    test_utils.setRequestReady(duration, done),
+	    test_utils.getReadyRequestStatus(app, duration, done)
 	],
 	function(err, done){
 	    test_utils.errorHandler(err, done);
@@ -306,7 +306,43 @@ describe('GET: /requests/<id>/status', function(){
 	async.waterfall([
 	    test_utils.createRequest(app, data, done),
 	    test_utils.setRequestInProcessing(duration, done),
+	    test_utils.getInProcessingRequestStatus(app, duration, done)
+	],
+	function(err, done){
+	    test_utils.errorHandler(err, done);
+	    if(!err) done();
+	});
+    });
+    
+    it('GET /requests/<id>/status?extraInfo=true returns state for ready for processing requests', function(done) {
+	async.waterfall([
+	    test_utils.createRequest(app, data, done),
+	    test_utils.setRequestReady(duration, done),
+	    test_utils.getReadyRequestStatus(app, duration, done)
+	],
+	function(err, done){
+	    test_utils.errorHandler(err, done);
+	    if(!err) done();
+	});
+    });
+
+    it('GET /requests/<id>/status?extraInfo=true returns state for in-processing request', function(done) {
+	async.waterfall([
+	    test_utils.createRequest(app, data, done),
+	    test_utils.setRequestInProcessing(duration, done),
 	    test_utils.getInProcessingRequestStatusExtra(app, duration, done)
+	],
+	function(err, done){
+	    test_utils.errorHandler(err, done);
+	    if(!err) done();
+	});
+    });
+
+    it('GET /requests/<id>/status?extraInfo=true returns state for processed request', function(done) {
+	async.waterfall([
+	    test_utils.createRequest(app, data, done),
+	    test_utils.setRequestProcessed(duration, done),
+	    test_utils.getProcessedRequestStatusExtra(app, {"remainingDuration":0,"unit":'min'}, done)
 	],
 	function(err, done){
 	    test_utils.errorHandler(err, done);
