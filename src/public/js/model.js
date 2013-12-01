@@ -60,7 +60,7 @@ Request.prototype.submitRequest = function(callback){
 	    callback(null, xhr.getResponseHeader("Location"));
         },
         error: function(jqXHR, textStatus, errorThrown) {
-	    callback(new Error("Submitting request failed because "+errorThrown)); 
+	    Request.handleError(jqXHR, "Submitting request", callback);
         }
     });
 };
@@ -77,7 +77,7 @@ Request.prototype.updateRequest = function(callback){
 	    callback(null, data);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-	    callback(new Error("Submitting request failed because "+errorThrown)); 
+	    Request.handleError(jqXHR, "Updating request", callback);
         }
     });
 };
@@ -113,7 +113,7 @@ Request.getRequest = function(callback){
 	    callback(null, request);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-	    callback(new Error("Getting request information failed because "+errorThrown)); 
+	    Request.handleError(jqXHR, "Getting request information", callback);
         }
     });
 }
@@ -129,7 +129,7 @@ Request.prototype.getRequestStatus = function(callback){
         dataType : "json",
 	contentType: "application/json; charset=utf-8",
         error : function(err) {
-	    callback(new Error("Server not responding"));
+	    Request.handleError(jqXHR, "Getting request information", callback);
         }
     });
 };
@@ -163,3 +163,13 @@ Request.prototype.extractData = function(obj){
 };
 
 
+Request.handleError = function(jqXHR, action, callback){
+    if(jqXHR.status == 400 || jqXHR.status == 405) {
+	var error = JSON.parse(jqXHR.responseText);
+	callback(new Error(action+" failed because "+error.error));
+    } else if (jqXHR.status == 404) {
+	callback(new Error(action+" failed because the request could not be found."));
+    } else {
+	callback(new Error(action+" failed because the service is currently unavailable. Please try again later"));
+    }
+};

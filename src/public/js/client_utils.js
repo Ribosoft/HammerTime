@@ -402,6 +402,10 @@ SummaryTable.prototype.setTableData = function(data){
     if(data.env.target){
 	$("#vivoEnvRow").removeClass("invisible");
     }
+    if(data.accessionNumber){
+	$("#accessionNumberRow").removeClass("invisible");
+    }
+    $("#accessionNumber").text(data.accessionNumber);
     $("#seqLength").text(data.sequence.length + " nucleotides");
     $("#targetRegion").text(data.region);
     $("#targetEnv").text("In-"+data.env.type);
