@@ -83,8 +83,6 @@ var designContent = new DesignContent(
     $(".design-help")
 );
 
-//var typeahead = new TypeaheadInput("otherEnv");
-
 var submit2 = new Button($("#submit2"));
 var dropdown = new SmartDropdown($("select[name='envVivo']"));
 var fieldSet = new SmartFieldSet($("fieldset[name='region']"), $("#region-help"), $("#targetRegionRow"));
