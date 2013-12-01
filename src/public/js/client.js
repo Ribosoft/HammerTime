@@ -210,7 +210,8 @@ function updatePage() {
 	    var remainingMin = data.duration.remainingDuration * 1000 * 60;
 	    timeoutInterval = remainingMin / 10;
 	    progressBar.update(data.duration.remainingDuration);
-//	    console.log( "State of request = "+data.state );
+
+	    console.log( "State of request = "+data.state );
 //	    stateReporter.updateState(data.state);
 	    resultsPanel.updatePanel(data.status);
 	} else {
@@ -219,6 +220,8 @@ function updatePage() {
 		clearTimeout(timeout);
 	}
 	var timeout = setTimeout(updatePage, timeoutInterval);
+	if(data && data.duration.remainingDuration == 0)
+	    clearTimeout(timeout);
     });
 };
 

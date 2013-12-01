@@ -76,6 +76,8 @@ utils.setRequestProcessed = function(results_data, done){
 		result.setStatus(4);
 		try{
 		    saveResultsUncompressed(id, JSON.stringify(results_data));
+		    result.state = "\nRequest has started\nRequest has finished\n";
+		    result.remainingDuration = 0;
 		    result.save(function(err, result){
 			if(err) callback(err);
 			else {
@@ -128,6 +130,27 @@ utils.inexistentRequestChecker = function(data, done){
     };
 };
 
+
+utils.setRequestReady = function(duration, done){
+    return function(id, callback) {
+	Request.findOne({uuid: id}, function(err, result) {
+	    if(err)
+		callback(err, done);
+	    else {
+		result.setRemainingTime(duration);
+		result.state= "\n";
+		result.save(function(err, res){
+		    if(err) callback(err);
+		    else {
+			callback(null, id);
+		    }
+		});
+	    }
+	});
+    };
+}
+
+
 utils.setRequestInProcessing = function(duration, done){
     return function(id, callback) {
 	Request.findOne({uuid: id}, function(err, result) {
@@ -136,7 +159,7 @@ utils.setRequestInProcessing = function(duration, done){
 	    else {
 		result.setStatus(3);
 		result.setRemainingTime(duration);
-		result.state= "\n";
+		result.state= "\nRequest has started\n";
 		result.save(function(err, res){
 		    if(err) callback(err);
 		    else {
@@ -183,6 +206,23 @@ utils.getRequestStatus = function(app, duration, done){
     };
 };
 
+
+utils.getReadyRequestStatus = function(app, duration, done){
+    return function(id, callback) {
+	request(app).get('/ribosoft/requests/'+id+'/status')
+            .expect(202)
+            .end(function(err, res) {
+		if(err)	callback(err, done);
+		else {
+		    res.body.duration.should.eql(duration);
+		    res.body.status.should.eql("Ready for processing");
+		    callback(null, done);
+		}
+	    });    
+    };
+};
+
+
 utils.getInProcessingRequestStatus = function(app, duration, done){
     return function(id, callback) {
 	request(app).get('/ribosoft/requests/'+id+'/status')
@@ -198,9 +238,26 @@ utils.getInProcessingRequestStatus = function(app, duration, done){
     };
 };
 
+utils.getReadyRequestStatusExtra = function(app, duration, done){
+    return function(id, callback) {
+	request(app).get('/ribosoft/requests/'+id+'/status?extraInfo=true')
+	    .send({extraInfo : 'true'})
+            .expect(202)
+            .end(function(err, res) {
+		if(err)	callback(err, done);
+		else {
+		    res.body.duration.should.eql(duration);
+		    res.body.status.should.eql("Ready for processing");
+		    res.body.state.should.include("\n");
+		    callback(null, done);
+		}
+	    });    
+    };
+};
+
 utils.getInProcessingRequestStatusExtra = function(app, duration, done){
     return function(id, callback) {
-	request(app).get('/ribosoft/requests/'+id+'/status')
+	request(app).get('/ribosoft/requests/'+id+'/status?extraInfo=true')
 	    .send({extraInfo : 'true'})
             .expect(202)
             .end(function(err, res) {
@@ -208,7 +265,24 @@ utils.getInProcessingRequestStatusExtra = function(app, duration, done){
 		else {
 		    res.body.duration.should.eql(duration);
 		    res.body.status.should.eql("In-Processing");
-		    res.body.state.should.include("\n");
+		    res.body.state.should.include("\nRequest has started");
+		    callback(null, done);
+		}
+	    });    
+    };
+};
+
+utils.getProcessedRequestStatusExtra = function(app, duration, done){
+    return function(id, callback) {
+	request(app).get('/ribosoft/requests/'+id+'/status?extraInfo=true')
+	    .send({extraInfo : 'true'})
+            .expect(200)
+            .end(function(err, res) {
+		if(err)	callback(err, done);
+		else {
+		    res.body.duration.should.eql(duration);
+		    res.body.status.should.eql("Processed");
+		    res.body.state.should.include("\nRequest has started\nRequest has finished");
 		    callback(null, done);
 		}
 	    });    
