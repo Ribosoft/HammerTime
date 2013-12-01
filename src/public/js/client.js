@@ -20,7 +20,7 @@ var accessionAlert = new AccessionAlert($("#accession_alert"));
 
 function fetchInputAccessionNumber(){
 
-    var validator = new  AccNumberValidator($("#accession").find("input").val());
+    var validator = new  AccNumberValidator($("#accession").val());
     //If accesionNumber is empty
     if(!validator.getAccessionNumber()){
 	return;
