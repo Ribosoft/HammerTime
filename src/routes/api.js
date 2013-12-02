@@ -179,9 +179,9 @@ module.exports = {
 		else{
 		    var status = result.getDetailedStatus();
 		    if(status == "Processed")
-			utils.returnError(405, "The request with id "+uuid+" cannot be modified because it has already been processed", next);
+			utils.returnError(405, "The request with id "+uuid+" cannot be modified; it has already been processed", next);
 		    else if(status == "In-Processing")
-			utils.returnError(405, "The request with id "+uuid+" cannot be modified because it is currently being processed", next);
+			utils.returnError(405, "The request with id "+uuid+" cannot be modified; it is currently being processed", next);
 		    else {
 			checkAccession(req.body.sequence,
 				       req.body.accessionNumber,
@@ -251,21 +251,8 @@ function checkAccession(sequence, accessionNumber, callback, next){
 	    accessionNumber = '';
 	});
     } 
-    else if (sequence && accessionNumber) {
-	fetchAccession(accessionNumber, function(seq) {
-	    if(sequence !== seq){
-		utils.returnError(400, "Sequence and accession number do not match.", next);
-		accessionNumber = '';
-		sequence = '';
-	    } else {
-		callback(sequence, accessionNumber);
-	    }
-	}, function(error){
-	    utils.returnError(400, "Accession Number is invalid.", next);
-	    accessionNumber = '';
-	});
-    } else {
-	callback(sequence, '');
+    else {
+	callback(sequence, accessionNumber);
     }
 };
 
