@@ -24,32 +24,9 @@ exports.api_page = function(req, res) {
 exports.processing_page = function(req, res, next) {
     res.render('processing_page', { title: 'Ribosoft - Processing' });
 };
-/*
-exports.email_page = function(req, res, next) {
-    var uuid = req.params.id;
-    if (!req.body.email) {
-        utils.renderInputError("Email was empty.");
-    }
 
-    Request.findRequest(uuid, function(err, result) {
-        if (err || !result) {
-            utils.renderDatabaseError("Could not find request", next);
-        }
-        else {
-            result.emailUser = req.body.email;
-            result.save(utils.onSaveHandler(function(result, next) {
-                res.render('email_page',
-                {
-                    title: 'Ribosoft - Notification setup',
-                });
-            }));
-        }
-    });
-};
-*/
 exports.results_page = function(req, res, next) {
     var path = require('path').join('/home/admin/ribosoft/', req.params.id, '/requestState.json');
-
     try{
 	var json_output = require(path);
 	res.render('results_page', {

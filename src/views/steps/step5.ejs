@@ -6,16 +6,16 @@
   DecompressRequest(results);
   var container = results.CutsiteTypesCandidateContainer;
   var html ="<div class='step-contents center'>\
-  <table class='table table-striped' id='results'>\
+  <table class='table table-hover' id='results'>\
        <thead>\
-           <th>Cutsite Number</th>\
+           <th>Cut-site Number</th>\
            <th>Sequence</th> \
-           <th>Melting Temperature (C)</th> \
-           <th>Target Site Fitness</th> \
-           <th>Target Delta Free Energy</th> \
-           <th>Shape Fitness</th> \
+           <th>Melting Temperature (&deg;C)</th> \
+           <th>Accessibility 1</th> \
+           <th>Accessibility 2</th> \
+           <th>Ribozyme Shape Quality</th> \
            <th>Weighted off-target hits</th> \
-           <th>Pareto Rank</th> \
+           <th>Overall Rank</th> \
        </thead>";
        container.forEach(function(type, ind1) {
             type.Cutsites.forEach(function(cutsite,ind2) { 
@@ -27,28 +27,36 @@
                   <td>"+candidate.Fitness_Target+"</td> \
                   <td>"+candidate.Fitness_Target_dG+"</td> \
                   <td>"+candidate.Fitness_Shape+"</td> \
-                  <td  info='"+ind1+","+ind2+","+ind3+"' class='specificity-entry' style='color: blue; cursor: pointer;'>"+candidate.Fitness_Specificity+"</td> \
+                  <td info='"+ind1+","+ind2+","+ind3+"'>"+candidate.Fitness_Specificity+"</td> \
                   <td>"+candidate.rank+" </td> \
                 </tr>";
                 })
             })
        })
-    html += "</table></div>";
+    html += "</table>";
     $('.step-container').append(html);
-    $('.specificity-entry').click
-    (  
-    function(e)
-    {
-      var target = $(e.target);
-      try{
-        var inx = target.attr('info').split(',');
-        var offtar_hits = results.CutsiteTypesCandidateContainer[parseInt(inx[0])].Cutsites[parseInt(inx[1])].OfftargetLocations ;
-        var print = offtar_hits.join('\n');
-        alert(print);
-      }
-      catch (err)
-      {console.log(err);console.log(err.message);}
-    
-    });
   </script>
+  <div class="modal fade" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+	<div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Candidate description</h4>
+	</div>
+	<div class="modal-body" id="modal-body">
+	  <div class="candidate-details">
+	    <h5>Sequence</h5>
+	    <h5>Off-target Hits</h5>
+	    <div id="offtarget-text">
+	    </div>
+	  </div>
+	</div>
+	<div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Download Sequence</button>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
 <% } %>
