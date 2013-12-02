@@ -60,6 +60,8 @@ function finishStep1()
     $("#step2").removeClass("invisible");
     $(".section-collapse").click(ToggleVisibilityClick);
     $(".section-expand").click(ToggleVisibilityClick);
+    //Default value needs to be set when refreshing page
+    $("#envVivo").val("mouse");
 }
 
 function setSubmitButtonStatus(){
@@ -261,10 +263,21 @@ window.onload = function() {
 
     if($("#results").length > 0) {
         $("#results").dataTable();
+	$("#results tr").click(showExtraInfo);
     }
 
     _toggleVisibility($("fieldset[name^=advanced] > legend"));
 };
+
+var showExtraInfo = function(ev){
+    var target = $(ev.currentTarget.children[6]);
+    var inx = target.attr('info').split(',');
+    var offtar_hits = results.CutsiteTypesCandidateContainer[parseInt(inx[0])].Cutsites[parseInt(inx[1])].OfftargetLocations ;
+    var print = offtar_hits.join('\n');
+    $("#offtarget-text").text(offtar_hits);
+    $("#resultModal").modal();
+};
+
 
 var replayStep1 = function(){
     $("#step2").addClass("invisible");
