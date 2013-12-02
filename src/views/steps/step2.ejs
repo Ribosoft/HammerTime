@@ -27,7 +27,7 @@
           <option value="Daphnia (taxid:6668)">Daphnia</option>
 	  <option value="other">Other</option>
 	</select><br/>
-	<label for="otherEnv" class="otherEnv invisible">Please Specify    </label>
+	<label for="otherEnv" class="otherEnv invisible">    Find your organism <a href="http://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch">here</a></label>
 	<input id="otherEnv" class="invisible otherEnv" type="text" name="otherEnv" placeholder="Example: mouse (taxid:10090)" />
       </div>
     </fieldset>
@@ -39,7 +39,7 @@
 	<input type="number" name="temperature" value="37"/> &#176;C<br/>
 	<label for="naC">Na&#8314; Concentration</label>
 	<input type="number" name="naC" value="150"/> mM<br/>
-	<label for="mgC">Mg&#8314;&#8314; Concentration</label>
+	<label for="mgC">Mg<sup>2</sup>&#8314; Concentration</label>
 	<input type="number" name="mgC" value="0"/> mM<br/>
 	<label for="oligoC">Oligomer Concentration</label>
 	<input type="number" name="oligoC" value="200"/> nM<br/>
@@ -51,11 +51,18 @@
       <div class="offset2">
 	<label for="cutsites">Preferred cutsite(s)</label>
 	<select name="cutsites" multiple="multiple">
-          <option value="GUC" selected="selected">GUC</option>
-          <option value="AUC">AUC</option>
-          <option value="CUC">CUC</option>
-          <option value="CUG">CUG</option>
-          <option value="CUA">CUA</option>
+	  <option selected="selected" value="GUC">GUC</option>
+	  <option value="CUC">CUC</option>
+	  <option value="AUC">AUC</option>
+	  <option value="UUC">UUC</option>
+	  <option value="AUA">AUA</option>
+	  <option value="UUC">UUA</option>
+	  <option value="GUA">GUA</option>
+	  <option value="CUA">CUA</option>
+	  <option value="GUU">GUU</option>
+	  <option value="CUU">CUU</option>
+	  <option value="AUU">AUU</option>
+	  <option value="UUU">UUU</option>
 	</select>
       </div>
     </fieldset>
@@ -69,20 +76,20 @@
     <fieldset class="option-field" name="advanced-arm">
       <legend class="section-collapse" speed="200" >    Advanced Options - Arm Length<i class="icon-question-sign pull-right"></i></legend>
       <div class="offset2" id="arm-options">
-	<label for="left_arm_min">Left Arm Minimum Length</label>
+	<label for="left_arm_min">Helix I Minimum Length</label>
 	<input type="number" name="left_arm_min" value="3"/> nucleotides<br/>
-	<label for="left_arm_max">Left Arm Maximum Length</label>
+	<label for="left_arm_max">Helix I Maximum Length</label>
 	<input type="number" name="left_arm_max" value="8"/> nucleotides<br/>
-	<label for="right_arm_min">Right Arm Minimum Length</label>
+	<label for="right_arm_min">Helix III Minimum Length</label>
 	<input type="number" name="right_arm_min" value="3"/> nucleotides<br/>
-	<label for="right_arm_max">Right Arm Maximum Length</label>
+	<label for="right_arm_max">Helix III Maximum Length</label>
 	<input type="number" name="right_arm_max" value="8"/> nucleotides<br/>
       </div>
     </fieldset>
     <fieldset class="option-field" name="advanced-promoter">
       <legend class="section-collapse" speed="200" >    Advanced Options - T7 Promoter<i class="icon-question-sign pull-right"></i></legend>
       <div class="offset2">
-	<label for="promoter">Use T7 Promoter?</label>
+	<label for="promoter">Append T7 Promoter?</label>
 	<input type="radio" name="promoter" value="1"/>Yes<br/>
 	<input type="radio" name="promoter" value="0" checked="checked"/>No<br/>
       </div>
