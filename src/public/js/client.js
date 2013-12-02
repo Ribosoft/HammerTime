@@ -167,6 +167,7 @@ function finishStep2(event)
     else if(!request.env || (request.env.type == "vivo" && !request.env.target)){
 	designAlert.setState({ok:false, error:"You must specify the target environment and target organism (if in-vivo)"});
     } else {
+	designAlert.hide();
 	summary.setTableData(request);
 	$("#step2").addClass("invisible");
 	$("#step3").removeClass("invisible");
@@ -289,6 +290,11 @@ var replayStep2 = function(){
     $("#step2").removeClass("invisible");
 };
 
+var replayStep0 = function(){
+    $("#step1").addClass("invisible");
+    $("#step0").removeClass("invisible");
+};
+
 window.onhashchange = function(event){
     var stepBack = function(oldURL, newURL){
 	return newURL < oldURL;
@@ -299,5 +305,7 @@ window.onhashchange = function(event){
 	    replayStep1();
 	else if(event.newURL.endsWith("#step2"))
 	    replayStep2();
+	else if(event.newURL.endsWith("ribosoft/"))
+	    replayStep0();
     }
 }
