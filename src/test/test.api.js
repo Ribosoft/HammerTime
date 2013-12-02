@@ -87,8 +87,8 @@ describe('POST: /requests/', function(){
 
     it('POST /requests with sequence and wrong accessionNumber', function(done) {
 	async.waterfall([
-	    test_utils.createBadRequest(app, seqAndWrongAccessionData, done),
-	    test_utils.checkBadRequestError("Sequence and accession number do not match.", done)
+	    test_utils.createRequest(app, seqAndWrongAccessionData, done),
+	    test_utils.requestChecker(seqAndWrongAccessionData, done)
 	],
 	function(err, done){
 	    if(err)
