@@ -45,15 +45,13 @@
 	</div>
 	<div class="modal-body" id="modal-body">
 	  <div class="candidate-details">
-	    <h5>Sequence</h5>
-	    <h5>Off-target Hits</h5>
-	    <div id="offtarget-text">
-	    </div>
+	    <h5>Sequence</h5><p id="sequence"></p>
+	    <h5>Off-target Hits</h5><p id="offtarget-text"></p>
 	  </div>
 	</div>
 	<div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Download Sequence</button>
+          <a id="download-link" class="btn btn-primary" download="sequence.txt" href="data:text/plain">Download Sequence</a>
 	</div>
       </div>
     </div>
