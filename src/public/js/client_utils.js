@@ -255,29 +255,37 @@ SequenceInput.prototype.emptyText = function(){
 };
 
 
-function SequenceAlert(el){
+function SequenceAlert(el, el2){
     this.el = el;
+    this.el2 = el2;
 }
 
 //state = {"ok": "true/false" , "error" : "<str>"}
 SequenceAlert.prototype.setState = function(state){
     this.el.removeClass("invisible");
+    this.el2.removeClass("invisible");
     if(state.ok === false){
-	this.el.addClass("alert-error").removeClass("alert-success");	
+	this.el.addClass("alert-error").removeClass("alert-success");
+	this.el2.addClass("alert-error").removeClass("alert-success");	
     }
     else {
 	this.el.removeClass("alert-error").addClass("alert-success");
+	this.el2.removeClass("alert-error").addClass("alert-success");
     }
     this.el.text(state.error);
+    this.el2.text(state.error);
 };
 
 SequenceAlert.prototype.hide = function(){
     this.el.addClass("invisible");
     this.el.removeClass("alert-error alert-success");
+    this.el2.addClass("invisible");
+    this.el2.removeClass("alert-error alert-success");
 };
 
 SequenceAlert.prototype.show = function(){
     this.el.removeClass("invisible");
+    this.el2.removeClass("invisible");
 };
 
 
@@ -298,15 +306,6 @@ Button.prototype.enable = function(){
 };
 
 function DesignContent(formEl, iconEls, designHelpEl) {
-    this.mapHelp = {
-	'region' : "Region describes the specific region in the sequence which will be targetted by the Hammerhead Ribozyme",
-	'env' : "The target environment is either in-vivo or in-vitro",
-	'envProperties' : "These parameters describe the environment of operation of the Hammerhead Ribozyme",
-	'cutsites' : "Cutsites represent a sequence of DNA which will be targeted by the Hammerhead Ribozyme",
-	'shape' : "Wishbone is a U-shaped form, while basic is a non-wishbon form",
-	'advanced-arm' : "These parameters relate to the length of each arm strand on the Ribozyme",
-	'advanced-promoter' : "T7 promoter"
-    };
     this.designForm = formEl;
     this.questionIcons = iconEls;
     this.designHelp = designHelpEl;

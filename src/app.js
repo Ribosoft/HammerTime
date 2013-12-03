@@ -6,21 +6,18 @@ var express = require('express'),
     routes = require('./routes'),
     http = require('http'),
     nib = require('nib'),
-    path = require('path'),
-    shutdown = require('shutdown');
+    path = require('path');
 
 var app = express();
 
 app.configure(function(){
     app.set('port', 8080 );
     app.engine('ejs', engine);
-    app.set('views', __dirname + '/views')
+    app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
     app.use(express.logger('dev'));
     app.use(express.bodyParser());
     app.use(express.methodOverride());
-    app.use(express.cookieParser('your secret here'));
-    app.use(shutdown.handle);
     app.use(stylus.middleware({
 	src:__dirname + '/public',
 	compile: function(str, path){
@@ -55,9 +52,6 @@ app.get('/ribosoft/', routes.index);
 app.get('/ribosoft', routes.redirect);
 app.get('/ribosoft/api', routes.api_page);
 app.get('/ribosoft/processing/:id', routes.processing_page);
-//app.get('/ribosoft/status/:id', routes.processing_status);
-//The email page will be replaced by a confirmation on the processing page
-//app.get('/ribosoft/remember/:id', routes.email_page);
 app.get('/ribosoft/results/:id', routes.results_page);
 
 //While routes.api.* are defined in routes/api.js
@@ -69,12 +63,6 @@ app.get('/ribosoft/requests/:id/status', routes.api.getRequestStatus);
 app.get('/ribosoft/requests/:id/results', routes.api.getResults);
 
 var server = http.createServer(app);
-shutdown.set('forceShutdown', 10*1000);
-shutdown.set(server, function(){
-    mongoose.connection.close();
-    process.exit();   
-});
-
 server.listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));
 });

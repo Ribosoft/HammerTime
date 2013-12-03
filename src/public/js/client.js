@@ -13,13 +13,12 @@ function finishStep0(){
 var request = new Request();
 var seqInput = new SequenceInput($('#sequence-display')[0]);
 var fileLoader = new FileLoader();
-var seqAlert = new SequenceAlert($("#sequence_alert"));
+var seqAlert = new SequenceAlert($("#sequence_alert"),$("#sequence_alert"));
 var submit1 = new Button($("#submit1"));
 var searchAccession = new Button($('#submit_ACN'));
 var accessionAlert = new AccessionAlert($("#accession_alert"));
 
 function fetchInputAccessionNumber(){
-
     var validator = new  AccNumberValidator($("#accession").val());
     //If accesionNumber is empty
     if(!validator.getAccessionNumber()){
@@ -89,7 +88,7 @@ var submit2 = new Button($("#submit2"));
 var dropdown = new SmartDropdown($("select[name='envVivo']"));
 var fieldSet = new SmartFieldSet($("fieldset[name='region']"), $("#region-help"), $("#targetRegionRow"));
 var summary = new SummaryTable();
-var designAlert = new SequenceAlert($("#designAlert"));
+var designAlert = new SequenceAlert($("#designAlert"),$("#designAlert2"));
 
 function handleQuestionClick(event){
     $(".icon-question-sign").off('click');
@@ -176,7 +175,8 @@ function finishStep2(event)
 
 /******* Step 3 ********/
 var submit3 = new Button($("#submit3"));
-var submissionAlert = new SequenceAlert($("#submitAlert"));
+var back3 = new Button($("#back3"));
+var submissionAlert = new SequenceAlert($("#submitAlert"),$("#submitAlert2"));
 
 function finishStep3(){
     submissionAlert.hide();
@@ -252,6 +252,9 @@ window.onload = function() {
 
 	//Step3
 	submit3.click(finishStep3);
+	back3.click(function(){
+	    window.location.hash = "#step2";
+	});
     }
     
     if($(".progress").length > 0) {
@@ -298,7 +301,7 @@ var replayStep0 = function(){
 window.onhashchange = function(event){
     var stepBack = function(oldURL, newURL){
 	return newURL < oldURL;
-    }
+    };
 
     if(stepBack(event.oldURL, event.newURL)){
 	if(event.newURL.endsWith("#step1"))
