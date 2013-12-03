@@ -275,10 +275,15 @@ window.onload = function() {
 
 var showExtraInfo = function(ev){
     var target = $(ev.currentTarget.children[6]);
-    var inx = target.attr('info').split(',');
-    var offtar_hits = results.CutsiteTypesCandidateContainer[parseInt(inx[0])].Cutsites[parseInt(inx[1])].OfftargetLocations ;
+    var indexes = target.attr('info').split(',').map(function(el){
+	return parseInt(el);
+    });
+    var candidate = results.CutsiteTypesCandidateContainer[indexes[0]].Cutsites[indexes[1]].Candidates[indexes[2]];
+    var offtar_hits = results.CutsiteTypesCandidateContainer[indexes[0]].Cutsites[indexes[1]].OfftargetLocations ;
     var print = offtar_hits.join('\n');
     $("#offtarget-text").text(offtar_hits);
+    $("#sequence").text(candidate.Sequence);
+    document.getElementById("download-link").href="data:text/plain,"+candidate.Sequence;
     $("#resultModal").modal();
 };
 
