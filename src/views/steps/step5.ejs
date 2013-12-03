@@ -27,7 +27,7 @@
                   <td>"+candidate.Fitness_Target+"</td> \
                   <td>"+candidate.Fitness_Target_dG+"</td> \
                   <td>"+candidate.Fitness_Shape+"</td> \
-                  <td info='"+ind1+","+ind2+","+ind3+"'>"+candidate.Fitness_Specificity+"</td> \
+                  <td info='"+ind1+","+ind2+","+ind3+"' class='specificity-entry'>"+candidate.Fitness_Specificity+"</td> \
                   <td>"+candidate.rank+" </td> \
                 </tr>";
                 })
@@ -46,7 +46,6 @@
 	<div class="modal-body" id="modal-body">
 	  <div class="candidate-details">
 	    <h5>Sequence</h5><p id="sequence"></p>
-	    <h5>Off-target Hits</h5><p id="offtarget-text"></p>
 	  </div>
 	</div>
 	<div class="modal-footer">

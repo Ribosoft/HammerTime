@@ -268,9 +268,23 @@ window.onload = function() {
     if($("#results").length > 0) {
         $("#results").dataTable();
 	$("#results tr").click(showExtraInfo);
+	$(".specificity-entry").click(showAlertOffTarget);
     }
 
     _toggleVisibility($("fieldset[name^=advanced] > legend"));
+};
+
+var showAlertOffTarget = function(ev){
+    var target = $(ev.target);
+    try{
+        var inx = target.attr('info').split(',');
+        var offtar_hits = results.CutsiteTypesCandidateContainer[parseInt(inx[0])].Cutsites[parseInt(inx[1])].OfftargetLocations ;
+        var print = offtar_hits.join('\n');
+        alert(print);
+    }
+    catch (err) {
+	console.error(err);
+    }
 };
 
 var showExtraInfo = function(ev){
@@ -279,9 +293,6 @@ var showExtraInfo = function(ev){
 	return parseInt(el);
     });
     var candidate = results.CutsiteTypesCandidateContainer[indexes[0]].Cutsites[indexes[1]].Candidates[indexes[2]];
-    var offtar_hits = results.CutsiteTypesCandidateContainer[indexes[0]].Cutsites[indexes[1]].OfftargetLocations ;
-    var print = offtar_hits.join('\n');
-    $("#offtarget-text").text(offtar_hits);
     $("#sequence").text(candidate.Sequence);
     document.getElementById("download-link").href="data:text/plain,"+candidate.Sequence;
     $("#resultModal").modal();
