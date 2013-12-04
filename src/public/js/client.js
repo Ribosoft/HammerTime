@@ -279,7 +279,16 @@ var showAlertOffTarget = function(ev){
     try{
         var inx = target.attr('info').split(',');
         var offtar_hits = results.CutsiteTypesCandidateContainer[parseInt(inx[0])].Cutsites[parseInt(inx[1])].OfftargetLocations ;
-	$("#print").text(offtar_hits.join('\n'));
+	for(var kk = 0 ; kk < offtar_hits.length ; ++kk)
+{
+  var offtarHit = offtar_hits[kk].split(',');
+  offtarHit[0] =  "Gene: "+offtarHit[0];
+  offtarHit[1] =  "Percent Match: "+offtarHit[1];
+  offtarHit[2] =  "Location at Gene: "+offtarHit[2].substr(1);
+  offtar_hits[kk] = offtarHit.join("&nbsp;&nbsp;&nbsp;");
+}
+  
+  $("#print").html(offtar_hits.join('<br>'));
 	ev.stopPropagation();
 	$("#offtargetModal").modal();
     }
