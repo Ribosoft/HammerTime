@@ -268,7 +268,7 @@ window.onload = function() {
     if($("#results").length > 0) {
         $("#results").dataTable();
 	$("#results tr").click(showExtraInfo);
-	$(".specificity-entry").click(showAlertOffTarget);
+	$("td.specificity-entry").click(showAlertOffTarget);
     }
 
     _toggleVisibility($("fieldset[name^=advanced] > legend"));
@@ -279,8 +279,9 @@ var showAlertOffTarget = function(ev){
     try{
         var inx = target.attr('info').split(',');
         var offtar_hits = results.CutsiteTypesCandidateContainer[parseInt(inx[0])].Cutsites[parseInt(inx[1])].OfftargetLocations ;
-        var print = offtar_hits.join('\n');
-        alert(print);
+	$("#print").text(offtar_hits.join('\n'));
+	ev.stopPropagation();
+	$("#offtargetModal").modal();
     }
     catch (err) {
 	console.error(err);
