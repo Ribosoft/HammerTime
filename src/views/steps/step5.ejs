@@ -27,7 +27,7 @@
                   <td>"+candidate.Fitness_Target+"</td> \
                   <td>"+candidate.Fitness_Target_dG+"</td> \
                   <td>"+candidate.Fitness_Shape+"</td> \
-                  <td info='"+ind1+","+ind2+","+ind3+"'>"+candidate.Fitness_Specificity+"</td> \
+                  <td info='"+ind1+","+ind2+","+ind3+"' class='specificity-entry'>"+candidate.Fitness_Specificity+"</td> \
                   <td>"+candidate.rank+" </td> \
                 </tr>";
                 })
@@ -41,17 +41,35 @@
       <div class="modal-content">
 	<div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Candidate description</h4>
+          <h4 class="modal-title">Candidate description</h4>
 	</div>
 	<div class="modal-body" id="modal-body">
 	  <div class="candidate-details">
 	    <h5>Sequence</h5><p id="sequence"></p>
-	    <h5>Off-target Hits</h5><p id="offtarget-text"></p>
 	  </div>
 	</div>
 	<div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <a id="download-link" class="btn btn-primary" download="sequence.txt" href="data:text/plain">Download Sequence</a>
+	</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="offtargetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+	<div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Off-target hits</h4>
+	</div>
+	<div class="modal-body" id="modal-body">
+	  <div>
+	    <p id="print"></p>
+	  </div>
+	</div>
+	<div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>          
 	</div>
       </div>
     </div>
