@@ -56,6 +56,7 @@ function finishStep1()
     seqAlert.hide();
     seqInput.emptyText();
     fieldSet.setState(!!request.accessionNumber);
+    request.originalSequence = request.sequence;
     $("#step2").removeClass("invisible");
     $(".section-collapse").click(ToggleVisibilityClick);
     $(".section-expand").click(ToggleVisibilityClick);
@@ -171,19 +172,28 @@ function finishStep2(event)
     summary.setTableData(request);
     $("body").css("cursor","wait");
     $("#submit").css("cursor","wait");
-    FindUTRBoundaries( function findingDone(e) 
-      {
-        if (e)
+    request.sequence = request.originalSequence;
+    if( request.accessionNumber == undefined || request.accessionNumber == "") 
+    {
+      $("body").removeAttr("style");
+      $("#submit").removeAttr("style");
+      designAlert.hide();
+    }
+    else
+    {
+      FindUTRBoundaries( function findingDone(e) 
         {
-          $("#step2").addClass("invisible");
-          $("#step3").removeClass("invisible");
+          if (e)
+          {
+            $("#step2").addClass("invisible");
+            $("#step3").removeClass("invisible");
+          }
+          $("body").removeAttr("style");
+          $("#submit").removeAttr("style");
+          designAlert.hide();
         }
-        $("body").removeAttr("style");
-        $("#submit").removeAttr("style");
-        designAlert.hide();
-      }
-    );
-  
+      );
+    }
     }
 }
 
