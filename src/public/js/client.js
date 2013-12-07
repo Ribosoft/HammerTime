@@ -165,11 +165,25 @@ function finishStep2(event)
     }
     else if(!request.env || (request.env.type == "vivo" && !request.env.target)){
 	designAlert.setState({ok:false, error:"You must specify the target environment and target organism (if in-vivo)"});
-    } else {
-	designAlert.hide();
-	summary.setTableData(request);
-	$("#step2").addClass("invisible");
-	$("#step3").removeClass("invisible");
+    } else { // All ok
+    designAlert.hide();
+    designAlert.setState({ok:true, error:"Searching for UTR..."});
+    summary.setTableData(request);
+    $("body").css("cursor","wait");
+    $("#submit").css("cursor","wait");
+    FindUTRBoundaries( function findingDone(e) 
+      {
+        if (e)
+        {
+          $("#step2").addClass("invisible");
+          $("#step3").removeClass("invisible");
+        }
+        $("body").removeAttr("style");
+        $("#submit").removeAttr("style");
+        designAlert.hide();
+      }
+    );
+  
     }
 }
 
@@ -279,16 +293,17 @@ var showAlertOffTarget = function(ev){
     try{
         var inx = target.attr('info').split(',');
         var offtar_hits = results.CutsiteTypesCandidateContainer[parseInt(inx[0])].Cutsites[parseInt(inx[1])].OfftargetLocations ;
-	for(var kk = 0 ; kk < offtar_hits.length ; ++kk)
+    var marr = new Array();
+  for(var kk = 0 ; kk < offtar_hits.length ; ++kk)
 {
   var offtarHit = offtar_hits[kk].split(',');
   offtarHit[0] =  "Gene: "+offtarHit[0];
   offtarHit[1] =  "Percent Match: "+offtarHit[1];
   offtarHit[2] =  "Location at Gene: "+offtarHit[2].substr(1);
-  offtar_hits[kk] = offtarHit.join("&nbsp;&nbsp;&nbsp;");
+  marr.push( offtarHit.join("&nbsp;&nbsp;&nbsp;") );
 }
   
-  $("#print").html(offtar_hits.join('<br>'));
+  $("#print").html(marr.join('<br>'));
 	ev.stopPropagation();
 	$("#offtargetModal").modal();
     }
