@@ -178,6 +178,8 @@ function finishStep2(event)
       $("body").removeAttr("style");
       $("#submit").removeAttr("style");
       designAlert.hide();
+      $("#step2").addClass("invisible");
+      $("#step3").removeClass("invisible");
     }
     else
     {
