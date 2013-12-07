@@ -140,3 +140,63 @@ function DecompressRequest(request)
     }
 }
 
+function FindUTRBoundaries(ondone)
+{
+  $.ajax(
+  {
+    type: "GET",
+    url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
+    data: {
+      db: 'nuccore',
+      'id': request.accessionNumber,
+      retmode: 'text'
+      },
+    success: function(d) {
+        alert(d);
+        clack = d;
+        var ThreeUTRInfo = clack.indexOf("3'UTR");
+        var FiveUTRInfo = clack.indexOf("5'UTR");
+        var ORFInfo = clack.indexOf("cdregion");
+        var clock = 0;
+        var cluck = 0;
+        if( request.region == "3'" && (ThreeUTRInfo != -1 ) )
+        {
+
+          //This monster grabs the "from x,    to y" right after the tag found
+          var cleck =  clack.substr(clack.indexOf("from",ThreeUTRInfo), clack.indexOf ( "," ,clack.indexOf( "to" ,ThreeUTRInfo) ) -clack.indexOf("from",ThreeUTRInfo)) ;
+          var click = cleck.split(","); //This small thing splits it into "from" and "to"
+          clock = parseInt(click[0].substr(4)) ;// trim from
+          cluck = parseInt(click[1].trim().substr(2) ) ; // get to
+          request.sequence = request.sequence.substr(clock, cluck - clock +1 );
+        
+        }
+        else if ( ORFInfo != -1)
+        {
+          //This monster grabs the "from x,    to y" right after the tag found
+          var cleck =  clack.substr(clack.indexOf("from",ORFInfo), clack.indexOf ( "," ,clack.indexOf( "to" ,ORFInfo) ) - clack.indexOf("from",ORFInfo)) ;
+          var click = cleck.split(","); //This small thing splits it into "from" and "to"
+          clock = parseInt(click[0].substr(4)) ;// trim from
+          cluck = parseInt(click[1].trim().substr(2) ) ; // get to
+
+          if( request.region == "ORF")
+            request.sequence = request.sequence.substr(clock, cluck - clock +1);
+          else if( request.region == "3'")
+            request.sequence = request.sequence.substr(cluck);
+          else if (request.region =="5'")
+            request.sequence = request.sequence.substr(0,clock);
+        }
+        else
+        {
+          alert("WARNING: Genbank is not providing info about the UTR. Grabbing full sequence instead.");
+        }
+        ondone(true);
+      },
+      error: function(jqXHR, textStatus, errorThrown)
+      {
+        alert("Could not access Genbank for UTR info. Error: " + errorThrown + "; Code: "+ textStatus);
+        ondone(false);
+      }
+  }
+  ); 
+}
+
