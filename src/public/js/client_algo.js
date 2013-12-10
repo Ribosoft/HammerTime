@@ -1,26 +1,104 @@
-var GLOBAL_PARAMETERS = 
+/*
+    <summary>
+     Complements the DNA or RNA string
+    </summary>
+    <param name='oligo'>The DNA/RNA string to complement</param>
+    <param name='isRna'>(Optional) Whether it is RNA. Defaults to true</param>
+    <return>The modified string</return>
+*/
+function Complement( oligo , isRna )
 {
-	"left_arm_min" : 8,
-	"right_arm_min" : 8,
-	"left_arm_max" : 10,
-	"right_arm_max" : 10,
-	"Mg_ion_mM": 1,
-	"salt_ion_mM":150, //[Na]+[K]
-	"oligomer_nM":200
+	if(isRna == undefined)
+		isRna = true;
+	var res = new Array();
+	for(var ii = 0; ii < oligo.length; ++ii)
+	{
+		var c = oligo[ii];
+		switch(c)
+		{
+			case 'G':
+				res.push('C');
+				break;
+			case 'C':
+				res.push('G');
+				break;
+			case 'A':
+				if(isRna)
+					res.push('U');
+				else
+					res.push('T');
+				break;
+			case 'U':
+			case 'T':
+				res.push('A');
+					break;
+			default:
+				res.push(c);
+		}
+	}
+	return res.join('');
 }
 
-function FindCutsites( seq )
+/*
+    <summary>
+     Reverses a string
+    </summary>
+    <param name='oligo'>String to reverse</param>
+    <param name='isRna'>(Optional) Whether it is RNA. Defaults to true</param>
+    <return>The modified string</return>
+*/
+function Reverse( oligo )
 {
-	var loc = new Array();
-	res = -1;
-	do
-	{
-            res = seq.indexOf("GUC", res + 1);
-            if(res !== -1)
-                    loc.push(res);
-	}
-	while (res !== -1);
-	return loc;
+	return oligo.split("").reverse().join("");
+}
+
+
+/*
+    <summary>
+     Reverse complements a RNA string
+    </summary>
+    <param name='oligo'>String to reverse complement</param>
+    <return>The modified string</return>
+*/
+function ReverseComplement(oligo)
+{
+	return Complement(Reverse(oligo));
+}
+
+
+/*
+    <summary>
+     Transforms a sequence of RNA to DNA
+    </summary>
+    <param name='seq'>The sequence to change</param>
+    <return>The changed string</return>
+*/
+function RnaToDna(seq)
+{
+	return seq.replaceAll('U','T');
+}
+
+/*
+    <summary>
+     Transforms a sequence of DNA to RNA
+    </summary>
+    <param name='seq'>The sequence to change</param>
+    <return>The changed string</return>
+*/
+function DnaToRna(seq)
+{
+	return seq.replaceAll('T','U');
+}
+
+function GetDisplayHtmlForCandidate( candidateSeq , appendT7 )
+{
+  var TEMPLATE = 
+  "<div class='target-download'>DNA:  </div><b class='utr'>5' - </b>{0}<b class='utr'> - 3'</b><br/>\
+  <div class='target-download'>Rz: </div><b class='utr'>3' - </b>{1}<b class='utr'> - 5'</b>\
+  ";
+
+  return TEMPLATE.replace('{0}', RnaToDna( ReverseComplement(candidate.Sequence) ) ) 
+    .replace('{1}', Reverse(candidate.Sequence) );
 }
 
 function PrintSequenceWithCutSitesHighlited(seq,cutSites)
@@ -37,64 +115,8 @@ function PrintSequenceWithCutSitesHighlited(seq,cutSites)
 	$('.displayUpdate').html( htmlInsert );
 }
 
-var cc;
-function CreateCandidates (seq, cutSites)
-{
-	var Candidates = new Array();
-	//Per cutsite
-	//Load params
-	var lamin = GLOBAL_PARAMETERS.left_arm_min;
-	var ramin = GLOBAL_PARAMETERS.right_arm_min;
-	var lamax = GLOBAL_PARAMETERS.left_arm_max;
-	var ramax = GLOBAL_PARAMETERS.right_arm_max;
-	
-	for(var ii = 0 ; ii < cutSites.length;++ii)
-	{
-		var firstCutsiteCands = new Array();
-		for(var jj = lamin; jj < lamax; ++jj)
-		{
-			var start = cutSites[ii] - jj;
-			if(start < 0)
-				continue;
-			for(var kk = ramin; kk < ramax; ++kk)
-			{
-				var end = cutSites[ii]+3+kk;
-				var length = end - start;
-				if(end >= seq.length)
-					continue;
-				firstCutsiteCands.push({"seq" : seq.substr(start,length), "cut":(jj+2)});
-				
-			}
-		}
-		Candidates.push(firstCutsiteCands);
-	}
-	cc = Candidates;
-	return Candidates;
-}
 
-function ShowCandidatesAndAnnealing(cands)
-{
-	var res = "";
-	var consRes = "";
-	for(var ii = 0; ii < cands.length; ++ii)
-	{
-		res += "<p>Cut site number " + ii + "</p>";
-		consRes += "Cut site number " + ii + "\n";
-		for(var jj = 0; jj < cands[ii].length; ++jj)
-		{
-			var currentSeq = cands[ii][jj].seq;
-			console.log(currentSeq);
-			var c_pos = cands[ii][jj].cut;
-			currentSeq = currentSeq.substr(0,c_pos)+currentSeq.substr(c_pos+1,currentSeq.length-c_pos-1);//REMOVE non-annealing C from comupation
-			console.log(currentSeq);
-			var computationalResult = tm_Base_Stacking(cands[ii][jj].seq.replaceAll('U','T'),GLOBAL_PARAMETERS.oligomer_mM,GLOBAL_PARAMETERS.salt_ion_mM,GLOBAL_PARAMETERS.Mg_ion_mM);
-			res += "<p>\t"+cands[ii][jj].seq + "\t"+ computationalResult+'</p>';
-			consRes += "\t"+cands[ii][jj].seq + "\t"+ computationalResult+'\n';
-		}
-	}
-	console.log(consRes)
-	$('.displayUpdate').html(res);
-}
+
 
 
 function DecompressObjectTableIntoObjectArray(table)
