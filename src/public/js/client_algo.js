@@ -90,14 +90,19 @@ function DnaToRna(seq)
 	return seq.replaceAll('T','U');
 }
 
-function GetDisplayHtmlForCandidate( candidateSeq , appendT7 )
+function GetDnaForCandidate( candidate , appendT7 )
+{
+  return RnaToDna( ReverseComplement(candidate.Sequence) );
+}
+
+function GetDisplayHtmlForCandidate( candidate , appendT7 )
 {
   var TEMPLATE = 
   "<div class='target-download'>DNA:  </div><b class='utr'>5' - </b>{0}<b class='utr'> - 3'</b><br/>\
   <div class='target-download'>Rz: </div><b class='utr'>3' - </b>{1}<b class='utr'> - 5'</b>\
   ";
 
-  return TEMPLATE.replace('{0}', RnaToDna( ReverseComplement(candidate.Sequence) ) ) 
+  return TEMPLATE.replace('{0}', GetDnaForCandidate( candidate , appendT7 ) ) 
     .replace('{1}', Reverse(candidate.Sequence) );
 }
 

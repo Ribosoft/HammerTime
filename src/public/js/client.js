@@ -331,7 +331,10 @@ var showExtraInfo = function(ev){
     });
     var candidate = results.CutsiteTypesCandidateContainer[indexes[0]].Cutsites[indexes[1]].Candidates[indexes[2]];
     $("#sequence").html(GetDisplayHtmlForCandidate (candidate , false ));
-    document.getElementById("download-link").href="data:text/plain,"+candidate.Sequence;
+    document.getElementById("download-link").href="data:text/plain,"+
+    ">Candidate DNA for request " + results.ID + " cut-site type \"" + results.CutsiteTypesCandidateContainer[indexes[0]].Type 
+    + "\" at location " + (results.CutsiteTypesCandidateContainer[indexes[0]].Cutsites[indexes[1]].Location +1) + " %0D%0A "
+    + GetDnaForCandidate(candidate, false);
     $("#resultModal").modal();
 };
 
