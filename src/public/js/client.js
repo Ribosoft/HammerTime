@@ -309,7 +309,7 @@ var showAlertOffTarget = function(ev){
   for(var kk = 0 ; kk < offtar_hits.length ; ++kk)
 {
   var offtarHit = offtar_hits[kk].split(',');
-  offtarHit[0] =  "Gene: "+offtarHit[0];
+  offtarHit[0] =  "Gene: <a href='http://www.ncbi.nlm.nih.gov/nuccore/"+offtarHit[0]+"'>" +offtarHit[0] +"</a>";
   offtarHit[1] =  "Percent Match: "+offtarHit[1];
   offtarHit[2] =  "Location at Gene: "+offtarHit[2].substr(1);
   marr.push( offtarHit.join("&nbsp;&nbsp;&nbsp;") );
@@ -330,8 +330,11 @@ var showExtraInfo = function(ev){
 	return parseInt(el);
     });
     var candidate = results.CutsiteTypesCandidateContainer[indexes[0]].Cutsites[indexes[1]].Candidates[indexes[2]];
-    $("#sequence").text(candidate.Sequence);
-    document.getElementById("download-link").href="data:text/plain,"+candidate.Sequence;
+    $("#sequence").html(GetDisplayHtmlForCandidate (candidate , false ));
+    document.getElementById("download-link").href="data:text/plain,"+
+    ">Candidate DNA for request " + results.ID + " cut-site type \"" + results.CutsiteTypesCandidateContainer[indexes[0]].Type 
+    + "\" at location " + (results.CutsiteTypesCandidateContainer[indexes[0]].Cutsites[indexes[1]].Location +1) + " %0D%0A "
+    + GetDnaForCandidate(candidate, false);
     $("#resultModal").modal();
 };
 
