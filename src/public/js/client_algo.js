@@ -152,7 +152,7 @@ function FindUTRBoundaries(ondone)
       retmode: 'text'
       },
     success: function(d) {
-        alert(d);
+        //alert(d);
         clack = d;
         var ThreeUTRInfo = clack.indexOf("3'UTR");
         var FiveUTRInfo = clack.indexOf("5'UTR");

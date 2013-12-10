@@ -22,7 +22,11 @@
                  cutsite.Candidates.forEach(function(candidate,ind3) {
 		 html +="<tr> \
                   <td>"+cutsite.ID+"</td> \
-                  <td>"+candidate.Sequence+"</td> \
+                  <td>"
+                  + candidate.Sequence.substr (0, candidate.Sequence.indexOf(core))
+                  + "<b class ='core-highlight'>" + candidate.Sequence.substr (candidate.Sequence.indexOf(core), core.length) + "</b>"
+                  + candidate.Sequence.substr (candidate.Sequence.indexOf(core) + core.length )
+                  +"</td> \
                   <td>"+candidate.MeltingTemperature+"</td> \
                   <td>"+candidate.Fitness_Target+"</td> \
                   <td>"+candidate.Fitness_Target_dG+"</td> \
