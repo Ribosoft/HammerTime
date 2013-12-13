@@ -51,6 +51,8 @@ app.configure('development', function(){
 app.get('/ribosoft/', routes.index);
 app.get('/ribosoft', routes.redirect);
 app.get('/ribosoft/api', routes.api_page);
+app.get('/ribosoft/license', routes.license_page);
+app.get('/ribosoft/paper', routes.coming_soon);
 app.get('/ribosoft/processing/:id', routes.processing_page);
 app.get('/ribosoft/results/:id', routes.results_page);
 
@@ -61,6 +63,9 @@ app.del('/ribosoft/requests/:id', routes.api.deleteRequest);
 app.put('/ribosoft/requests/:id', routes.api.updateRequest);
 app.get('/ribosoft/requests/:id/status', routes.api.getRequestStatus);
 app.get('/ribosoft/requests/:id/results', routes.api.getResults);
+
+//For everything else, return error
+app.all('/*', routes.error);
 
 var server = http.createServer(app);
 server.listen(app.get('port'), function(){

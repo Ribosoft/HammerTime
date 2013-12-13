@@ -8,9 +8,9 @@
 	<i class="icon-question-sign pull-right"></i>
       </legend>
       <div class="offset2">
-	<input required="true" type="radio" name="region" value="5'"/>5'UTR<br/>
-	<input required="true" type="radio" name="region" value="ORF"/>Open Reading Frame (ORF)<br/>
-	<input required="true" type="radio" name="region" value="3'"/>3'UTR<br/>
+	<input type="checkbox" name="region" value="5'"/>5'UTR<br/>
+	<input type="checkbox" name="region" value="ORF" checked="checked"/>Open Reading Frame (ORF)<br/>
+	<input type="checkbox" name="region" value="3'"/>3'UTR<br/>
       </div>
     </fieldset>
     <fieldset class="option-field" name="env">
@@ -94,6 +94,15 @@
 	<input type="radio" name="promoter" value="0" checked="checked"/>No<br/>
       </div>
     </fieldset>
+    <fieldset class="option-field" name="advanced-specificity">
+      <legend class="section-collapse" speed="200" >    Advanced Options - Specificity<i class="icon-question-sign pull-right"></i></legend>
+      <div class="offset2">
+	<label for="promoter">Append T7 Promoter?</label>
+	<input type="radio" name="promoter" value="1"/>Yes<br/>
+	<input type="radio" name="promoter" value="0" checked="checked"/>No<br/>
+      </div>
+    </fieldset>
+
   </form>
   <div class="design-help invisible">
     <div class="well well-lg well-help" id="region-help">
@@ -111,10 +120,7 @@
       predict better the secondary structure of the ribozyme.
     </div>
     <div class="well well-lg well-help" id="cutsites-help">
-      Provide the environment in which the ribozyme will 
-      be used. This will allow to optimize for a large enough
-      annealing temperature as well as will help the algorithms
-      predict better the secondary structure of the ribozyme.
+      Select one or multiple cutsites to attach to on the target. Please note that more cutsites means increased work-load and thus more waiting time. It is recommend you use GUC and another alternate cutsite, but not more.
     </div>
     <div class="well well-lg well-help" id="shape-help">
       Choose the catalitic core that will be used to design the ribozyme.
