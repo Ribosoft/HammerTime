@@ -5,6 +5,7 @@
   var results = <%- JSON.stringify(results) %>;
   DecompressRequest(results);
   var container = results.CutsiteTypesCandidateContainer;
+  var core  =  results.coreTypeId == 0? "CUGAUGAGGCCGAAAGGCCGAA" : "CUGAUGAGUCGCUGAAAUGCGACGAA";
   var html ="<div class='step-contents center'>\
   <table class='table table-hover' id='results'>\
        <thead>\
@@ -22,7 +23,11 @@
                  cutsite.Candidates.forEach(function(candidate,ind3) {
 		 html +="<tr> \
                   <td>"+cutsite.ID+"</td> \
-                  <td>"+candidate.Sequence+"</td> \
+                  <td>"
+                  + candidate.Sequence.substr (0, candidate.Sequence.indexOf(core))
+                  + "<b class ='core-highlight'>" + candidate.Sequence.substr (candidate.Sequence.indexOf(core), core.length) + "</b>"
+                  + candidate.Sequence.substr (candidate.Sequence.indexOf(core) + core.length )
+                  +"</td> \
                   <td>"+candidate.MeltingTemperature+"</td> \
                   <td>"+candidate.Fitness_Target+"</td> \
                   <td>"+candidate.Fitness_Target_dG+"</td> \
