@@ -16,6 +16,7 @@ describe('POST: /requests/', function(){
     var wrongAccessionData = test_data.wrongAcc.request;
     var accessionOnlyData = test_data.accessionNumberOnly.request;
     var noData = test_data.noData.request;
+    var emailOrganizationData = test_data.emailData.request;
 
 
     it('POST /requests with sequence only', function(done) {
@@ -111,11 +112,25 @@ describe('POST: /requests/', function(){
 		done();
 	});
     });
+
+    it('POST /requests with email and organization', function(done) {
+	async.waterfall([
+	    test_utils.createRequest(app, emailOrganizationData, done),
+	    test_utils.requestChecker(emailOrganizationData, done)
+	],
+	function(err, done){
+	    if(err)
+		test_utils.errorHandler(err, done);
+	    else
+		done();
+	});
+    });
 });
 
 
 describe('GET: /requests/<id>', function(){
     var data = test_data.smallSequence.request;
+
     it('GET /requests/<id> gets newly created request', function(done) {
 	async.waterfall([
 	    test_utils.createRequest(app, data, done),
