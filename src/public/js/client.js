@@ -90,6 +90,7 @@ var dropdown = new SmartDropdown($("select[name='envVivo']"));
 var fieldSet = new SmartFieldSet($("fieldset[name='region']"), $("#region-help"), $("#targetRegionRow"));
 var summary = new SummaryTable();
 var designAlert = new SequenceAlert($("#designAlert"),$("#designAlert2"));
+var backStep1 = new Button($("#backStep1"));
 
 function handleQuestionClick(event){
     $(".icon-question-sign").off('click');
@@ -116,11 +117,12 @@ function dropdownListen(event){
 /* The functions below are taken from https://bitbucket.org/gbelmonte/jsutilities */
 function _toggleVisibility( target )
 {
+
     var now = target.next().css('display');
     var speed = target.attr('speed');
     if(now != 'none')
     {
-        target.removeClass('section-collapse')
+        target.removeClass('section-collapse');
         target.addClass('section-expand');
 	$("#arm-help").addClass("invisible");
 	$("#promoter-help").addClass("invisible");
@@ -129,7 +131,7 @@ function _toggleVisibility( target )
     }
     else
     {
-        target.addClass('section-collapse')
+        target.addClass('section-collapse');
         target.removeClass('section-expand');
         $("#arm-help").removeClass("invisible");
 	$("#promoter-help").removeClass("invisible");
@@ -164,8 +166,11 @@ function finishStep2(event)
     if(request.accessionNumber && !request.region) {
 	designAlert.setState({ok:false, error:"You must specify the target region when using the accession number"});
     }
+    else if(request.region.length == 2 && request.region.join("") == "5'3'" ) {
+	designAlert.setState({ok:false, error:"You must specify contiguous target region segments: the frames 5' and 3' are not contiguous"});
+    }
     else if(!request.env || (request.env.type == "vivo" && !request.env.target)){
-	designAlert.setState({ok:false, error:"You must specify the target environment and target organism (if in-vivo)"});
+	designAlert.setState({ok:false, error:"You must specify the target environment and target organism"});
     } else { // All ok
     designAlert.hide();
     designAlert.setState({ok:true, error:"Searching for UTR..."});
@@ -203,18 +208,31 @@ function finishStep2(event)
 var submit3 = new Button($("#submit3"));
 var back3 = new Button($("#back3"));
 var submissionAlert = new SequenceAlert($("#submitAlert"),$("#submitAlert2"));
+var userInfoAlert = new SequenceAlert($("#organization-alert"),$("#organization-alert"));
 
 function finishStep3(){
+    userInfoAlert.hide();
     submissionAlert.hide();
-    request.submitRequest(function(err, location){
-	if(err){
-	    submissionAlert.setState({ok:false, error:""+err});
-	    submissionAlert.show();
-	}
-	else {
-	    window.location.replace(location.replace('requests','processing'));
-	}
-    });
+    request.organization = $("#organization").val();
+    request.emailUser = $("#email").val();
+    if(!request.organization && !request.emailUser){
+	userInfoAlert.setState({ok:false, error:"You must enter the name of your organization and your email address in order to submit a request"});
+    } else if(!request.organization){
+	userInfoAlert.setState({ok:false, error:"You must enter the name of your organization in order to submit a request"});
+    } else if(!request.emailUser){
+	userInfoAlert.setState({ok:false, error:"You must enter your email address in order to submit a request"});
+    }
+    else {
+	request.submitRequest(function(err, location){
+	    if(err){
+		submissionAlert.setState({ok:false, error:""+err});
+		submissionAlert.show();
+	    }
+	    else {
+		window.location.replace(location.replace('requests','processing'));
+	    }
+	});
+    }
 };
 
 
@@ -257,13 +275,13 @@ function finishStep4(){
 };
 
 
-
 window.onload = function() {
     $("#start_now").click(finishStep0);
 
     if($("#step1").length){
 	//Step1
 	submit1.click(finishStep1);
+	submit1.disable();
 	searchAccession.click(fetchInputAccessionNumber);
 	seqInput.emptyText();
 	$('#selectFileInput').change(FileLoader.handleFileBrowsed);
@@ -271,6 +289,9 @@ window.onload = function() {
 	
 	//Step2
 	submit2.click(finishStep2);
+	backStep1.click(function(){
+	    window.location.hash  = "#step1";
+	});
 	$(".icon-question-sign").click(handleQuestionClick);
 	$("input[name='env']").change(enableDisableDropdown);
 	$("#envVivo").change(dropdownListen);
@@ -298,6 +319,37 @@ window.onload = function() {
     }
 
     _toggleVisibility($("fieldset[name^=advanced] > legend"));
+};
+
+
+var replayStep1 = function(){
+    $("#step2").addClass("invisible");
+    $("#step1").removeClass("invisible");
+};
+
+var replayStep2 = function(){
+    $("#step3").addClass("invisible");
+    $("#step2").removeClass("invisible");
+};
+
+var replayStep0 = function(){
+    $("#step1").addClass("invisible");
+    $("#step0").removeClass("invisible");
+};
+
+window.onhashchange = function(event){
+    var stepBack = function(oldURL, newURL){
+	return newURL < oldURL;
+    };
+
+    if(stepBack(event.oldURL, event.newURL)){
+	if(event.newURL.endsWith("#step1"))
+	    replayStep1();
+	else if(event.newURL.endsWith("#step2"))
+	    replayStep2();
+	else if(event.newURL.endsWith("ribosoft/"))
+	    replayStep0();
+    }
 };
 
 var showAlertOffTarget = function(ev){
@@ -337,34 +389,3 @@ var showExtraInfo = function(ev){
     + GetDnaForCandidate(candidate, false);
     $("#resultModal").modal();
 };
-
-
-var replayStep1 = function(){
-    $("#step2").addClass("invisible");
-    $("#step1").removeClass("invisible");
-};
-
-var replayStep2 = function(){
-    $("#step3").addClass("invisible");
-    $("#step2").removeClass("invisible");
-};
-
-var replayStep0 = function(){
-    $("#step1").addClass("invisible");
-    $("#step0").removeClass("invisible");
-};
-
-window.onhashchange = function(event){
-    var stepBack = function(oldURL, newURL){
-	return newURL < oldURL;
-    };
-
-    if(stepBack(event.oldURL, event.newURL)){
-	if(event.newURL.endsWith("#step1"))
-	    replayStep1();
-	else if(event.newURL.endsWith("#step2"))
-	    replayStep2();
-	else if(event.newURL.endsWith("ribosoft/"))
-	    replayStep0();
-    }
-}

@@ -8,9 +8,9 @@
 	<i class="icon-question-sign pull-right"></i>
       </legend>
       <div class="offset2">
-	<input required="true" type="radio" name="region" value="5'"/>5'UTR<br/>
-	<input required="true" type="radio" name="region" value="ORF"/>Open Reading Frame (ORF)<br/>
-	<input required="true" type="radio" name="region" value="3'"/>3'UTR<br/>
+	<input type="checkbox" name="region" value="5'"/>5'UTR<br/>
+	<input type="checkbox" name="region" value="ORF" checked="checked"/>Open Reading Frame (ORF)<br/>
+	<input type="checkbox" name="region" value="3'"/>3'UTR<br/>
       </div>
     </fieldset>
     <fieldset class="option-field" name="env">
@@ -27,7 +27,7 @@
           <option value="Daphnia (taxid:6668)">Daphnia</option>
 	  <option value="other">Other</option>
 	</select><br/>
-	<label for="otherEnv" class="otherEnv invisible">    Find your organism <a href="http://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch">here</a></label>
+	<label for="otherEnv" class="otherEnv invisible">    Find your organism <a href="http://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch" target="_blank">here</a></label>
 	<input id="otherEnv" class="invisible otherEnv" type="text" name="otherEnv" placeholder="Example: mouse (taxid:10090)" />
       </div>
     </fieldset>
@@ -49,7 +49,7 @@
       <legend class="section-collapse" speed="200">    Potential Cut-sites
 	<i class="icon-question-sign pull-right"></i></legend>
       <div class="offset2">
-	<label for="cutsites">Preferred cutsite(s)</label>
+	<label for="cutsites">Preferred cut-site(s)</label>
 	<select name="cutsites" multiple="multiple">
 	  <option selected="selected" value="GUC">GUC</option>
 	  <option value="CUC">CUC</option>
@@ -94,6 +94,14 @@
 	<input type="radio" name="promoter" value="0" checked="checked"/>No<br/>
       </div>
     </fieldset>
+    <fieldset class="option-field" name="advanced-specificity">
+      <legend class="section-collapse" speed="200" >    Advanced Options - Specificity<i class="icon-question-sign pull-right"></i></legend>
+      <div class="offset2">
+	<input type="radio" name="specificity" value="cleavage" checked="checked"/>Cleavage Only<br/>
+	<input type="radio" name="specificity" value="hybrid"/>Cleavage and Hybridization<br/>
+      </div>
+    </fieldset>
+
   </form>
   <div class="design-help invisible">
     <div class="well well-lg well-help" id="region-help">
@@ -111,10 +119,7 @@
       predict better the secondary structure of the ribozyme.
     </div>
     <div class="well well-lg well-help" id="cutsites-help">
-      Provide the environment in which the ribozyme will 
-      be used. This will allow to optimize for a large enough
-      annealing temperature as well as will help the algorithms
-      predict better the secondary structure of the ribozyme.
+      Select one or multiple cut-sites to attach to on the target. Please note that more cut-sites means increased work-load and thus more waiting time. It is recommend you use GUC and another alternate cut-site, but not more.
     </div>
     <div class="well well-lg well-help" id="shape-help">
       Choose the catalitic core that will be used to design the ribozyme.
@@ -125,9 +130,13 @@
     <div class="well well-lg well-help invisible" id="promoter-help">
       The T7 promoter will be attached to the hammerhead and taken into consideration in the folding if the check-box is checked.
     </div>
+    <div class="well well-lg well-help invisible" id="specificity-help">
+      Lorem Ipsum
+    </div>
   </div>
   <div id="designAlert2" class="alert alert-error invisible"></div>
-  <div class="offset8 step-buttons">
+  <div class="step-buttons">
+    <button id="backStep1" class="btn btn-large">Back</button>
     <button form="design-form" type="reset" class="btn btn-large">Reset</button>
     <a href="#step3" id="submit2" class="submit btn btn-primary btn-large">Submit</a>
   </div>
