@@ -295,14 +295,17 @@ function Button(el){
 
 Button.prototype.click = function(callback){
     this.el.click(callback);
+    this.callback = callback;
 }
 
 Button.prototype.disable = function(){
     this.el.addClass("disabled");
+    this.el.unbind('click');
 }
 
 Button.prototype.enable = function(){
     this.el.removeClass("disabled");
+    this.el.click(this.callback);
 };
 
 function DesignContent(formEl, iconEls, designHelpEl) {
@@ -383,6 +386,7 @@ SummaryTable.prototype.setTableData = function(data){
     $("#promoter").text(data.promoter ? "Yes" : "No");
     $("#leftArm").text("Between "+ data.left_arm_min + " and "+data.left_arm_max);
     $("#rightArm").text("Between "+ data.right_arm_min + " and "+data.right_arm_max);
+    $("#specificity").text(data.specificity == "hybrid"?"Cleavage and Hybridization":"Cleavage");
 }
 
 function BackPressHandler(){}
@@ -474,4 +478,3 @@ EmailReporter.prototype.submit = function(value){
 	}
     });
 }
-
