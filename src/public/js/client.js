@@ -241,6 +241,7 @@ var progressBar = new ProgressBar($(".bar"), $("#timeLeft"), request);
 var stateReporter = new StateReporter($(".resultsButton").next());
 var resultsPanel = new ResultsPanel($(".resultsButton"));
 var submit4 = new Button($("#submit4"));
+var processingAlert = new SequenceAlert($("#processingAlert"),$("#processingAlert"));
 var emailReporter = new EmailReporter(
     $("#input-email"),
     $("#confirmation-email"),
@@ -251,7 +252,12 @@ function updatePage() {
     var countErrors = 0;
     var timeoutInterval = 1000 * 60 * 1;
     request.getRequestStatus(function(err, data){
-	if(!err){
+	if(err){
+	    processingAlert.setState({ok:false, error:err});
+	    countErrors +=1;
+	    if(countErrors > 3)
+		clearTimeout(timeout);
+	} else {
 	    var remainingMin = data.duration.remainingDuration * 1000 * 60;
 	    timeoutInterval = remainingMin / 10;
 	    progressBar.update(data.duration.remainingDuration);
@@ -259,10 +265,6 @@ function updatePage() {
 	    console.log( "State of request = "+data.state );
 //	    stateReporter.updateState(data.state);
 	    resultsPanel.updatePanel(data.status);
-	} else {
-	    countErrors +=1;
-	    if(countErrors > 3)
-		clearTimeout(timeout);
 	}
 	var timeout = setTimeout(updatePage, timeoutInterval);
 	if(data && data.duration.remainingDuration == 0)
@@ -296,7 +298,6 @@ window.onload = function() {
 	$("input[name='env']").change(enableDisableDropdown);
 	$("#envVivo").change(dropdownListen);
 
-
 	//Step3
 	submit3.click(finishStep3);
 	back3.click(function(){
@@ -314,8 +315,21 @@ window.onload = function() {
 
     if($("#results").length > 0) {
         $("#results").dataTable();
-	$("#results tr").click(showExtraInfo);
+	$('select[name=results_length]').bind( 'change.DT', function(ev){
+	    $("#results tbody tr").click(showExtraInfo);
+	    $("td.specificity-entry").click(showAlertOffTarget);
+	});
+	$("#results tbody tr").click(showExtraInfo);
 	$("td.specificity-entry").click(showAlertOffTarget);
+	$("thead tr th:nth-child(1) p").tooltip({title:'Cut-sites'});
+	$("thead tr th:nth-child(2) p").tooltip({title:'Sequence'});
+	$("thead tr th:nth-child(3) p").tooltip({title:'Melting temperature'});
+	$("thead tr th:nth-child(4) p").tooltip({title:'Accessiblity 1'});
+	$("thead tr th:nth-child(5) p").tooltip({title:'Accessibility 2'});
+	$("thead tr th:nth-child(6) p").tooltip({title:'Ribozyme Shape'});
+	$("thead tr th:nth-child(7) p").tooltip({title:'Weighted Hits'});
+	$("thead tr th:nth-child(8) p").tooltip({title:'Overall Rank'});
+
     }
 
     _toggleVisibility($("fieldset[name^=advanced] > legend"));

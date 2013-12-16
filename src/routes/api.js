@@ -15,7 +15,8 @@ module.exports = {
 			   } else {
 			       var id = utils.generateUID();
 			       var vivoEnv = (req.body.env.type === "vivo") ? req.body.env.target : '';
-			       var region = utils.toTargetRegion(req.body.region);
+			       if(req.body.region)
+				   var region = utils.toTargetRegion(req.body.region);
 			       Request.createRequest(id,
 						     seq,
 						     number,
@@ -33,7 +34,8 @@ module.exports = {
 						     parseInt(req.body.left_arm_max),
 						     parseInt(req.body.right_arm_max),
 						     req.body.promoter,
-						     req.body.emailUser).save(function(err, result){
+						     req.body.emailUser,
+						     req.body.organization).save(function(err, result){
 							 if(err){
 							     utils.returnInternalError(err, next);
 							 }
@@ -273,6 +275,7 @@ function sendRequestResponse(res, result){
 	left_arm_max : result.left_arm_max,
 	right_arm_max : result.right_arm_max,
 	emailUser : result.emailUser,
+	organization : result.organization,
 	promoter : result.promoter
     };
     if(result.accessionNumber)

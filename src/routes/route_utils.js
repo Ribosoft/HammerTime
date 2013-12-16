@@ -54,16 +54,19 @@ function onSaveHandler(successCallback, next) {
 
 function toTargetRegion(region){
     var sum = 0;
-    region.forEach(function(reg){
-	switch(region){
+    for(var i = 0; i < region.length; ++i){
+	switch(region[i]){
 	case "ORF":
 	    sum+= 4;
+	    break;
 	case "5\'":
 	    sum+= 5;
+	    break;
         case "3\'":
 	    sum+= 3;
+	    break;
 	}
-    });
+    }
     return sum;
 }
 

@@ -128,7 +128,7 @@ Request.prototype.getRequestStatus = function(callback){
         },
         dataType : "json",
 	contentType: "application/json; charset=utf-8",
-        error : function(err) {
+        error : function(jqXHR, textStatus, errorThrown) {
 	    Request.handleError(jqXHR, "Getting request information", callback);
         }
     });
