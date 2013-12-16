@@ -16,7 +16,7 @@
           <td id="accessionNumber"></td>
         </tr>
         <tr>
-          <td>Length of sequence</td>
+          <td>Sequence Length</td>
           <td id="seqLength"></td>
         </tr>
         <tr id="targetRegionRow">
@@ -40,7 +40,7 @@
           <td id="naEnv"></td>
         </tr>
         <tr>
-          <td>Mg&#8314;&#8314; Concentration</td>
+          <td>Mg<sup>2</sup>&#8314; Concentration</td>
           <td id="mgEnv"></td>
         </tr>
         <tr>
@@ -48,7 +48,7 @@
           <td id="oligoEnv"></td>
         </tr>
         <tr>
-          <td>Cutsites</td>
+          <td>Cut-sites</td>
           <td id="cutsites"></td>
         </tr>
         <tr>
@@ -56,23 +56,38 @@
           <td id="foldShape"></td>
         </tr>
 	<tr>
-          <td>Left Arm Length</td>
+          <td>Helix I Length</td>
           <td id="leftArm"></td>
         </tr>
 	<tr>
-          <td>Right Arm Length</td>
+          <td>Helix III Length</td>
           <td id="rightArm"></td>
         </tr>
 	<tr>
           <td>Use Promoter T7</td>
           <td id="promoter"></td>
         </tr>
+	<tr>
+          <td>Specificity</td>
+          <td id="specificity"></td>
+        </tr>
       </tbody>
     </table>
   </div>
   <div id="submitAlert2" class="alert alert-error invisible"></div>
 </div>
-<div class="offset8 step-buttons">
-  <button id="back3" type="button" class="btn btn-large">Back</button>
-  <button type="submit" class="btn btn-primary btn-large" id="submit3">Submit</button>
+<div>
+  <div class="organization-input">
+    <h4>User Info</h4>
+    <div id="organization-alert" class="alert alert-error invisible"></div>
+    <p>We need a bit more information before submitting the request</p>
+    <label for="organization">Organization:</label>
+    <input name="organization" type="text" id="organization" required placeholder="(example: Concordia University)"/>
+    <label for="email">Email:</label>
+    <input name="email" type="email" id="email" placeholder="(example: me@example.org)"/>
+  </div>
+  <div class="step-buttons">
+    <button id="back3" type="button" class="btn btn-large">Back</button>
+    <button type="submit" class="btn btn-primary btn-large" id="submit3">Submit</button>
+  </div>
 </div>
