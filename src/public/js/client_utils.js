@@ -323,7 +323,7 @@ DesignContent.prototype.showDesignHelp = function(event){
 	var css2 = this.questionIcons.css('margin-right');
 	elem.attr('expanded', css1+';' + css2 );
         this.designForm.animate({'width':'50%'},250);
-	this.questionIcons.animate({'margin-right':'0%'},250);
+//	this.questionIcons.animate({'margin-right':'0%'},250);
 	this.designForm.addClass("pressed");
 	$(elem).popover();
     }
@@ -334,7 +334,7 @@ DesignContent.prototype.showDesignHelp = function(event){
 	elem.attr('expanded','');
 	this.designForm.removeClass("pressed");
 	this.designForm.animate({'width':css[0]},250);
-	this.questionIcons.animate({'margin-right':css[1]},250);
+//	this.questionIcons.animate({'margin-right':css[1]},250);
     }
 }
 

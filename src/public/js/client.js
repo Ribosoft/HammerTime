@@ -58,8 +58,6 @@ function finishStep1()
     fieldSet.setState(!!request.accessionNumber);
     request.originalSequence = request.sequence;
     $("#step2").removeClass("invisible");
-    $(".section-collapse").click(ToggleVisibilityClick);
-    $(".section-expand").click(ToggleVisibilityClick);
     //Default value needs to be set when refreshing page
     $("#envVivo").val("mouse");
 }
@@ -79,12 +77,6 @@ function setSubmitButtonStatus(){
 
 
 /****** Step 2 **********/
-var designContent = new DesignContent(
-    $('#design-form'),
-    $(".icon-question-sign"),
-    $(".design-help")
-);
-
 var submit2 = new Button($("#submit2"));
 var dropdown = new SmartDropdown($("select[name='envVivo']"));
 var fieldSet = new SmartFieldSet($("fieldset[name='region']"), $("#region-help"), $("#targetRegionRow"));
@@ -93,11 +85,15 @@ var designAlert = new SequenceAlert($("#designAlert"),$("#designAlert2"));
 var backStep1 = new Button($("#backStep1"));
 
 function handleQuestionClick(event){
-    $(".icon-question-sign").off('click');
-	designContent.showDesignHelp(event);
-	setTimeout(function(){
-            $(".icon-question-sign").click(handleQuestionClick);
-	},300);
+    var el = $(".well-help");
+    el = $(el.splice(1));
+    if(el.hasClass("invisible"))
+	el.removeClass("invisible");
+    else
+	el.addClass("invisible");
+
+    if($("fieldset[name=region]").hasClass("invisible"))
+	$("#region-help").addClass("invisible");
 }
 
 function enableDisableDropdown()
@@ -117,15 +113,12 @@ function dropdownListen(event){
 /* The functions below are taken from https://bitbucket.org/gbelmonte/jsutilities */
 function _toggleVisibility( target )
 {
-
     var now = target.next().css('display');
     var speed = target.attr('speed');
     if(now != 'none')
     {
         target.removeClass('section-collapse');
         target.addClass('section-expand');
-	$("#arm-help").addClass("invisible");
-	$("#promoter-help").addClass("invisible");
         target.next().hide( speed == undefined? 0 : parseInt(speed));
       //  target.html(target.html().replaceAll('-','+'));
     }
@@ -133,8 +126,7 @@ function _toggleVisibility( target )
     {
         target.addClass('section-collapse');
         target.removeClass('section-expand');
-        $("#arm-help").removeClass("invisible");
-	$("#promoter-help").removeClass("invisible");
+
 	target.next().show( speed == undefined? 0 : parseInt(speed));
        // target.html(target.html().replaceAll('\\+','-')); // plus is a regex expression reserved character. we must escape it
     }
@@ -290,6 +282,9 @@ window.onload = function() {
 	$('#sequence-display').bind('input propertychange', setSubmitButtonStatus);
 	
 	//Step2
+	$(".section-collapse").click(ToggleVisibilityClick);
+	$(".section-expand").click(ToggleVisibilityClick);
+	_toggleVisibility($("fieldset[name^=advanced] > legend"));
 	submit2.click(finishStep2);
 	backStep1.click(function(){
 	    window.location.hash  = "#step1";
@@ -331,8 +326,6 @@ window.onload = function() {
 	$("thead tr th:nth-child(8) p").tooltip({title:'Overall Rank'});
 
     }
-
-    _toggleVisibility($("fieldset[name^=advanced] > legend"));
 };
 
 

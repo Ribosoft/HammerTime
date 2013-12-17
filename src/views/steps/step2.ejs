@@ -3,137 +3,150 @@
 <div class="step-contents design-content">
   <div id="designAlert" class="alert alert-error invisible"></div>
   <form id="design-form" accept-charset="utf-8">
-    <fieldset class="option-field" name="region">
-      <legend class="section-collapse" speed="200">    Regions for target design
-	<i class="icon-question-sign pull-right"></i>
-      </legend>
-      <div class="offset2">
-	<input type="checkbox" name="region" value="5'"/>5'UTR<br/>
-	<input type="checkbox" name="region" value="ORF" checked="checked"/>Open Reading Frame (ORF)<br/>
-	<input type="checkbox" name="region" value="3'"/>3'UTR<br/>
+    <div class="design-form-cat">
+      <fieldset class="option-field" name="region">
+	<legend class="section-collapse" speed="200">    Regions for target design
+	  <i class="icon-question-sign pull-right"></i>
+	</legend>
+	<div class="offset2">
+	  <input type="checkbox" name="region" value="5'"/>5'UTR<br/>
+	  <input type="checkbox" name="region" value="ORF" checked="checked"/>Open Reading Frame (ORF)<br/>
+	  <input type="checkbox" name="region" value="3'"/>3'UTR<br/>
+	</div>
+      </fieldset>
+      <div class="well well-lg well-help invisible" id="region-help">
+	Select what part of the RNA you will be targeting.
       </div>
-    </fieldset>
-    <fieldset class="option-field" name="env">
-      <legend class="section-collapse" speed="200">    Target environment
-	<i class="icon-question-sign pull-right"></i>
-      </legend>
-      <div class="offset2">
-	<input type="radio" required="true" name="env" value="vitro"/>In-vitro<br/>
-	<input type="radio" required="true" name="env" value="vivo"/>In-vivo<br/>
-	<select name="envVivo" id="envVivo">
-          <option value="mouse (taxid:10090)" selected="selected">Mouse</option>
-          <option value="rat (taxid:10114)">Rat</option>
-          <option value="human (taxid:9606)">Human</option>
-          <option value="Daphnia (taxid:6668)">Daphnia</option>
-	  <option value="other">Other</option>
-	</select><br/>
-	<label for="otherEnv" class="otherEnv invisible">    Find your organism <a href="http://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch" target="_blank">here</a></label>
-	<input id="otherEnv" class="invisible otherEnv" type="text" name="otherEnv" placeholder="Example: mouse (taxid:10090)" />
+    </div>
+    <div class="design-form-cat">
+      <fieldset class="option-field" name="env">
+	<legend class="section-collapse" speed="200">    Target environment
+	  <i class="icon-question-sign pull-right"></i>
+	</legend>
+	<div class="offset2">
+	  <input type="radio" required="true" name="env" value="vitro"/>In-vitro<br/>
+	  <input type="radio" required="true" name="env" value="vivo"/>In-vivo<br/>
+	  <select name="envVivo" id="envVivo">
+            <option value="mouse (taxid:10090)" selected="selected">Mouse</option>
+            <option value="rat (taxid:10114)">Rat</option>
+            <option value="human (taxid:9606)">Human</option>
+            <option value="Daphnia (taxid:6668)">Daphnia</option>
+	    <option value="other">Other</option>
+	  </select><br/>
+	  <label for="otherEnv" class="otherEnv invisible">    Find your organism <a href="http://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch" target="_blank">here</a></label>
+	  <input id="otherEnv" class="invisible otherEnv" type="text" name="otherEnv" placeholder="Example: mouse (taxid:10090)" />
+	</div>
+      </fieldset>
+      <div class="well well-lg well-help invisible" id="target-help">
+	Select what environment the ribozyme will be tested on.
+	If in-vivo, you may specify an organism so that we may
+	test that the ribozyme does not attach off-target.
       </div>
-    </fieldset>
-    <fieldset class="option-field" name="envProperties">
-      <legend class="section-collapse" speed="200">    Environment Properties
-	<i class="icon-question-sign pull-right"></i></legend>
-      <div class="offset2">
-	<label for="temperature">Temperature</label>
-	<input type="number" name="temperature" value="37"/> &#176;C<br/>
-	<label for="naC">Na&#8314; Concentration</label>
-	<input type="number" name="naC" value="150"/> mM<br/>
-	<label for="mgC">Mg<sup>2</sup>&#8314; Concentration</label>
-	<input type="number" name="mgC" value="0"/> mM<br/>
-	<label for="oligoC">Oligomer Concentration</label>
-	<input type="number" name="oligoC" value="200"/> nM<br/>
+    </div>
+    <div class="design-form-cat">
+      <fieldset class="option-field" name="envProperties">
+	<legend class="section-collapse" speed="200">    Environment Properties
+	  <i class="icon-question-sign pull-right"></i></legend>
+	<div class="offset2">
+	  <label for="temperature">Temperature</label>
+	  <input type="number" name="temperature" value="37"/> &#176;C<br/>
+	  <label for="naC">Na&#8314; Concentration</label>
+	  <input type="number" name="naC" value="150"/> mM<br/>
+	  <label for="mgC">Mg<sup>2</sup>&#8314; Concentration</label>
+	  <input type="number" name="mgC" value="0"/> mM<br/>
+	  <label for="oligoC">Oligomer Concentration</label>
+	  <input type="number" name="oligoC" value="200"/> nM<br/>
+	</div>
+      </fieldset>
+      <div class="well well-lg well-help invisible" id="env-help">
+	Provide the environment in which the ribozyme will 
+	be used. This will allow to optimize for a large enough
+	annealing temperature as well as will help the algorithms
+	predict better the secondary structure of the ribozyme.
       </div>
-    </fieldset>
-    <fieldset class="option-field" name="cutsites">
-      <legend class="section-collapse" speed="200">    Potential Cut-sites
-	<i class="icon-question-sign pull-right"></i></legend>
-      <div class="offset2">
-	<label for="cutsites">Preferred cut-site(s)</label>
-	<select name="cutsites" multiple="multiple">
-	  <option selected="selected" value="GUC">GUC</option>
-	  <option value="CUC">CUC</option>
-	  <option value="AUC">AUC</option>
-	  <option value="UUC">UUC</option>
-	  <option value="AUA">AUA</option>
-	  <option value="UUC">UUA</option>
-	  <option value="GUA">GUA</option>
-	  <option value="CUA">CUA</option>
-	  <option value="GUU">GUU</option>
-	  <option value="CUU">CUU</option>
-	  <option value="AUU">AUU</option>
-	  <option value="UUU">UUU</option>
-	</select>
+    </div>
+    <div class="design-form-cat">
+      <fieldset class="option-field" name="cutsites">
+	<legend class="section-collapse" speed="200">    Potential Cut-sites
+	  <i class="icon-question-sign pull-right"></i></legend>
+	<div class="offset2">
+	  <label for="cutsites">Preferred cut-site(s)</label>
+	  <select name="cutsites" multiple="multiple">
+	    <option selected="selected" value="GUC">GUC</option>
+	    <option value="CUC">CUC</option>
+	    <option value="AUC">AUC</option>
+	    <option value="UUC">UUC</option>
+	    <option value="AUA">AUA</option>
+	    <option value="UUC">UUA</option>
+	    <option value="GUA">GUA</option>
+	    <option value="CUA">CUA</option>
+	    <option value="GUU">GUU</option>
+	    <option value="CUU">CUU</option>
+	    <option value="AUU">AUU</option>
+	    <option value="UUU">UUU</option>
+	  </select>
+	</div>
+      </fieldset>
+      <div class="well well-lg well-help invisible" id="cutsites-help">
+	Select one or multiple cut-sites to attach to on the target. Please note that more cut-sites means increased work-load and thus more waiting time. It is recommend you use GUC and another alternate cut-site, but not more.
       </div>
-    </fieldset>
-    <fieldset class="option-field" name="shape">
-      <legend class="section-collapse" speed="200">    Ribozyme Shape<i class="icon-question-sign pull-right"></i></legend>
-      <div class="offset2">  
-        <input type="radio" name="foldShape" value="Basic" checked="checked">Basic</input><br/>
-        <input type="radio" name="foldShape" value="Wishbone">Wishbone</input>
+    </div>
+    <div class="design-form-cat">
+      <fieldset class="option-field" name="shape">
+	<legend class="section-collapse" speed="200">    Ribozyme Shape<i class="icon-question-sign pull-right"></i></legend>
+	<div class="offset2">  
+          <input type="radio" name="foldShape" value="Basic" checked="checked">Basic</input><br/>
+          <input type="radio" name="foldShape" value="Wishbone">Wishbone</input>
+	</div>
+      </fieldset>
+      <div class="well well-lg well-help invisible" id="shape-help">
+	Choose the catalitic core that will be used to design the ribozyme.
       </div>
-    </fieldset>
-    <fieldset class="option-field" name="advanced-arm">
-      <legend class="section-collapse" speed="200" >    Advanced Options - Arm Length<i class="icon-question-sign pull-right"></i></legend>
-      <div class="offset2" id="arm-options">
-	<label for="left_arm_min">Helix I Minimum Length</label>
-	<input type="number" name="left_arm_min" value="3"/> nucleotides<br/>
-	<label for="left_arm_max">Helix I Maximum Length</label>
-	<input type="number" name="left_arm_max" value="8"/> nucleotides<br/>
-	<label for="right_arm_min">Helix III Minimum Length</label>
-	<input type="number" name="right_arm_min" value="3"/> nucleotides<br/>
-	<label for="right_arm_max">Helix III Maximum Length</label>
-	<input type="number" name="right_arm_max" value="8"/> nucleotides<br/>
+    </div>
+    <div class="design-form-cat">
+      <fieldset class="option-field" name="advanced-arm">
+	<legend class="section-expand" speed="200" >    Advanced Options - Arm Length<i class="icon-question-sign pull-right"></i></legend>
+	<div class="offset2" id="arm-options">
+	  <label for="left_arm_min">Helix I Minimum Length</label>
+	  <input type="number" name="left_arm_min" value="3"/> nucleotides<br/>
+	  <label for="left_arm_max">Helix I Maximum Length</label>
+	  <input type="number" name="left_arm_max" value="8"/> nucleotides<br/>
+	  <label for="right_arm_min">Helix III Minimum Length</label>
+	  <input type="number" name="right_arm_min" value="3"/> nucleotides<br/>
+	  <label for="right_arm_max">Helix III Maximum Length</label>
+	  <input type="number" name="right_arm_max" value="8"/> nucleotides<br/>
+	</div>
+      </fieldset>
+      <div class="well well-lg well-help invisible" id="arm-help">
+	These parameters relate to the length of each arm strand on the Ribozyme.
       </div>
-    </fieldset>
-    <fieldset class="option-field" name="advanced-promoter">
-      <legend class="section-collapse" speed="200" >    Advanced Options - T7 Promoter<i class="icon-question-sign pull-right"></i></legend>
-      <div class="offset2">
-	<label for="promoter">Append T7 Promoter?</label>
-	<input type="radio" name="promoter" value="1"/>Yes<br/>
-	<input type="radio" name="promoter" value="0" checked="checked"/>No<br/>
+    </div>
+    <div class="design-form-cat">
+      <fieldset class="option-field" name="advanced-promoter">
+	<legend class="section-expand" speed="200" >    Advanced Options - T7 Promoter<i class="icon-question-sign pull-right"></i></legend>
+	<div class="offset2">
+	  <label for="promoter">Append T7 Promoter?</label>
+	  <input type="radio" name="promoter" value="1"/>Yes<br/>
+	  <input type="radio" name="promoter" value="0" checked="checked"/>No<br/>
+	</div>
+      </fieldset>
+      <div class="well well-lg well-help invisible" id="promoter-help">
+	The T7 promoter will be attached to the hammerhead and taken into consideration in the folding if the check-box is checked.
       </div>
-    </fieldset>
-    <fieldset class="option-field" name="advanced-specificity">
-      <legend class="section-collapse" speed="200" >    Advanced Options - Specificity<i class="icon-question-sign pull-right"></i></legend>
-      <div class="offset2">
-	<input type="radio" name="specificity" value="cleavage" checked="checked"/>Cleavage Only<br/>
-	<input type="radio" name="specificity" value="hybrid"/>Cleavage and Hybridization<br/>
+    </div>
+    <div class="design-form-cat">
+      <fieldset class="option-field" name="advanced-specificity">
+	<legend class="section-expand" speed="200" >    Advanced Options - Specificity<i class="icon-question-sign pull-right"></i></legend>
+	<div class="offset2">
+	  <input type="radio" name="specificity" value="cleavage" checked="checked"/>Cleavage Only<br/>
+	  <input type="radio" name="specificity" value="hybrid"/>Cleavage and Hybridization<br/>
+	</div>
+      </fieldset>
+      <div class="well well-lg well-help invisible" id="specificity-help">
+	Lorem Ipsum
       </div>
-    </fieldset>
-
+    </div>
   </form>
-  <div class="design-help invisible">
-    <div class="well well-lg well-help" id="region-help">
-      Select what part of the RNA you will be targeting.
-    </div>
-    <div class="well well-lg well-help" id="target-help">
-      Select what environment the ribozyme will be tested on.
-      If in-vivo, you may specify an organism so that we may
-      test that the ribozyme does not attach off-target.
-    </div>
-    <div class="well well-lg well-help" id="env-help">
-      Provide the environment in which the ribozyme will 
-      be used. This will allow to optimize for a large enough
-      annealing temperature as well as will help the algorithms
-      predict better the secondary structure of the ribozyme.
-    </div>
-    <div class="well well-lg well-help" id="cutsites-help">
-      Select one or multiple cut-sites to attach to on the target. Please note that more cut-sites means increased work-load and thus more waiting time. It is recommend you use GUC and another alternate cut-site, but not more.
-    </div>
-    <div class="well well-lg well-help" id="shape-help">
-      Choose the catalitic core that will be used to design the ribozyme.
-    </div>
-    <div class="well well-lg well-help invisible" id="arm-help">
-      These parameters relate to the length of each arm strand on the Ribozyme.
-    </div>
-    <div class="well well-lg well-help invisible" id="promoter-help">
-      The T7 promoter will be attached to the hammerhead and taken into consideration in the folding if the check-box is checked.
-    </div>
-    <div class="well well-lg well-help invisible" id="specificity-help">
-      Lorem Ipsum
-    </div>
-  </div>
   <div id="designAlert2" class="alert alert-error invisible"></div>
   <div class="step-buttons">
     <button id="backStep1" class="btn btn-large">Back</button>
