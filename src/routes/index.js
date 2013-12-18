@@ -40,8 +40,8 @@ exports.processing_page = function(req, res, next) {
 };
 
 exports.results_page = function(req, res, next) {
-//    var path = require('path').join('/home/admin/ribosoft/', req.params.id, '/requestState.json');
-    var path = '/home/anas/HammerTime/src/requestState.json';
+    var path = require('path').join('/home/admin/ribosoft/', req.params.id, '/requestState.json');
+//    var path = '/home/anas/HammerTime/src/requestState.json';
     try{
 	var json_output = require(path);
 	res.render('results_page', {
