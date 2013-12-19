@@ -87,14 +87,13 @@ var backStep1 = new Button($("#backStep1"));
 
 function handleQuestionClick(event){
     var el = $(".well-help");
-    el = $(el.splice(1));
+
+    if($("fieldset[name=region]").hasClass("invisible"))
+	el = $(el.splice(1));
     if(el.hasClass("invisible"))
 	el.removeClass("invisible");
     else
 	el.addClass("invisible");
-
-    if($("fieldset[name=region]").hasClass("invisible"))
-	$("#region-help").addClass("invisible");
 }
 
 function enableDisableDropdown()
