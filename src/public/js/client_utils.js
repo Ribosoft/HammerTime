@@ -386,7 +386,7 @@ SummaryTable.prototype.setTableData = function(data){
     $("#promoter").text(data.promoter ? "Yes" : "No");
     $("#leftArm").text("Between "+ data.left_arm_min + " and "+data.left_arm_max);
     $("#rightArm").text("Between "+ data.right_arm_min + " and "+data.right_arm_max);
-    $("#specificity").text(data.specificity == "hybrid"?"Cleavage and Hybridization":"Cleavage");
+    $("#specificity").text(data.specificity == "hybrid"?"Cleavage and Hybridization":"Cleavage only");
 }
 
 function BackPressHandler(){}
