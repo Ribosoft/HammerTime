@@ -22,7 +22,7 @@ exports.api_page = function(req, res) {
 };
 
 exports.license_page = function(req, res) {
-    res.render('coming_soon', {title: 'License'});
+    res.render('license', {title: 'License'});
 };
 
 
