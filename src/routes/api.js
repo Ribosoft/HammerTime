@@ -34,6 +34,7 @@ module.exports = {
 						     parseInt(req.body.left_arm_max),
 						     parseInt(req.body.right_arm_max),
 						     req.body.promoter,
+						     req.body.specificity,
 						     req.body.emailUser,
 						     req.body.organization).save(function(err, result){
 							 if(err){
@@ -276,7 +277,8 @@ function sendRequestResponse(res, result){
 	right_arm_max : result.right_arm_max,
 	emailUser : result.emailUser,
 	organization : result.organization,
-	promoter : result.promoter
+	promoter : result.promoter,
+	specificity : result.specificity
     };
     if(result.accessionNumber)
 	response.accessionNumber = result.accessionNumber;
