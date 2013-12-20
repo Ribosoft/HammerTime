@@ -18,28 +18,64 @@
 		  <br/>
 		  <h4>Parameters</h4>
 		  <ul>
-		    <li class="design-parameter"><em>sequence : String</em><br/><p class="parameter-desc">When provided, the sequence will be used as the target of the Hammerhead ribozyme.</p></li>
-		    <li class="design-parameter"><em>accessionNumber: String</em><br/><p class="parameter-desc">When provided, it will be used as the target of the Hammerhead ribozyme.<br/>Note that, when both the sequence and the accessionNumber are provided, they are validated to belong to the same organism.<br/> For a list of possible accession number values, have a look at the <a href="http://www.ncbi.nlm.nih.gov/books/NBK25500/">NCBI database</a></p></li>
+		    <li class="design-parameter"><em>sequence : String</em><br/><p class="parameter-desc">When provided, the sequence will be used as the target of the Hammerhead ribozyme.<br/>Note that the sequence must not be more than 3000 nucleotides-long.</p></li>
+		    <li class="design-parameter"><em>accessionNumber: String</em><br/><p class="parameter-desc">When provided, it will be used as the target of the Hammerhead ribozyme.<br/> For a list of possible accession number values, have a look at the <a href="http://www.ncbi.nlm.nih.gov/books/NBK25500/">NCBI database</a></p></li>
 		    <li class="design-parameter"><em>foldShape : String</em><br/><p class="parameter-desc">Describes the shape of the ribozyme.<br/> Possible values are: "Basic" and "Wishbone"</p></li>
-		    <li class="design-parameter"><em>temperature : Integer</em><br/><p class="parameter-desc">Represents the temperature of the target.<br/> Default value is 37&#8451;</p></li>
+		    <li class="design-parameter"><em>temperature : Integer</em><br/><p class="parameter-desc">Represents the temperature of the target in Celsius.<br/> Default value is 37</p></li>
 		    <li class="design-parameter"><em>naC : Integer</em><br/><p class="parameter-desc">Represents the Na&#8314; concentration in the target environment.<br/> Default value is 0</p></li>
-		    <li class="design-parameter"><em>mgC : Integer</em><br/><p class="parameter-desc">Represents the Mg&#8314;&#8314; concentration in the target environment.<br/> Default value is 0</p></li>
+		    <li class="design-parameter"><em>mgC : Integer</em><br/><p class="parameter-desc">Represents the Mg<sup>2</sup>&#8314; concentration in the target environment.<br/> Default value is 0</p></li>
 		    <li class="design-parameter"><em>oligoC : Integer</em><br/><p class="parameter-desc">Represents the concentration of oligos in the target environment.<br/> Default value is 0</p></li>
-		    <li class="design-parameter"><em>cutsites : Array</em><br/><p class="parameter-desc">Represents the list of cutsites that the ribozyme should target.</p></li>
-		    <li class="design-parameter"><em>region : String</em><br/><p class="parameter-desc">Represents the part of the RNA that will be targeted.<br/> This value is required when using the accession number.<br/> Possible values are: "5'", "ORF" and "3'"</p></li>
+		    <li class="design-parameter"><em>cutsites : Array</em><br/><p class="parameter-desc">Represents the list of cutsites that the ribozyme should target. The list should contain at least "GUC", plus another possible cutsite from the list below:</p>
+		      <ul>
+			<li>"AUC"</li>
+			<li>"UUC"</li>
+			<li>"AUA"</li>
+			<li>"UUC"</li>
+			<li>"GUA"</li>
+			<li>"CUA"</li>
+			<li>"GUU"</li>
+			<li>"CUU"</li>
+			<li>"AUU"</li>
+			<li>"UUU"</li>
+			<li>"CUC"</li>
+		      </ul>
+		      <br/></li>
+		    <li class="design-parameter"><em>region : Array</em><br/><p class="parameter-desc">Represents the list of regions that will be targeted.<br/> Possible values are:</p>
+		      <ul>
+			<li>["5\'"]</li>		    
+			<li>["ORF'"]</li>
+			<li>["3\'"]</li>
+			<li>["ORF", "3\'"]</li>
+			<li>["5\'", "ORF"]</li>
+			<li>["5\'", "ORF", "3\'"]</li>
+		      </ul>
+		      <br/>
+		    </li>
 		    <li class="design-parameter"><em>left_arm_min : Integer</em><br/><p class="parameter-desc">Represents the minimum length of the left arm strand. <br/>Default value is 3</p></li>
 		    <li class="design-parameter"><em>left_arm_max : Integer</em><br/><p class="parameter-desc">Represents the maximum length of the left arm strand. <br/>Default value is 8</p></li>
 		    <li class="design-parameter"><em>right_arm_min : Integer</em><br/><p class="parameter-desc">Represents the minimum length of the right arm strand. <br/>Default value is 3</p></li>
 		    <li class="design-parameter"><em>right_arm_max : Integer</em><br/><p class="parameter-desc">Represents the maximum length of the right arm strand. <br/>Default value is 8</p></li>
 		    <li class="design-parameter"><em>promoter : Boolean</em><br/><p class="parameter-desc">Represents whether the T7 promoter should be used or not. <br/>Default value is false</p></li>
+		    <li class="design-parameter"><em>specificity : String</em><br/><p class="parameter-desc">Represents what type of cleavage should be designed for.<br/>Possible values are "cleavage" or "hybrid".<br/>"cleavage" means that the algorithm will focus on hybridication that allows cleavage, while "hybrid" will focus on targets that can be annealed.<br/> Default value is "cleavage"</p></li>
 		    <li class="design-parameter"><em>env : Object</em><br/><p class="parameter-desc">Represents the target environment. <br/><em>env.type</em> can be either "vitro" or "vivo", for in-vitro and in-vivo respectively. <br/><em>env.target</em> is the target environment if in-vivo.</p></li>
 		  </ul>
+		  <br/>
+		  <h4>Example input</h4>
+		  <p>
+		  This first example shows how to pass the accession number with no sequence information. <code>cutsites</code> refers to only one type of cutsites, and the <code>emailUser</code> is passed to allow reporting of the results by email.</p>
+		  <script src="https://gist.github.com/anas-ambri/8048089.js"></script>
+		  <br/>
+		  <p>This second example will show how to specify the actual sequence string in the request, as well as providing with more cutsites and a longer target.<br/><b>Note </b>that, although <code>emailUser</code> was not provided, the request will still be executed.</p>
+		  <script src="https://gist.github.com/anas-ambri/8049210.js"></script>
 		  <br/>
 		  <h4>Status code</h4>
 		  <ul>
 		    <li class="design-parameter"><em>201</em><br/><p class="parameter-desc">Returned when the request has been successfully created.<br/>The location header points to the location of the newly created request. Refer to the Return Value section for more details</p></li>
 		    <li class="design-parameter"><em>400</em><br/><p class="parameter-desc">Returned when the request contains malformed, inconsistent or is missing data.</p></li>
 		  </ul>
+		  <br/>
+		  <h4>Returned Values</h4>
+		  <p>Apart from the status code, this resource returns the location of the newly created request. This value is found under the <code>Location</code> header of the response.<br/>The location will be of the form: <code>/ribosoft/requests/:id</code>, where <code>id</code> is a 4 characters long UUID.<br/>This UUID can be used with the rest of the API to retrieve the state and results of the request.</p>
 		</td>
 	      </tr>
 	      <tr>
@@ -50,13 +86,83 @@
 		  <br/>
 		  <h4>Status code</h4>
 		  <ul>
-		    <li class="design-parameter"><em>200</em><br/><p class="parameter-desc">Returned when the request has been found.<br/>Refer to the Return Value section for more details</p></li>
-		    <li class="design-parameter"><em>404</em><br/><p class="parameter-desc">Returned when the request cannot be found.</p></li>
+		    <li class="design-parameter"><em>200</em><br/><p class="parameter-desc">Returned when the request has been found.</p></li>
+		    <li class="design-parameter"><em>404</em><br/><p class="parameter-desc">Returned when the request with the provided id cannot be found.</p></li>
+		  </ul>
+		</td>
+	      </tr>
+	      <tr>
+		<td>PUT /ribosoft/requests/:id</td>
+		<td>Updates the request with additional information. This method is useful for setting the <code>emailUser</code> field for reporting the results by email.<br/><br/>
+		  <h4>Parameters</h4>
+		    <p>Same parameters as the POST method</p>
+		  <br/>
+		  <h4>Status code</h4>
+		  <ul>
+		    <li class="design-parameter"><em>200</em><br/><p class="parameter-desc">Returned when the update was successful.</p></li>
+		    <li class="design-parameter"><em>404</em><br/><p class="parameter-desc">Returned when the request with the id provided cannot be found.</p></li>
+		    <li class="design-parameter"><em>405</em><br/><p class="parameter-desc">Returned when the request can no longer be modified.</p></li>
+		  </ul>
+		</td>
+	      </tr>
+	      <tr>
+		<td>DELETE /ribosoft/requests/:id</td>
+		<td>Deletes the request.<br/><br/>
+		  <h4>Parameters</h4>
+		   <p>None</p>
+		  <br/>
+		  <h4>Status code</h4>
+		  <ul>
+		    <li class="design-parameter"><em>200</em><br/><p class="parameter-desc">Returned when the request has been successfully deleted.</p></li>
+		    <li class="design-parameter"><em>404</em><br/><p class="parameter-desc">Returned when the request with the id provided cannot be found.</p></li>
+		    <li class="design-parameter"><em>405</em><br/><p class="parameter-desc">Returned when the request can no longer be deleted.</p></li>
 		  </ul>
 		</td>
 	      </tr>
 	    </tbody>
 	  </table>
+
+	  <h3>Status</h3>
+	  <p>A status resource represents the status of a request. This can be used to retrieve the state of a request, its remaining time, and the location of the results.</p>
+	  <table class="table table-striped api-table">
+	    <thead>
+	      <tr>
+		<th>Resource</th>
+		<th>Description</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr>
+		<td>GET /ribosoft/requests/:id/status</td>
+		<td>Retrieves the status of a request. The status is a description of the remaining duration of the request, the location of the results if the request has finished processing. <br/>
+		  <br/>
+		  <h4>Parameters</h4>
+		  None
+		  <br/>
+		  <h4>Status code</h4>
+		  <ul>
+		    <li class="design-parameter"><em>200</em><br/><p class="parameter-desc">Returned when the request has finished processing.</p></li>
+		    <li class="design-parameter"><em>202</em><br/><p class="parameter-desc">Returned when the request is ready for processing or in-processing.</p></li>
+		    <li class="design-parameter"><em>404</em><br/><p class="parameter-desc">Returned when the request with the provided id cannot be found.</p></li>
+		  </ul>
+		  <br/>
+		  <h4>Returned Values</h4>
+		  <ul>
+		    <li>The request has finished processing:
+		      <script src="https://gist.github.com/anas-ambri/8050269.js"></script>
+		    </li>
+		    <li>The request is currently being processed:
+		      <script src="https://gist.github.com/anas-ambri/8050283.js"></script>
+		    </li>
+		    <li>The request is ready for processing:
+		      <script src="https://gist.github.com/anas-ambri/8050294.js"></script>
+		    </li>
+		  <p>.</p>
+		</td>
+	      </tr>
+	    </tbody>
+	  </table>
+
         </div>
     </div>
     <% include footer %>
