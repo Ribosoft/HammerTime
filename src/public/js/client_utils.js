@@ -386,7 +386,7 @@ SummaryTable.prototype.setTableData = function(data){
     $("#promoter").text(data.promoter ? "Yes" : "No");
     $("#leftArm").text("Between "+ data.left_arm_min + " and "+data.left_arm_max);
     $("#rightArm").text("Between "+ data.right_arm_min + " and "+data.right_arm_max);
-    $("#specificity").text(data.specificity == "hybrid"?"Cleavage and Hybridization":"Cleavage");
+    $("#specificity").text(data.specificity == "hybrid"?"Cleavage and Hybridization":"Cleavage only");
 }
 
 function BackPressHandler(){}
@@ -478,3 +478,29 @@ EmailReporter.prototype.submit = function(value){
 	}
     });
 }
+
+function DesignParamsValidator(alert){
+    this.alert = alert;
+}
+
+DesignParamsValidator.prototype.validate = function(request){
+    var valid = false;
+    if(request.accessionNumber && !request.region) {
+	this.alert.setState({ok:false, error:"You must specify the target region when using the accession number"});
+    }
+    else if(request.region.length == 2 && request.region.join("") == "5'3'" ) {
+	this.alert.setState({ok:false, error:"You must specify contiguous target region segments: the frames 5' and 3' are not contiguous"});
+    }
+    else if(!request.env || (request.env.type == "vivo" && !request.env.target)){
+	this.alert.setState({ok:false, error:"You must specify the target environment and target organism"});
+    }
+    else if( (request.temperature < -272) )
+	this.alert.setState({ok:false, error:"Temperature cannot be below -272&#176;C"});
+    else if( (request.naC < 0) || (request.mgC < 0) || (request.oligoC < 0) )
+	this.alert.setState({ok:false, error:"Environment concentrations cannot be below 0"});
+    else {
+	this.alert.hide();
+	valid = true;
+    }
+    return valid;
+};

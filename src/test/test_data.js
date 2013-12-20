@@ -16,6 +16,7 @@ module.exports = {
 	    emailUser : '',
 	    organization : '',
 	    promoter : false,
+	    specificity : "hybrid",
 	    env: {
 		type: 'vitro',
 		target: ''
@@ -41,6 +42,7 @@ module.exports = {
 	    right_arm_max : 8,
 	    emailUser : 'test@test.test',
 	    promoter: 0,
+	    specificity : "cleavage",
 	    env: {
 		type: 'vitro',
 		target: ''
@@ -64,6 +66,7 @@ module.exports = {
 	    right_arm_max : 8,
 	    emailUser : '',
 	    promoter : false,
+	    specificity : "hybrid",
 	    env: {
 		type: 'vitro',
 		target: ''
@@ -85,6 +88,7 @@ module.exports = {
 	    right_arm_max : 8,
 	    emailUser : '',
 	    promoter : false,
+	    specificity : "hybrid",
 	    env: {
 		type: 'vitro',
 		target: ''
@@ -108,6 +112,7 @@ module.exports = {
 	    right_arm_max : 8,
 	    promoter : false,
 	    emailUser : '',
+	    specificity : "hybrid",
 	    env: {
 		type: 'vitro',
 		target: ''
@@ -129,6 +134,7 @@ module.exports = {
 	    right_arm_max : 8,
 	    emailUser : '',
 	    promoter : false,
+	    specificity : "hybrid",
 	    env: {
 		type: 'vitro',
 		target: ''
@@ -151,6 +157,7 @@ module.exports = {
 	    promoter : false,
 	    right_arm_max : 8,
 	    emailUser : '',
+	    specificity : "cleavage",
 	    env: {
 		type: 'vitro',
 		target: ''
@@ -172,6 +179,7 @@ module.exports = {
 	    left_arm_max : 8,
 	    right_arm_min : 3,
 	    right_arm_max : 8,
+	    specificity : "hybrid",
 	    emailUser : '',
 	    env: {
 		type: 'vitro',
@@ -194,6 +202,7 @@ module.exports = {
 	    left_arm_max : 8,
 	    right_arm_min : 3,
 	    right_arm_max : 8,
+	    specificity : "cleavage",
 	    emailUser : 'user@example.org',
 	    organization : 'Concordia University',
 	    env: {

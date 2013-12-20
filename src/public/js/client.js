@@ -82,23 +82,25 @@ var dropdown = new SmartDropdown($("select[name='envVivo']"));
 var fieldSet = new SmartFieldSet($("fieldset[name='region']"), $("#region-help"), $("#targetRegionRow"));
 var summary = new SummaryTable();
 var designAlert = new SequenceAlert($("#designAlert"),$("#designAlert2"));
+var validator = new DesignParamsValidator(designAlert);
 var backStep1 = new Button($("#backStep1"));
 
 function handleQuestionClick(event){
     var el = $(".well-help");
-    el = $(el.splice(1));
+
+    if($("fieldset[name=region]").hasClass("invisible"))
+	el = $(el.splice(1));
     if(el.hasClass("invisible"))
 	el.removeClass("invisible");
     else
 	el.addClass("invisible");
-
-    if($("fieldset[name=region]").hasClass("invisible"))
-	$("#region-help").addClass("invisible");
 }
 
 function enableDisableDropdown()
 {
     dropdown.setState(this.checked, this.defaultValue === 'vitro');
+    $("#envVivo").val("mouse");
+    $(".otherEnv").addClass("invisible");
 }
 
 function dropdownListen(event){
@@ -155,44 +157,36 @@ function finishStep2(event)
 {
     var data = $("#design-form").serializeArray();
     request.extractData(data);
-    if(request.accessionNumber && !request.region) {
-	designAlert.setState({ok:false, error:"You must specify the target region when using the accession number"});
-    }
-    else if(request.region.length == 2 && request.region.join("") == "5'3'" ) {
-	designAlert.setState({ok:false, error:"You must specify contiguous target region segments: the frames 5' and 3' are not contiguous"});
-    }
-    else if(!request.env || (request.env.type == "vivo" && !request.env.target)){
-	designAlert.setState({ok:false, error:"You must specify the target environment and target organism"});
-    } else { // All ok
-    designAlert.hide();
-    designAlert.setState({ok:true, error:"Searching for UTR..."});
-    summary.setTableData(request);
-    $("body").css("cursor","wait");
-    $("#submit").css("cursor","wait");
-    request.sequence = request.originalSequence;
-    if( request.accessionNumber == undefined || request.accessionNumber == "") 
-    {
-      $("body").removeAttr("style");
-      $("#submit").removeAttr("style");
-      designAlert.hide();
-      $("#step2").addClass("invisible");
-      $("#step3").removeClass("invisible");
-    }
-    else
-    {
-      FindUTRBoundaries( function findingDone(e) 
-        {
-          if (e)
-          {
-            $("#step2").addClass("invisible");
-            $("#step3").removeClass("invisible");
-          }
-          $("body").removeAttr("style");
-          $("#submit").removeAttr("style");
-          designAlert.hide();
-        }
-      );
-    }
+    if(validator.validate(request)) {
+	designAlert.hide();
+	designAlert.setState({ok:true, error:"Searching for UTR..."});
+	summary.setTableData(request);
+	$("body").css("cursor","wait");
+	$("#submit").css("cursor","wait");
+	request.sequence = request.originalSequence;
+	if( !request.accessionNumber ) 
+	{
+	    $("body").removeAttr("style");
+	    $("#submit").removeAttr("style");
+	    designAlert.hide();
+	    $("#step2").addClass("invisible");
+	    $("#step3").removeClass("invisible");
+	}
+	else
+	{
+	    FindUTRBoundaries( function findingDone(e) 
+			       {
+				   if (e)
+				   {
+				       $("#step2").addClass("invisible");
+				       $("#step3").removeClass("invisible");
+				   }
+				   $("body").removeAttr("style");
+				   $("#submit").removeAttr("style");
+				   designAlert.hide();
+			       }
+			     );
+	}
     }
 }
 

@@ -35,6 +35,11 @@ h1,h2,h3,h4,h5,h6
     min-height 80%
     height auto !important
 
+input[type="radio"],
+input[type="checkbox"]
+    margin-top -1px
+    vertical-align middle
+
 input[type="number"]
     width 56px
 
@@ -53,7 +58,7 @@ input[type="number"]
     background-position-y 80%
     min-height 20%
     width 90%
-    margin 0 auto
+    margin 1.5% auto 0
 
 .jumbotron
     text-align center
@@ -140,6 +145,7 @@ $step-content-minHeight = 396px
 
 #drop
     text-align right
+    float right
 
 #accession
     height 22px
@@ -164,15 +170,15 @@ $step-content-minHeight = 396px
 
 .well-help
     float right
-    width 40%
+    width 45%
 
 legend
     cursor pointer
 
-.section-collapse:before
+legend.section-collapse:before
     content url('../images/collapse_arrow.png')
 
-.section-expand:before
+legend.section-expand:before
     content url('../images/expand_arrow.png')
 
 .organization-input
@@ -245,11 +251,26 @@ td.specificity-entry
 .core-highlight
     color teal
 
+.api-table th
+    min-width 20em
+
+h4 > a
+    text-decoration none
     
 .utr
     color : dimgrey;
 
-
 .target-download
     color : #333333;
     width: 50px;
+
+.license-details
+    width 85%
+    margin 0 auto 35px
+    
+    & h4
+      margin-bottom 10px
+
+    & .license-contents
+      width 85%
+      margin 0 auto
