@@ -15,7 +15,7 @@
            <th><p>Accessibility 1</p></th> \
            <th><p>Accessibility 2</p></th> \
            <th><p>Ribozyme Shape Quality</p></th>";
-	   if(results.inVivoOrganism)
+	   if(results.InVivoOrganism)
     	     html += "<th id='specificity-col'><p>Weighted off-target hits</p></th>";
            html += "<th id='rank-col'><p>Overall Rank</p></th></thead>";
        container.forEach(function(type, ind1) {
@@ -32,7 +32,7 @@
                   <td>"+candidate.Fitness_Target+"</td> \
                   <td>"+candidate.Fitness_Target_dG+"</td> \
                   <td>"+candidate.Fitness_Shape+"</td>";
-		  if(results.inVivoOrganism)
+		  if(results.InVivoOrganism)
                     html+= "<td info='"+ind1+","+ind2+","+ind3+"' class='specificity-entry'>"+candidate.Fitness_Specificity+"</td>";
                   html+= "<td>"+candidate.rank+" </td></tr>";
                 })
