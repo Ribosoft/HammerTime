@@ -89,10 +89,13 @@ function DnaToRna(seq)
 {
 	return seq.replaceAll('T','U');
 }
-
+var T7_STRING = 'TAATACGACTCACTATAGGG';
 function GetDnaForCandidate( candidate , appendT7 )
 {
-  return RnaToDna( ReverseComplement(candidate.Sequence) );
+  var Dnaseq = RnaToDna( ReverseComplement(candidate.Sequence) );
+  if(appendT7)
+    Dnaseq = AppendPromoter(Dnaseq, T7_STRING , 2);
+  return Dnaseq;
 }
 
 function GetDisplayHtmlForCandidate( candidate , appendT7 )
@@ -103,7 +106,7 @@ function GetDisplayHtmlForCandidate( candidate , appendT7 )
   ";
 
   return TEMPLATE.replace('{0}', GetDnaForCandidate( candidate , appendT7 ) ) 
-    .replace('{1}', Reverse(candidate.Sequence) );
+    .replace('{1}', Reverse(candidate.Sequence) ) ;
 }
 
 function PrintSequenceWithCutSitesHighlited(seq,cutSites)
@@ -186,7 +189,7 @@ function FindUTRBoundaries(ondone)
         var ORFInfo = clack.indexOf("cdregion");
         var clock = 0;
         var cluck = 0;
-        if( request.region == "3'" && (ThreeUTRInfo != -1 ) )
+        if( request.region[0] == "3'" && (ThreeUTRInfo != -1 ) )
         {
 
           //This monster grabs the "from x,    to y" right after the tag found
@@ -205,12 +208,29 @@ function FindUTRBoundaries(ondone)
           clock = parseInt(click[0].substr(4)) ;// trim from
           cluck = parseInt(click[1].trim().substr(2) ) ; // get to
 
-          if( request.region == "ORF")
-            request.sequence = request.sequence.substr(clock, cluck - clock +1);
-          else if( request.region == "3'")
-            request.sequence = request.sequence.substr(cluck);
-          else if (request.region =="5'")
-            request.sequence = request.sequence.substr(0,clock);
+          var ORF =
+             request.sequence.substr(clock, cluck - clock +1);
+          var ARF =
+             request.sequence.substr(cluck);
+          var URF = 
+             request.sequence.substr(0,clock);
+            
+          if( region.length == 1)
+          {
+            if(region[0] = "3'")
+              request.sequence = URF;
+            else if( region[0] = "5'" )
+              request.sequence = ARF;
+            else
+              request.sequence = ORF;
+          }
+          else
+          {
+            if(region[0] = "3'")
+              request.sequence = ARF + ORF;
+            else
+              request.sequence = ORF + URF;
+          }
         }
         else
         {
@@ -225,5 +245,43 @@ function FindUTRBoundaries(ondone)
       }
   }
   ); 
+}
+
+/*
+    <summary>
+      Appends the given promoter to a given DNA sequence recycling a certain number
+      of nucleotides when possibl.
+    </summary>
+    <param name='candidateDna'> The DNA of the candidate</param>
+    <param name='promoter'> The promoter</param>
+    <param name='depth'>The amount of the promoter that can be re-used in the DNA (2 for T7)</param>
+    <return>The candidate DNA are modified to have the promoter</return>
+*/
+function AppendPromoter(candidateDna,promoter, depth)
+{
+	var promAdded =  RnaToDna ( ReverseComplement (promoter) );
+	
+  var candidate = candidateDna;
+  var jj;
+  for( jj = 0; jj < depth ;++jj)
+  {
+    var ii;
+    var match = true;
+    for( ii = 1 ; ii <= depth - jj; ++ii)
+    {
+      if( candidate[candidate.length - ii] != promAdded[ii-1] )
+      {
+        match = false;
+        break;
+      }
+    }
+    if(match)
+    {
+      break;
+    }
+  }
+  var matchBegin = depth - jj;
+  candidate += promAdded.substr(matchBegin);
+  return candidate;
 }
 
