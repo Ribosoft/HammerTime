@@ -227,3 +227,41 @@ function FindUTRBoundaries(ondone)
   ); 
 }
 
+/*
+    <summary>
+      Appends the given promoter to a given DNA sequence recycling a certain number
+      of nucleotides when possibl.
+    </summary>
+    <param name='candidateDna'> The DNA of the candidate</param>
+    <param name='promoter'> The promoter</param>
+    <param name='depth'>The amount of the promoter that can be re-used in the DNA (2 for T7)</param>
+    <return>The candidate DNA are modified to have the promoter</return>
+*/
+function AppendPromoter(candidateDna,promoter, depth)
+{
+	var promAdded =  DnaToRna ( ReverseComplement (promoter) );
+	
+  var candidate = candidateDna;
+  var jj;
+  for( jj = 0; jj < depth ;++jj)
+  {
+    var ii;
+    var match = true;
+    for( ii = 1 ; ii <= depth - jj; ++ii)
+    {
+      if( candidate[candidate.length - ii] != promAdded[ii-1] )
+      {
+        match = false;
+        break;
+      }
+    }
+    if(match)
+    {
+      break;
+    }
+  }
+  var matchBegin = depth - jj;
+  candidate += promAdded.substr(matchBegin);
+  return candidate;
+}
+
