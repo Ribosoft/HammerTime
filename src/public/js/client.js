@@ -327,13 +327,16 @@ window.onload = function() {
 	$("#results tbody tr").click(showExtraInfo);
 	$("td.specificity-entry").click(showAlertOffTarget);
 	$("thead tr th:nth-child(1) p").tooltip({title:'Cut-sites'});
-	$("thead tr th:nth-child(2) p").tooltip({title:'Sequence'});
-	$("thead tr th:nth-child(3) p").tooltip({title:'Melting temperature'});
-	$("thead tr th:nth-child(4) p").tooltip({title:'Accessiblity 1'});
-	$("thead tr th:nth-child(5) p").tooltip({title:'Accessibility 2'});
-	$("thead tr th:nth-child(6) p").tooltip({title:'Ribozyme Shape'});
-	$("thead tr th:nth-child(7) p").tooltip({title:'Weighted Hits'});
-	$("thead tr th:nth-child(8) p").tooltip({title:'Overall Rank'});
+	$("thead tr th:nth-child(2) p").tooltip({title:"5'-3' Sequence of produces Ribozyme"});
+	$("thead tr th:nth-child(3) p").tooltip({title:'Hybridization temperature of Ribozyme'});
+	$("thead tr th:nth-child(4) p").tooltip({title:'Measure of target accessibility based on the target folding on itself. 1 is the best value, 0 is the worst.'});
+	$("thead tr th:nth-child(5) p").tooltip({title:'Second measure of accessibility based on the thermodynamical favourability of opening the fold. A greater value is better. ' +
+  'This value is on a cutsite-basis.'});
+	$("thead tr th:nth-child(6) p").tooltip({title:'Measure of how strongly they ribozyme has folding outside of the catalytic core. A greater value is better.'});
+	$("thead tr th:nth-child(7) p").tooltip({title:'Number of off-target hits, weighted by how good the match is and whether it is a hybridizing or a cleaving match. '
+                                         +'XN-type genes are not counted but still reported. Click on the number for details. A greater value is worse. Best value is 1, greater is worse.'});
+	$("thead tr th:nth-child(8) p").tooltip({title:'Overall Rank. Based independently quality of the attributes. For example, a candidate with highest accesibility will be rank '
+          + '1 regardless of everything else, as no other candidate is as good as it is at that aspect.'});
 
     }
 };
