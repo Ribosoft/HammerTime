@@ -157,36 +157,52 @@ function finishStep2(event)
 {
     var data = $("#design-form").serializeArray();
     request.extractData(data);
+    var regionCount = request.region != undefined ? request.region.length : 0;
+    
+    if(regionCount == 0 && request.accessionNumber != undefined )
+    {
+      designAlert.setState({ok:false, error:"At least one region must be selected for the sequence (e.q. ORF)" });
+      return;
+    }
+    
     if(validator.validate(request)) {
-	designAlert.hide();
-	designAlert.setState({ok:true, error:"Searching for UTR..."});
-	summary.setTableData(request);
-	$("body").css("cursor","wait");
-	$("#submit").css("cursor","wait");
-	request.sequence = request.originalSequence;
-	if( !request.accessionNumber ) 
-	{
-	    $("body").removeAttr("style");
-	    $("#submit").removeAttr("style");
-	    designAlert.hide();
-	    $("#step2").addClass("invisible");
-	    $("#step3").removeClass("invisible");
-	}
-	else
-	{
-	    FindUTRBoundaries( function findingDone(e) 
-			       {
-				   if (e)
-				   {
-				       $("#step2").addClass("invisible");
-				       $("#step3").removeClass("invisible");
-				   }
-				   $("body").removeAttr("style");
-				   $("#submit").removeAttr("style");
-				   designAlert.hide();
-			       }
-			     );
-	}
+      designAlert.hide();
+      designAlert.setState({ok:true, error:"Searching for UTR..."});
+      summary.setTableData(request);
+      $("body").css("cursor","wait");
+      $("#submit").css("cursor","wait");
+      request.sequence = request.originalSequence;
+      if( !request.accessionNumber || regionCount == 3 ) //if all regions selected, nothing to do
+      {
+          $("body").removeAttr("style");
+          $("#submit").removeAttr("style");
+          designAlert.hide();
+          $("#step2").addClass("invisible");
+          $("#step3").removeClass("invisible");
+      }
+      else
+      {
+        FindUTRBoundaries( 
+          function findingDone(e) 
+           {
+             if (e)
+             {
+                 $("#step2").addClass("invisible");
+                 $("#step3").removeClass("invisible");
+             }
+             else
+             {
+                designAlert.setState({ok:false, error:"NCBI is not responding or is temporarily down." +
+                                                "Please try again in a minute or select the whole gene. "+
+                                                "(Multiple searches in a small window of time may "+
+                                                "cause this)"});
+             }
+             $("body").removeAttr("style");
+             $("#submit").removeAttr("style");
+             designAlert.hide();
+           }
+         );
+      }
     }
 }
 
@@ -380,13 +396,15 @@ var showAlertOffTarget = function(ev){
 var showExtraInfo = function(ev){
     var target = $(ev.currentTarget.children[6]);
     var indexes = target.attr('info').split(',').map(function(el){
-	return parseInt(el);
+          return parseInt(el);
     });
+    
+    var uset7 = (results.Preferences.promoter != undefined) ;
     var candidate = results.CutsiteTypesCandidateContainer[indexes[0]].Cutsites[indexes[1]].Candidates[indexes[2]];
-    $("#sequence").html(GetDisplayHtmlForCandidate (candidate , false ));
+    $("#sequence").html(GetDisplayHtmlForCandidate (candidate , uset7 ));
     document.getElementById("download-link").href="data:text/plain,"+
     ">Candidate DNA for request " + results.ID + " cut-site type \"" + results.CutsiteTypesCandidateContainer[indexes[0]].Type 
     + "\" at location " + (results.CutsiteTypesCandidateContainer[indexes[0]].Cutsites[indexes[1]].Location +1) + " %0D%0A "
-    + GetDnaForCandidate(candidate, false);
+    + GetDnaForCandidate(candidate, uset7);
     $("#resultModal").modal();
 };
