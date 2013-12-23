@@ -320,12 +320,6 @@ window.onload = function() {
 
     if($("#results").length > 0) {
         $("#results").dataTable();
-	$('select[name=results_length]').bind( 'change.DT', function(ev){
-	    $("#results tbody tr").click(showExtraInfo);
-	    $("td.specificity-entry").click(showAlertOffTarget);
-	});
-	$("#results tbody tr").click(showExtraInfo);
-	$("td.specificity-entry").click(showAlertOffTarget);
 	$("thead tr th:nth-child(2) p").tooltip({title:"5'-3' Sequence of the generated ribozyme"});
 	$("thead tr th:nth-child(3) p").tooltip({title:'Hybridization temperature of the ribozymes'});
 	$("thead tr th:nth-child(4) p").tooltip({title:'Measure of target accessibility based on the RNA folding on itself. 1 is the best value, 0 is the worst.'});

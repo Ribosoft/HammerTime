@@ -1578,6 +1578,9 @@
 					_fnInitComplete( oSettings );
 				}
 			}
+		    //Proper way is to emit an event...
+		    $("#results tbody tr").click(showExtraInfo);
+		    $("td.specificity-entry").click(showAlertOffTarget);
 		}
 		
 		
