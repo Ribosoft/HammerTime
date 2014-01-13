@@ -494,10 +494,15 @@ DesignParamsValidator.prototype.validate = function(request){
     else if(!request.env || (request.env.type == "vivo" && !request.env.target)){
 	this.alert.setState({ok:false, error:"You must specify the target environment and target organism"});
     }
-    else if( (request.temperature < -272) )
+    else if(request.cutsites.length > 2){
+	this.alert.setState({ok:false, error:"You must choose no more than two cut-sites for attachment on the target."});
+    }
+    else if( (request.temperature < -272) ) {
 	this.alert.setState({ok:false, error:"Temperature cannot be below -272&#176;C"});
-    else if( (request.naC < 0) || (request.mgC < 0) || (request.oligoC < 0) )
+    }
+    else if( (request.naC < 0) || (request.mgC < 0) || (request.oligoC < 0) ) {
 	this.alert.setState({ok:false, error:"Environment concentrations cannot be below 0"});
+    }
     else {
 	this.alert.hide();
 	valid = true;
