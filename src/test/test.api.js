@@ -17,7 +17,7 @@ describe('POST: /requests/', function(){
     var accessionOnlyData = test_data.accessionNumberOnly.request;
     var noData = test_data.noData.request;
     var emailOrganizationData = test_data.emailData.request;
-
+    var threeCutsites = test_data.threeCutsites.request;
 
     it('POST /requests with sequence only', function(done) {
 	async.waterfall([
@@ -113,6 +113,20 @@ describe('POST: /requests/', function(){
 	});
     });
 
+    it('POST /requests with too many cutsites', function(done) {
+	async.waterfall([
+	    test_utils.createBadRequest(app, threeCutsites, done),
+	    test_utils.checkBadRequestError("Submitting too many cutsites. No more than two cutsites can be used.", done)
+	],
+	function(err, done){
+	    if(err)
+		test_utils.errorHandler(err, done);
+	    else 
+		done();
+	});
+    });
+
+
     it('POST /requests with email and organization', function(done) {
 	async.waterfall([
 	    test_utils.createRequest(app, emailOrganizationData, done),
@@ -159,6 +173,7 @@ describe('PUT: /requests/<id>', function(){
     var newRequest = test_data.smallSequence.newRequest;
     var results_data = test_data.smallSequence.results;
     var duration = test_data.smallSequence.duration;
+
     it('PUT /requests/<id> modifies request to new request', function(done) {
 	async.waterfall([
 	    test_utils.createRequest(app, data, done),

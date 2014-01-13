@@ -7,11 +7,13 @@ var Request = mongoose.model('Request');
 
 module.exports = {
     createRequest : function(req, res, next) {
-	checkAccession(req.body.sequence,
+	fetchAccession(req.body.sequence,
 		       req.body.accessionNumber,
 		       function(seq, number) {
 			   if(!seq) {
 			       utils.returnError(400, "No sequence was submitted.", next);
+			   } else if(!req.body.cutsites || req.body.cutsites.length > 2) {
+			       utils.returnError(400, "Submitting too many cutsites. No more than two cutsites can be used.", next);
 			   } else {
 			       var id = utils.generateUID();
 			       var vivoEnv = (req.body.env.type === "vivo") ? req.body.env.target : '';
@@ -186,12 +188,14 @@ module.exports = {
 		    else if(status == "In-Processing")
 			utils.returnError(405, "The request with id "+uuid+" cannot be modified; it is currently being processed", next);
 		    else {
-			checkAccession(req.body.sequence,
+			fetchAccession(req.body.sequence,
 				       req.body.accessionNumber,
 				       function(seq, number) {
 					   if(!seq) {
 					       utils.returnError(400, "No sequence was submitted.", next);
-					   } else {
+					   } else if(!req.body.cutsites || req.body.cutsites.length > 2) {
+					       utils.returnError(400, "Submitting too many cutsites. No more than two cutsites can be used.", next);
+					   }else {
 					       var vivoEnv = (req.body.env.type === "vivo") ? req.body.env.target : '';
 					       var region = utils.toTargetRegion(req.body.region);
 					       result.sequence = seq;
@@ -225,7 +229,7 @@ module.exports = {
 	}
 };
 
-function fetchAccession (accession, successCallback, errorCallback) {
+function fetchAccessionAjax (accession, successCallback, errorCallback) {
     request({
 	uri: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id="+accession+"&rettype=fasta&retmode=text",
 	method: "GET",
@@ -241,13 +245,13 @@ function fetchAccession (accession, successCallback, errorCallback) {
     });
 };
 
-function checkAccession(sequence, accessionNumber, callback, next){
+function fetchAccession(sequence, accessionNumber, callback, next){
     if (!sequence && !accessionNumber)
     {
 	utils.returnError(400, "No sequence was submitted.", next);
     } 
     else if(!sequence && accessionNumber) {
-	fetchAccession(accessionNumber, function(seq) {
+	fetchAccessionAjax(accessionNumber, function(seq) {
 	    callback(seq, accessionNumber);
 	}, function(error){
 	    utils.returnError(400, "Accession Number is invalid.", next);
