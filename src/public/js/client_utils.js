@@ -295,14 +295,17 @@ function Button(el){
 
 Button.prototype.click = function(callback){
     this.el.click(callback);
+    this.callback = callback;
 }
 
 Button.prototype.disable = function(){
     this.el.addClass("disabled");
+    this.el.unbind('click');
 }
 
 Button.prototype.enable = function(){
     this.el.removeClass("disabled");
+    this.el.click(this.callback);
 };
 
 function DesignContent(formEl, iconEls, designHelpEl) {
@@ -320,7 +323,7 @@ DesignContent.prototype.showDesignHelp = function(event){
 	var css2 = this.questionIcons.css('margin-right');
 	elem.attr('expanded', css1+';' + css2 );
         this.designForm.animate({'width':'50%'},250);
-	this.questionIcons.animate({'margin-right':'0%'},250);
+//	this.questionIcons.animate({'margin-right':'0%'},250);
 	this.designForm.addClass("pressed");
 	$(elem).popover();
     }
@@ -331,7 +334,7 @@ DesignContent.prototype.showDesignHelp = function(event){
 	elem.attr('expanded','');
 	this.designForm.removeClass("pressed");
 	this.designForm.animate({'width':css[0]},250);
-	this.questionIcons.animate({'margin-right':css[1]},250);
+//	this.questionIcons.animate({'margin-right':css[1]},250);
     }
 }
 
@@ -383,6 +386,7 @@ SummaryTable.prototype.setTableData = function(data){
     $("#promoter").text(data.promoter ? "Yes" : "No");
     $("#leftArm").text("Between "+ data.left_arm_min + " and "+data.left_arm_max);
     $("#rightArm").text("Between "+ data.right_arm_min + " and "+data.right_arm_max);
+    $("#specificity").text(data.specificity == "hybrid"?"Cleavage and Hybridization":"Cleavage only");
 }
 
 function BackPressHandler(){}
@@ -475,3 +479,33 @@ EmailReporter.prototype.submit = function(value){
     });
 }
 
+function DesignParamsValidator(alert){
+    this.alert = alert;
+}
+
+DesignParamsValidator.prototype.validate = function(request){
+    var valid = false;
+    if(request.accessionNumber && !request.region) {
+	this.alert.setState({ok:false, error:"You must specify the target region when using the accession number"});
+    }
+    else if(request.region.length == 2 && request.region.join("") == "5'3'" ) {
+	this.alert.setState({ok:false, error:"You must specify contiguous target region segments: the frames 5' and 3' are not contiguous"});
+    }
+    else if(!request.env || (request.env.type == "vivo" && !request.env.target)){
+	this.alert.setState({ok:false, error:"You must specify the target environment and target organism"});
+    }
+    else if(request.cutsites.length > 2){
+	this.alert.setState({ok:false, error:"You must choose no more than two cut-sites for attachment on the target."});
+    }
+    else if( (request.temperature < -272) ) {
+	this.alert.setState({ok:false, error:"Temperature cannot be below -272&#176;C"});
+    }
+    else if( (request.naC < 0) || (request.mgC < 0) || (request.oligoC < 0) ) {
+	this.alert.setState({ok:false, error:"Environment concentrations cannot be below 0"});
+    }
+    else {
+	this.alert.hide();
+	valid = true;
+    }
+    return valid;
+};

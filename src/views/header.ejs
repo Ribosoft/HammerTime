@@ -17,7 +17,8 @@
     <div class="big-container">
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
-          <li <% if(title.indexOf("About") === -1 && title.indexOf("API") === -1){%>class="active"<%}%> ><a href="/ribosoft/">Home</a></li>
+          <li <% if(title.indexOf("License") === -1 && title.indexOf("API") === -1){%>class="active"<%}%> ><a href="/ribosoft/">Home</a></li>
+	  <li <% if(title.indexOf("License") !== -1){%>class="active"<%}%> ><a href="/ribosoft/license">License</a></li>
           <li <% if(title.indexOf("API") !== -1){%>class="active"<%}%> ><a href="/ribosoft/api">API</a></li>
         </ul>
         <a href="/ribosoft"><img src="../../images/icon.png" alt="Site logo" class="site-logo"/></a>

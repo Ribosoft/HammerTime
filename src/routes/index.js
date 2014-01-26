@@ -21,6 +21,20 @@ exports.api_page = function(req, res) {
     res.render('api', {title: 'Developer API'});
 };
 
+exports.license_page = function(req, res) {
+    res.render('license', {title: 'License'});
+};
+
+
+exports.error = function(req, res) {
+    res.render('error', {title: 'Error'});
+};
+
+
+exports.coming_soon = function(req, res) {
+    res.render('coming_soon', { title: 'Coming Soon' });
+};
+
 exports.processing_page = function(req, res, next) {
     res.render('processing_page', { title: 'Ribosoft - Processing' });
 };

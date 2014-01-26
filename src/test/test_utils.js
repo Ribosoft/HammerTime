@@ -109,6 +109,10 @@ utils.requestChecker = function(data, done){
 		    data.sequence.should.equal(result.sequence);
 		if(data.accessionNumber)
 		    data.accessionNumber.should.equal(result.accessionNumber);
+		if(data.emailUser)
+		    data.emailUser.should.equal(result.emailUser);
+		if(data.organization)
+		    data.organization.should.equal(result.organization);
 		callback(null, done);
 	    }
 	});
@@ -185,7 +189,7 @@ utils.getRequest = function(app, data, done) {
 		    callback(null, done);
 		}
 	    });
-    }
+    };
 };
 
 utils.getRequestStatus = function(app, duration, done){

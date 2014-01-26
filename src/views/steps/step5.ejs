@@ -5,31 +5,36 @@
   var results = <%- JSON.stringify(results) %>;
   DecompressRequest(results);
   var container = results.CutsiteTypesCandidateContainer;
+  var core  =  results.coreTypeId == 0? "CUGAUGAGGCCGAAAGGCCGAA" : "CUGAUGAGUCGCUGAAAUGCGACGAA";
   var html ="<div class='step-contents center'>\
   <table class='table table-hover' id='results'>\
        <thead>\
-           <th>Cut-site Number</th>\
-           <th>Sequence</th> \
-           <th>Melting Temperature (&deg;C)</th> \
-           <th>Accessibility 1</th> \
-           <th>Accessibility 2</th> \
-           <th>Ribozyme Shape Quality</th> \
-           <th>Weighted off-target hits</th> \
-           <th>Overall Rank</th> \
-       </thead>";
+           <th><p>Cut-site Number</p></th>\
+           <th><p>Sequence</p></th> \
+           <th><p>Melting Temperature (&deg;C)</p></th> \
+           <th><p>Accessibility 1</p></th> \
+           <th><p>Accessibility 2</p></th> \
+           <th><p>Ribozyme Shape Quality</p></th>";
+	   if(results.InVivoOrganism)
+    	     html += "<th id='specificity-col'><p>Weighted off-target hits</p></th>";
+           html += "<th id='rank-col'><p>Overall Rank</p></th></thead>";
        container.forEach(function(type, ind1) {
             type.Cutsites.forEach(function(cutsite,ind2) { 
                  cutsite.Candidates.forEach(function(candidate,ind3) {
 		 html +="<tr> \
                   <td>"+cutsite.ID+"</td> \
-                  <td>"+candidate.Sequence+"</td> \
-                  <td>"+candidate.MeltingTemperature+"</td> \
+                  <td class='sequence_col'>"
+                  + candidate.Sequence.substr (0, candidate.Sequence.indexOf(core))
+                  + "<emp class ='core-highlight'>" + candidate.Sequence.substr (candidate.Sequence.indexOf(core), core.length) + "</emp>"
+                  + candidate.Sequence.substr (candidate.Sequence.indexOf(core) + core.length )
+                  +"</td> \
+                  <td class='melting_col'>"+candidate.MeltingTemperature+"</td> \
                   <td>"+candidate.Fitness_Target+"</td> \
                   <td>"+candidate.Fitness_Target_dG+"</td> \
-                  <td>"+candidate.Fitness_Shape+"</td> \
-                  <td info='"+ind1+","+ind2+","+ind3+"'>"+candidate.Fitness_Specificity+"</td> \
-                  <td>"+candidate.rank+" </td> \
-                </tr>";
+                  <td>"+candidate.Fitness_Shape+"</td>";
+		  if(results.InVivoOrganism)
+                    html+= "<td info='"+ind1+","+ind2+","+ind3+"' class='specificity-entry'>"+candidate.Fitness_Specificity+"</td>";
+                  html+= "<td>"+(candidate.rank+1).toString()+" </td></tr>";
                 })
             })
        })
@@ -41,19 +46,35 @@
       <div class="modal-content">
 	<div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Candidate description</h4>
+          <h4 class="modal-title">Candidate description</h4>
 	</div>
 	<div class="modal-body" id="modal-body">
 	  <div class="candidate-details">
-	    <h5>Sequence</h5>
-	    <h5>Off-target Hits</h5>
-	    <div id="offtarget-text">
-	    </div>
+	    <h5>Sequence</h5><p id="sequence"></p>
 	  </div>
 	</div>
 	<div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Download Sequence</button>
+          <a id="download-link" class="btn btn-primary" download="sequence.txt" href="data:text/plain">Download Sequence</a>
+	</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="offtargetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+	<div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Off-target hits</h4>
+	</div>
+	<div class="modal-body" id="modal-body">
+	  <div>
+	    <p id="print"></p>
+	  </div>
+	</div>
+	<div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>          
 	</div>
       </div>
     </div>

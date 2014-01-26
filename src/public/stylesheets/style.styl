@@ -35,6 +35,11 @@ h1,h2,h3,h4,h5,h6
     min-height 80%
     height auto !important
 
+input[type="radio"],
+input[type="checkbox"]
+    margin-top -1px
+    vertical-align middle
+
 input[type="number"]
     width 56px
 
@@ -53,7 +58,7 @@ input[type="number"]
     background-position-y 80%
     min-height 20%
     width 90%
-    margin 0 auto
+    margin 1.5% auto 0
 
 .jumbotron
     text-align center
@@ -121,6 +126,7 @@ $step-content-minHeight = 396px
 .step-buttons
     clear both
     padding 2.5% 0
+    float right
 
     & > input
         float left
@@ -133,17 +139,19 @@ $step-content-minHeight = 396px
     margin 2.5% 12.5% 0
     overflow hidden
 
+#sequence_alert
+    width 96%
+    margin 2.5% auto
+
 #drop
     text-align right
+    float right
 
 #accession
     height 22px
 
 #selectFileButton
     float right
-
-#design-form i
-    margin-right 50%
 
 #design-form.pressed
     float left
@@ -153,37 +161,28 @@ $step-content-minHeight = 396px
     & i
         margin-right 0%
 
-.design-help
-    width 49.5%
+.design-form-cat
+    overflow hidden
+
+.design-form-cat > fieldset
+    width 50%
     float left
 
-#region-help
-    margin-bottom 55px
-
-#target-help
-    margin-bottom 90px
-
-#env-help
-    margin-bottom 230px
-
-#cutsites-help
-    margin-bottom 80px
-
-#shape-help
-    margin-bottom 30px
-
-#arm-help
-    margin-bottom 250px
+.well-help
+    float right
+    width 45%
 
 legend
     cursor pointer
 
-.section-collapse:before
+legend.section-collapse:before
     content url('../images/collapse_arrow.png')
 
-.section-expand:before
+legend.section-expand:before
     content url('../images/expand_arrow.png')
-    
+
+.organization-input
+    width 50%
 
 .form-signin
         max-width: 300px;
@@ -216,6 +215,12 @@ legend
 
 #results_wrapper
     margin-bottom : 50px
+
+td.specificity-entry
+    text-decoration underline
+    color blue
+    cursor pointer
+
 #footer
     background #333;
     padding-top 1%
@@ -242,3 +247,40 @@ legend
     font-size 14px
     font-style normal
     font-weight bold
+    
+.core-highlight
+    color teal
+
+.api-table th
+    min-width 20em
+
+h4 > a
+    text-decoration none
+    
+.utr
+    color : dimgrey;
+
+.target-download
+    color : #333333;
+    width: 50px;
+
+.license-details
+    width 85%
+    margin 0 auto 35px
+    
+    & h4
+      margin-bottom 10px
+
+    & .license-contents
+      width 85%
+      margin 0 auto
+
+.sequence_col
+    max-width 10em
+    word-wrap: break-word
+
+.melting_col
+    max-width 7em
+
+.modal-body
+    word-wrap : break-word

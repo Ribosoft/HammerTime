@@ -128,7 +128,7 @@ Request.prototype.getRequestStatus = function(callback){
         },
         dataType : "json",
 	contentType: "application/json; charset=utf-8",
-        error : function(err) {
+        error : function(jqXHR, textStatus, errorThrown) {
 	    Request.handleError(jqXHR, "Getting request information", callback);
         }
     });
@@ -136,8 +136,8 @@ Request.prototype.getRequestStatus = function(callback){
 
 
 Request.prototype.extractData = function(obj){
-    for(var i = 0; i < obj.length; ++i){
-	this[obj[i].name] = obj[i].value;
+    for(var d = 0; d < obj.length; ++d){
+	this[obj[d].name] = obj[d].value;
     }
 
     var cutsites = [];
@@ -146,6 +146,12 @@ Request.prototype.extractData = function(obj){
 	    cutsites.push(obj[i].value);
     }
     this.cutsites = cutsites;
+
+    var region = [];
+    for(var f = 0; f < obj.length; ++f)
+	if(obj[f].name == 'region')
+	    region.push(obj[f].value);
+    this.region = region;
 
     this.promoter = parseInt(this.promoter) == 1;
 

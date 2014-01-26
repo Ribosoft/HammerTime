@@ -53,14 +53,21 @@ function onSaveHandler(successCallback, next) {
 };
 
 function toTargetRegion(region){
-    switch(region){
+    var sum = 0;
+    for(var i = 0; i < region.length; ++i){
+	switch(region[i]){
 	case "ORF":
-	  return 4;
+	    sum+= 4;
+	    break;
 	case "5\'":
-	  return 5;
+	    sum+= 5;
+	    break;
         case "3\'":
-	  return 3;
+	    sum+= 3;
+	    break;
+	}
     }
+    return sum;
 }
 
 function returnError(statusCode, errorMessage, next){

@@ -1,26 +1,112 @@
-var GLOBAL_PARAMETERS = 
+/*
+    <summary>
+     Complements the DNA or RNA string
+    </summary>
+    <param name='oligo'>The DNA/RNA string to complement</param>
+    <param name='isRna'>(Optional) Whether it is RNA. Defaults to true</param>
+    <return>The modified string</return>
+*/
+function Complement( oligo , isRna )
 {
-	"left_arm_min" : 8,
-	"right_arm_min" : 8,
-	"left_arm_max" : 10,
-	"right_arm_max" : 10,
-	"Mg_ion_mM": 1,
-	"salt_ion_mM":150, //[Na]+[K]
-	"oligomer_nM":200
+	if(isRna == undefined)
+		isRna = true;
+	var res = new Array();
+	for(var ii = 0; ii < oligo.length; ++ii)
+	{
+		var c = oligo[ii];
+		switch(c)
+		{
+			case 'G':
+				res.push('C');
+				break;
+			case 'C':
+				res.push('G');
+				break;
+			case 'A':
+				if(isRna)
+					res.push('U');
+				else
+					res.push('T');
+				break;
+			case 'U':
+			case 'T':
+				res.push('A');
+					break;
+			default:
+				res.push(c);
+		}
+	}
+	return res.join('');
 }
 
-function FindCutsites( seq )
+/*
+    <summary>
+     Reverses a string
+    </summary>
+    <param name='oligo'>String to reverse</param>
+    <param name='isRna'>(Optional) Whether it is RNA. Defaults to true</param>
+    <return>The modified string</return>
+*/
+function Reverse( oligo )
 {
-	var loc = new Array();
-	res = -1;
-	do
-	{
-            res = seq.indexOf("GUC", res + 1);
-            if(res !== -1)
-                    loc.push(res);
-	}
-	while (res !== -1);
-	return loc;
+	return oligo.split("").reverse().join("");
+}
+
+
+/*
+    <summary>
+     Reverse complements a RNA string
+    </summary>
+    <param name='oligo'>String to reverse complement</param>
+    <return>The modified string</return>
+*/
+function ReverseComplement(oligo)
+{
+	return Complement(Reverse(oligo));
+}
+
+
+/*
+    <summary>
+     Transforms a sequence of RNA to DNA
+    </summary>
+    <param name='seq'>The sequence to change</param>
+    <return>The changed string</return>
+*/
+function RnaToDna(seq)
+{
+	return seq.replaceAll('U','T');
+}
+
+/*
+    <summary>
+     Transforms a sequence of DNA to RNA
+    </summary>
+    <param name='seq'>The sequence to change</param>
+    <return>The changed string</return>
+*/
+function DnaToRna(seq)
+{
+	return seq.replaceAll('T','U');
+}
+var T7_STRING = 'TAATACGACTCACTATAGGG';
+function GetDnaForCandidate( candidate , appendT7 )
+{
+  var Dnaseq = RnaToDna( ReverseComplement(candidate.Sequence) );
+  if(appendT7)
+    Dnaseq = AppendPromoter(Dnaseq, T7_STRING , 2);
+  return Dnaseq;
+}
+
+function GetDisplayHtmlForCandidate( candidate , appendT7 )
+{
+  var TEMPLATE = 
+  "<div class='target-download'>DNA:  </div><b class='utr'>5' - </b>{0}<b class='utr'> - 3'</b><br/>\
+  <div class='target-download'>Rz: </div><b class='utr'>3' - </b>{1}<b class='utr'> - 5'</b>\
+  ";
+
+  return TEMPLATE.replace('{0}', GetDnaForCandidate( candidate , appendT7 ) ) 
+    .replace('{1}', Reverse(candidate.Sequence) ) ;
 }
 
 function PrintSequenceWithCutSitesHighlited(seq,cutSites)
@@ -37,64 +123,8 @@ function PrintSequenceWithCutSitesHighlited(seq,cutSites)
 	$('.displayUpdate').html( htmlInsert );
 }
 
-var cc;
-function CreateCandidates (seq, cutSites)
-{
-	var Candidates = new Array();
-	//Per cutsite
-	//Load params
-	var lamin = GLOBAL_PARAMETERS.left_arm_min;
-	var ramin = GLOBAL_PARAMETERS.right_arm_min;
-	var lamax = GLOBAL_PARAMETERS.left_arm_max;
-	var ramax = GLOBAL_PARAMETERS.right_arm_max;
-	
-	for(var ii = 0 ; ii < cutSites.length;++ii)
-	{
-		var firstCutsiteCands = new Array();
-		for(var jj = lamin; jj < lamax; ++jj)
-		{
-			var start = cutSites[ii] - jj;
-			if(start < 0)
-				continue;
-			for(var kk = ramin; kk < ramax; ++kk)
-			{
-				var end = cutSites[ii]+3+kk;
-				var length = end - start;
-				if(end >= seq.length)
-					continue;
-				firstCutsiteCands.push({"seq" : seq.substr(start,length), "cut":(jj+2)});
-				
-			}
-		}
-		Candidates.push(firstCutsiteCands);
-	}
-	cc = Candidates;
-	return Candidates;
-}
 
-function ShowCandidatesAndAnnealing(cands)
-{
-	var res = "";
-	var consRes = "";
-	for(var ii = 0; ii < cands.length; ++ii)
-	{
-		res += "<p>Cut site number " + ii + "</p>";
-		consRes += "Cut site number " + ii + "\n";
-		for(var jj = 0; jj < cands[ii].length; ++jj)
-		{
-			var currentSeq = cands[ii][jj].seq;
-			console.log(currentSeq);
-			var c_pos = cands[ii][jj].cut;
-			currentSeq = currentSeq.substr(0,c_pos)+currentSeq.substr(c_pos+1,currentSeq.length-c_pos-1);//REMOVE non-annealing C from comupation
-			console.log(currentSeq);
-			var computationalResult = tm_Base_Stacking(cands[ii][jj].seq.replaceAll('U','T'),GLOBAL_PARAMETERS.oligomer_mM,GLOBAL_PARAMETERS.salt_ion_mM,GLOBAL_PARAMETERS.Mg_ion_mM);
-			res += "<p>\t"+cands[ii][jj].seq + "\t"+ computationalResult+'</p>';
-			consRes += "\t"+cands[ii][jj].seq + "\t"+ computationalResult+'\n';
-		}
-	}
-	console.log(consRes)
-	$('.displayUpdate').html(res);
-}
+
 
 
 function DecompressObjectTableIntoObjectArray(table)
@@ -138,5 +168,120 @@ function DecompressRequest(request)
             cutsite.Candidates = decompressedCandidates;
         }
     }
+}
+
+function FindUTRBoundaries(ondone)
+{
+  $.ajax(
+  {
+    type: "GET",
+    url: "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
+    data: {
+      db: 'nuccore',
+      'id': request.accessionNumber,
+      retmode: 'text'
+      },
+    success: function(d) {
+        //alert(d);
+        clack = d;
+        var ThreeUTRInfo = clack.indexOf("3'UTR");
+        var FiveUTRInfo = clack.indexOf("5'UTR");
+        var ORFInfo = clack.indexOf("cdregion");
+        var clock = 0;
+        var cluck = 0;
+        if( request.region[0] == "3'" && (ThreeUTRInfo != -1 ) )
+        {
+
+          //This monster grabs the "from x,    to y" right after the tag found
+          var cleck =  clack.substr(clack.indexOf("from",ThreeUTRInfo), clack.indexOf ( "," ,clack.indexOf( "to" ,ThreeUTRInfo) ) -clack.indexOf("from",ThreeUTRInfo)) ;
+          var click = cleck.split(","); //This small thing splits it into "from" and "to"
+          clock = parseInt(click[0].substr(4)) ;// trim from
+          cluck = parseInt(click[1].trim().substr(2) ) ; // get to
+          request.sequence = request.sequence.substr(clock, cluck - clock +1 );
+        
+        }
+        else if ( ORFInfo != -1)
+        {
+          //This monster grabs the "from x,    to y" right after the tag found
+          var cleck =  clack.substr(clack.indexOf("from",ORFInfo), clack.indexOf ( "," ,clack.indexOf( "to" ,ORFInfo) ) - clack.indexOf("from",ORFInfo)) ;
+          var click = cleck.split(","); //This small thing splits it into "from" and "to"
+          clock = parseInt(click[0].substr(4)) ;// trim from
+          cluck = parseInt(click[1].trim().substr(2) ) ; // get to
+
+          var ORF =
+             request.sequence.substr(clock, cluck - clock +1);
+          var ARF =
+             request.sequence.substr(cluck);
+          var URF = 
+             request.sequence.substr(0,clock);
+            
+          if( region.length == 1)
+          {
+            if(region[0] = "3'")
+              request.sequence = URF;
+            else if( region[0] = "5'" )
+              request.sequence = ARF;
+            else
+              request.sequence = ORF;
+          }
+          else
+          {
+            if(region[0] = "3'")
+              request.sequence = ARF + ORF;
+            else
+              request.sequence = ORF + URF;
+          }
+        }
+        else
+        {
+          alert("WARNING: Genbank is not providing info about the UTR. Grabbing full sequence instead.");
+        }
+        ondone(true);
+      },
+      error: function(jqXHR, textStatus, errorThrown)
+      {
+        alert("Could not access Genbank for UTR info. Error: " + errorThrown + "; Code: "+ textStatus);
+        ondone(false);
+      }
+  }
+  ); 
+}
+
+/*
+    <summary>
+      Appends the given promoter to a given DNA sequence recycling a certain number
+      of nucleotides when possibl.
+    </summary>
+    <param name='candidateDna'> The DNA of the candidate</param>
+    <param name='promoter'> The promoter</param>
+    <param name='depth'>The amount of the promoter that can be re-used in the DNA (2 for T7)</param>
+    <return>The candidate DNA are modified to have the promoter</return>
+*/
+function AppendPromoter(candidateDna,promoter, depth)
+{
+	var promAdded =  RnaToDna ( ReverseComplement (promoter) );
+	
+  var candidate = candidateDna;
+  var jj;
+  for( jj = 0; jj < depth ;++jj)
+  {
+    var ii;
+    var match = true;
+    for( ii = 1 ; ii <= depth - jj; ++ii)
+    {
+      if( candidate[candidate.length - ii] != promAdded[ii-1] )
+      {
+        match = false;
+        break;
+      }
+    }
+    if(match)
+    {
+      break;
+    }
+  }
+  var matchBegin = depth - jj;
+  candidate += promAdded.substr(matchBegin);
+  return candidate;
 }
 
