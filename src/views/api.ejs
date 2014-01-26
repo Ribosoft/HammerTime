@@ -2,7 +2,7 @@
 <% include reusables/jumbotron_api %>
     <div class="row-fluid step-header span12">
         <div class="step-container">
-	  <h3>Requests</h3>
+	  <h2>Requests</h2>
 	  <p>Requests represent design requests, e.g. the objects to be processed by our service. To start designing a hammerhead ribozyme, one needs to create a request, and supply it with the necessary parameters.</p>
 	  <table class="table table-striped api-table">
 	    <thead>
@@ -65,7 +65,7 @@
 		  This first example shows how to pass the accession number with no sequence information. <code>cutsites</code> refers to only one type of cutsites, and the <code>emailUser</code> is passed to allow reporting of the results by email.</p>
 		  <script src="https://gist.github.com/anas-ambri/8048089.js"></script>
 		  <br/>
-		  <p>This second example will show how to specify the actual sequence string in the request, as well as providing with more cutsites and a longer target.<br/><b>Note </b>that, although <code>emailUser</code> was not provided, the request will still be executed.</p>
+		  <p>This second example will show how to specify the actual sequence string in the request, as well as providing with a 'in-vivo' environment.<br/><b>Note </b>that, although <code>emailUser</code> was not provided, the request will still be executed.</p>
 		  <script src="https://gist.github.com/anas-ambri/8049210.js"></script>
 		  <br/>
 		  <h4>Status code</h4>
@@ -122,7 +122,7 @@
 	    </tbody>
 	  </table>
 
-	  <h3>Status</h3>
+	  <h2>Status</h2>
 	  <p>A status resource represents the status of a request. This can be used to retrieve the state of a request, its remaining time, and the location of the results.</p>
 	  <table class="table table-striped api-table">
 	    <thead>
@@ -135,6 +135,47 @@
 	      <tr>
 		<td>GET /ribosoft/requests/:id/status</td>
 		<td>Retrieves the status of a request. The status is a description of the remaining duration of the request, the location of the results if the request has finished processing. <br/>
+		  <br/>
+		  <h4>Parameters</h4>
+		  None
+		  <br/>
+		  <h4>Status code</h4>
+		  <ul>
+		    <li class="design-parameter"><em>200</em><br/><p class="parameter-desc">Returned when the request has finished processing.</p></li>
+		    <li class="design-parameter"><em>202</em><br/><p class="parameter-desc">Returned when the request is ready for processing or in-processing.</p></li>
+		    <li class="design-parameter"><em>404</em><br/><p class="parameter-desc">Returned when the request with the provided id cannot be found.</p></li>
+		  </ul>
+		  <br/>
+		  <h4>Returned Values</h4>
+		  <ul>
+		    <li>The request has finished processing:
+		      <script src="https://gist.github.com/anas-ambri/8050269.js"></script>
+		    </li>
+		    <li>The request is currently being processed:
+		      <script src="https://gist.github.com/anas-ambri/8050283.js"></script>
+		    </li>
+		    <li>The request is ready for processing:
+		      <script src="https://gist.github.com/anas-ambri/8050294.js"></script>
+		    </li>
+		  <p>.</p>
+		</td>
+	      </tr>
+	    </tbody>
+	  </table>
+
+	  <h2>Results</h2>
+	  <p>A Results resource represents the results of a request.</p>
+	  <table class="table table-striped api-table">
+	    <thead>
+	      <tr>
+		<th>Resource</th>
+		<th>Description</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr>
+		<td>GET /ribosoft/requests/:id/results</td>
+		<td>Retrieves the results of processing a request. The status is a description of the remaining duration of the request, the location of the results if the request has finished processing. <br/>
 		  <br/>
 		  <h4>Parameters</h4>
 		  None
