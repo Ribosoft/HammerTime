@@ -151,13 +151,12 @@ module.exports = {
 			res.send(202);
 			break;
 		    case "Processed":
-			var results;
 			try{
-			    results = require(result.resultPath);
+			    var results = require(result.resultPath);
+			    res.json(200, {'results': results});
 			} catch(err) {
-			    results = {};
+			    res.json(204, {'results': {}});
 			}
-			res.json(200, {'results': results});
 			break;
 		    case "Created":
 			res.send(404);
