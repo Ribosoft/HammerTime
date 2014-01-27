@@ -2,7 +2,7 @@
 <% include reusables/jumbotron_api %>
     <div class="row-fluid step-header span12">
         <div class="step-container">
-	  <h3>Requests</h3>
+	  <h2>Requests</h2>
 	  <p>Requests represent design requests, e.g. the objects to be processed by our service. To start designing a hammerhead ribozyme, one needs to create a request, and supply it with the necessary parameters.</p>
 	  <table class="table table-striped api-table">
 	    <thead>
@@ -51,10 +51,10 @@
 		      </ul>
 		      <br/>
 		    </li>
-		    <li class="design-parameter"><em>left_arm_min : Integer</em><br/><p class="parameter-desc">Represents the minimum length of the left arm strand. <br/>Default value is 3</p></li>
-		    <li class="design-parameter"><em>left_arm_max : Integer</em><br/><p class="parameter-desc">Represents the maximum length of the left arm strand. <br/>Default value is 8</p></li>
-		    <li class="design-parameter"><em>right_arm_min : Integer</em><br/><p class="parameter-desc">Represents the minimum length of the right arm strand. <br/>Default value is 3</p></li>
-		    <li class="design-parameter"><em>right_arm_max : Integer</em><br/><p class="parameter-desc">Represents the maximum length of the right arm strand. <br/>Default value is 8</p></li>
+		    <li class="design-parameter"><em>left_arm_min : Integer</em><br/><p class="parameter-desc">Represents the minimum length of the helix I strand. <br/>Default value is 3</p></li>
+		    <li class="design-parameter"><em>left_arm_max : Integer</em><br/><p class="parameter-desc">Represents the maximum length of the helix I strand. <br/>Default value is 8</p></li>
+		    <li class="design-parameter"><em>right_arm_min : Integer</em><br/><p class="parameter-desc">Represents the minimum length of the helix III strand. <br/>Default value is 3</p></li>
+		    <li class="design-parameter"><em>right_arm_max : Integer</em><br/><p class="parameter-desc">Represents the maximum length of the helix III strand. <br/>Default value is 8</p></li>
 		    <li class="design-parameter"><em>promoter : Boolean</em><br/><p class="parameter-desc">Represents whether the T7 promoter should be used or not. <br/>Default value is false</p></li>
 		    <li class="design-parameter"><em>specificity : String</em><br/><p class="parameter-desc">Represents what type of cleavage should be designed for.<br/>Possible values are "cleavage" or "hybrid".<br/>"cleavage" means that the algorithm will focus on hybridication that allows cleavage, while "hybrid" will focus on targets that can be annealed.<br/> Default value is "cleavage"</p></li>
 		    <li class="design-parameter"><em>env : Object</em><br/><p class="parameter-desc">Represents the target environment. <br/><em>env.type</em> can be either "vitro" or "vivo", for in-vitro and in-vivo respectively. <br/><em>env.target</em> is the target environment if in-vivo.</p></li>
@@ -65,7 +65,7 @@
 		  This first example shows how to pass the accession number with no sequence information. <code>cutsites</code> refers to only one type of cutsites, and the <code>emailUser</code> is passed to allow reporting of the results by email.</p>
 		  <script src="https://gist.github.com/anas-ambri/8048089.js"></script>
 		  <br/>
-		  <p>This second example will show how to specify the actual sequence string in the request, as well as providing with more cutsites and a longer target.<br/><b>Note </b>that, although <code>emailUser</code> was not provided, the request will still be executed.</p>
+		  <p>This second example will show how to specify the actual sequence string in the request, as well as providing with a 'in-vivo' environment.<br/><b>Note </b>that, although <code>emailUser</code> was not provided, the request will still be executed.</p>
 		  <script src="https://gist.github.com/anas-ambri/8049210.js"></script>
 		  <br/>
 		  <h4>Status code</h4>
@@ -122,7 +122,7 @@
 	    </tbody>
 	  </table>
 
-	  <h3>Status</h3>
+	  <h2>Status</h2>
 	  <p>A status resource represents the status of a request. This can be used to retrieve the state of a request, its remaining time, and the location of the results.</p>
 	  <table class="table table-striped api-table">
 	    <thead>
@@ -158,6 +158,39 @@
 		      <script src="https://gist.github.com/anas-ambri/8050294.js"></script>
 		    </li>
 		  <p>.</p>
+		</td>
+	      </tr>
+	    </tbody>
+	  </table>
+
+	  <h2>Results</h2>
+	  <p>A Results resource represents the results of a request.</p>
+	  <table class="table table-striped api-table">
+	    <thead>
+	      <tr>
+		<th>Resource</th>
+		<th>Description</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr>
+		<td>GET /ribosoft/requests/:id/results</td>
+		<td>Retrieves the results of processing a request.<br/>
+		  <br/>
+		  <h4>Parameters</h4>
+		  None
+		  <br/>
+		  <h4>Status code</h4>
+		  <ul>
+		    <li class="design-parameter"><em>200</em><br/><p class="parameter-desc">Returned when the request processed successfully.</p></li>
+		    <li class="design-parameter"><em>202</em><br/><p class="parameter-desc">Returned when the request has not finished processing yet.</p></li>
+		    <li class="design-parameter"><em>204</em><br/><p class="parameter-desc">Returned when the request processed successfully, but no results were found.</p></li>
+		    <li class="design-parameter"><em>404</em><br/><p class="parameter-desc">Returned when the request with the provided id cannot be found.</p></li>
+		  </ul>
+		  <br/>
+		  <h4>Returned Values</h4>
+		  When results are found, they are returned in a json object. <a href="http://www.drkharma.com/ribosoft/requests/ik3s/results">This page</a> shows an example returned results.
+		  
 		</td>
 	      </tr>
 	    </tbody>
