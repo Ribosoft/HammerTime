@@ -175,30 +175,22 @@
 	    <tbody>
 	      <tr>
 		<td>GET /ribosoft/requests/:id/results</td>
-		<td>Retrieves the results of processing a request. The status is a description of the remaining duration of the request, the location of the results if the request has finished processing. <br/>
+		<td>Retrieves the results of processing a request.<br/>
 		  <br/>
 		  <h4>Parameters</h4>
 		  None
 		  <br/>
 		  <h4>Status code</h4>
 		  <ul>
-		    <li class="design-parameter"><em>200</em><br/><p class="parameter-desc">Returned when the request has finished processing.</p></li>
-		    <li class="design-parameter"><em>202</em><br/><p class="parameter-desc">Returned when the request is ready for processing or in-processing.</p></li>
+		    <li class="design-parameter"><em>200</em><br/><p class="parameter-desc">Returned when the request processed successfully.</p></li>
+		    <li class="design-parameter"><em>202</em><br/><p class="parameter-desc">Returned when the request has not finished processing yet.</p></li>
+		    <li class="design-parameter"><em>204</em><br/><p class="parameter-desc">Returned when the request processed successfully, but no results were found.</p></li>
 		    <li class="design-parameter"><em>404</em><br/><p class="parameter-desc">Returned when the request with the provided id cannot be found.</p></li>
 		  </ul>
 		  <br/>
 		  <h4>Returned Values</h4>
-		  <ul>
-		    <li>The request has finished processing:
-		      <script src="https://gist.github.com/anas-ambri/8050269.js"></script>
-		    </li>
-		    <li>The request is currently being processed:
-		      <script src="https://gist.github.com/anas-ambri/8050283.js"></script>
-		    </li>
-		    <li>The request is ready for processing:
-		      <script src="https://gist.github.com/anas-ambri/8050294.js"></script>
-		    </li>
-		  <p>.</p>
+		  When results are found, they are returned in a json object. <a href="http://www.drkharma.com/ribosoft/requests/ik3s/results">This page</a> shows an example returned results.
+		  
 		</td>
 	      </tr>
 	    </tbody>
