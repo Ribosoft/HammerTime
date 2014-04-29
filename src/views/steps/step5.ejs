@@ -11,11 +11,12 @@
        <thead>\
            <th><p>Cut-site Number</p></th>\
            <th><p>Sequence</p></th> \
-           <th><p>Melting Temperature (&deg;C)</p></th> \
+           <th><p>Melting Temperature (Left) (&deg;C)</p></th> \
+           <th><p>Melting Temperature (Right)(&deg;C)</p></th> \
            <th><p>Accessibility 1</p></th> \
            <th><p>Accessibility 2</p></th> \
            <th><p>Ribozyme Shape Quality</p></th>";
-	   if(results.InVivoOrganism)
+            
     	     html += "<th id='specificity-col'><p>Weighted off-target hits</p></th>";
            html += "<th id='rank-col'><p>Overall Rank</p></th></thead>";
        container.forEach(function(type, ind1) {
@@ -28,12 +29,15 @@
                   + "<emp class ='core-highlight'>" + candidate.Sequence.substr (candidate.Sequence.indexOf(core), core.length) + "</emp>"
                   + candidate.Sequence.substr (candidate.Sequence.indexOf(core) + core.length )
                   +"</td> \
-                  <td class='melting_col'>"+candidate.MeltingTemperature+"</td> \
+                  <td class='melting_col'>"+candidate.MeltingTemperatureLeft+"</td> \
+                  <td class='melting_col'>"+candidate.MeltingTemperatureRight+"</td> \
                   <td>"+candidate.Fitness_Target+"</td> \
                   <td>"+candidate.Fitness_Target_dG+"</td> \
                   <td>"+candidate.Fitness_Shape+"</td>";
-		  if(results.InVivoOrganism)
+                  if(results.InVivoOrganism)
                     html+= "<td info='"+ind1+","+ind2+","+ind3+"' class='specificity-entry'>"+candidate.Fitness_Specificity+"</td>";
+                  else 
+                    html+= "<td info='"+ind1+","+ind2+","+ind3+"' class='specificity-entry'>"+"N/A"+"</td>";
                   html+= "<td>"+(candidate.rank+1).toString()+" </td></tr>";
                 })
             })

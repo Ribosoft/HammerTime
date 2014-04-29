@@ -41,6 +41,7 @@
 	Select what environment the ribozyme will be tested on.
 	If in-vivo, you may specify an organism so that we may
 	test that the ribozyme does not anneal to off-target locations.
+  If the organism is not in the list, you may select other. You will then be prompted for a tax-id that can be found in the 'Blast' site. In the organism text box, you can find all organisms that NCBI has in their data base, then copy the tax-id unto this website.
       </div>
     </div>
     <div class="design-form-cat">
@@ -95,8 +96,8 @@
       <fieldset class="option-field" name="shape">
 	<legend class="section-collapse" speed="200">    Ribozyme Shape<i class="icon-question-sign pull-right"></i></legend>
 	<div class="offset2">  
-          <input type="radio" name="foldShape" value="Basic" checked="checked"> Basic</input><br/>
-          <input type="radio" name="foldShape" value="Wishbone"> Wishbone</input>
+          <input type="radio" name="foldShape" value="Basic" checked="checked"> Minimal (before 2003)</input><br/>
+          <input type="radio" name="foldShape" value="Wishbone"> Wishbone (discovered in 2003)</input>
 	</div>
       </fieldset>
       <div class="well well-lg well-help invisible" id="shape-help">
