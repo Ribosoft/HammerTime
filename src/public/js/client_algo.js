@@ -189,6 +189,7 @@ function FindUTRBoundaries(ondone)
         var ORFInfo = clack.indexOf("cdregion");
         var clock = 0;
         var cluck = 0;
+        request.OriginalSequence = request.sequence;
         if( request.region[0] == "3'" && (ThreeUTRInfo != -1 ) )
         {
 
@@ -197,7 +198,7 @@ function FindUTRBoundaries(ondone)
           var click = cleck.split(","); //This small thing splits it into "from" and "to"
           clock = parseInt(click[0].substr(4)) ;// trim from
           cluck = parseInt(click[1].trim().substr(2) ) ; // get to
-          request.sequence = request.sequence.substr(clock, cluck - clock +1 );
+          request.sequence = request.OriginalSequence.substr(clock, cluck - clock +1 );
         
         }
         else if ( ORFInfo != -1)
@@ -209,11 +210,11 @@ function FindUTRBoundaries(ondone)
           cluck = parseInt(click[1].trim().substr(2) ) ; // get to
 
           var ORF =
-             request.sequence.substr(clock, cluck - clock +1);
+             request.OriginalSequence.substr(clock, cluck - clock +1);
           var ARF =
-             request.sequence.substr(cluck);
+             request.OriginalSequence.substr(cluck);
           var URF = 
-             request.sequence.substr(0,clock);
+             request.OriginalSequence.substr(0,clock);
             
           if( request.region.length == 1)
           {
@@ -236,12 +237,15 @@ function FindUTRBoundaries(ondone)
         {
           alert("WARNING: Genbank is not providing info about the UTR. Grabbing full sequence instead.");
         }
-        ondone(true);
+        if( request.sequence <= 2000 )
+          ondone(1);
+        else
+          ondone(2);
       },
       error: function(jqXHR, textStatus, errorThrown)
       {
         alert("Could not access Genbank for UTR info. Error: " + errorThrown + "; Code: "+ textStatus);
-        ondone(false);
+        ondone(0);
       }
   }
   ); 

@@ -495,13 +495,18 @@ DesignParamsValidator.prototype.validate = function(request){
 	this.alert.setState({ok:false, error:"You must specify the target environment and target organism"});
     }
     else if(request.cutsites.length > 2){
-	this.alert.setState({ok:false, error:"You must choose no more than two cut-sites for attachment on the target."});
+	this.alert.setState({ok:false, error:"Please select up to two cut-site types such as GUC and AUC."});
     }
     else if( (request.temperature < -272) ) {
 	this.alert.setState({ok:false, error:"Temperature cannot be below -272&#176;C"});
     }
     else if( (request.naC < 0) || (request.mgC < 0) || (request.oligoC < 0) ) {
 	this.alert.setState({ok:false, error:"Environment concentrations cannot be below 0"});
+    }
+    else if(request.left_arm_max > 18  || request.right_arm_max > 18 || request.left_arm_min < 1 || request.right_arm_min < 1  ||
+            (request.left_arm_max - request.left_arm_min)*(request.right_arm_max - request.right_arm_min) >100  )
+    {
+    this.alert.setState({ok:false, error:"The arm lengths have to be between 1 and 18. Furthermore, the product of the arm length range (i.e. (rmax - rmin)*(lmax-lmin) > 100 )"+ "should be less than 100. This ensures that relevant results can be provided in a timely fashion and allows fair share of the software among users."});
     }
     else {
 	this.alert.hide();
