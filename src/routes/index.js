@@ -55,7 +55,7 @@ exports.results_page = function(req, res, next) {
             title: 'Ribosoft - Results',
             stepTitle: 'Step 5 - Results',
             results: '',
-	    resultMessage: 'No candidates could be generated'
+	    resultMessage: 'No candidates that meet the Annealing Temperature constraints could be generated. This is generally addressed by adjusting the arm lengths edges to be longer.'
         });
     }
 }

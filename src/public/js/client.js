@@ -185,17 +185,24 @@ function finishStep2(event)
         FindUTRBoundaries( 
           function findingDone(e) 
            {
-             if (e)
+             if (e == 1)
              {
                  $("#step2").addClass("invisible");
                  $("#step3").removeClass("invisible");
              }
-             else
+             else if(e == 0)
              {
                 designAlert.setState({ok:false, error:"NCBI is not responding or is temporarily down." +
                                                 "Please try again in a minute or select the whole gene. "+
                                                 "(Multiple searches in a small window of time may "+
                                                 "cause this)"});
+             }
+             else 
+             {
+                designAlert.setState({ok:false, error:"The region of the RNA you have selected is more than 2000 nucleotides." +
+                                                "To permit fair use of the software among users, the sequence must be less than 2000 nucleotides. "+
+                                                "Please select a smaller region or manually trim the sequence in the first step to respect this condition." });
+             
              }
              $("body").removeAttr("style");
              $("#submit").removeAttr("style");
