@@ -14,11 +14,15 @@ module.exports = {
 			       utils.returnError(400, "No sequence was submitted.", next);
 			   } else if(!req.body.cutsites || req.body.cutsites.length > 2) {
 			       utils.returnError(400, "Submitting too many cutsites. No more than two cutsites can be used.", next);
-			   } else {
+			   } else if( (parseInt(req.body.left_arm_max) > 18) || (parseInt(req.body.right_arm_max)) > 18) {
+			       utils.returnError(400, "Helixes I and III cannot be longer than 17 elements long", next);
+			   }
+			   else {
 			       var id = utils.generateUID();
 			       var vivoEnv = (req.body.env.type === "vivo") ? req.body.env.target : '';
 			       if(req.body.region)
 				   var region = utils.toTargetRegion(req.body.region);
+
 			       Request.createRequest(id,
 						     seq,
 						     number,
