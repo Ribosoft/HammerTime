@@ -510,10 +510,10 @@ utils.removeFolders = function(){
     rimraf.sync(pathToResults);
 };
 
-var pathToResults = path.join(process.cwd(), 'requests');
+var pathToResults = process.cwd();
 function saveResultsUncompressed(id, results){
     mkdirp.sync(path.join(pathToResults, id));
-    fs.writeFileSync(path.join(pathToResults, id, 'requestStateUncompressed.json') , results, 'utf-8');
+    fs.writeFileSync( path.join(pathToResults, id, 'requestStateUncompressed.json'), results, 'utf-8');
 };
 
 function loadResultsUncompressed(id){
