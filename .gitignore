@@ -11,3 +11,5 @@ requestState.json
 requestState2.json
 Test/
 /src/node_modules
+
+.idea/

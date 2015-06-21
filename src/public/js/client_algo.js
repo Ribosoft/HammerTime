@@ -233,11 +233,7 @@ function FindUTRBoundaries(ondone)
               request.sequence = ORF + URF;
           }
         }
-        else
-        {
-          alert("WARNING: Genbank is not providing info about the UTR. Grabbing full sequence instead.");
-        }
-        if( request.sequence <= 2000 )
+        if( request.sequence.length <= 2000 )
           ondone(1);
         else
           ondone(2);
