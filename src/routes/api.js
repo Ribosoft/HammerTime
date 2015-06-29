@@ -14,8 +14,8 @@ module.exports = {
 			       utils.returnError(400, "No sequence was submitted.", next);
 			   } else if(!req.body.cutsites || req.body.cutsites.length > 2) {
 			       utils.returnError(400, "Submitting too many cutsites. No more than two cutsites can be used.", next);
-			   } else if( (parseInt(req.body.left_arm_max) > 25) || (parseInt(req.body.right_arm_max)) > 25) {
-			       utils.returnError(400, "Helixes I and III cannot be longer than 25 nucleotides long", next);
+			   } else if( (parseInt(req.body.left_arm_max) > 23) || (parseInt(req.body.right_arm_max)) > 23) {
+			       utils.returnError(400, "Helixes I and III cannot be longer than 23 nucleotides long", next);
 			   }
 			   else {
 			       var id = utils.generateUID();
