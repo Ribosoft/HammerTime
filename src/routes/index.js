@@ -1,4 +1,5 @@
 var utils = require('./route_utils'),
+    config = require('./../config/'),
     url = require('url'),
     mongoose = require('mongoose'),
     fs = require('fs');
@@ -39,7 +40,7 @@ exports.processing_page = function(req, res, next) {
 };
 
 exports.results_page = function(req, res, next) {
-    var path = require('path').join('/home/admin/ribosoft/', req.params.id, '/requestState.json');
+    var path = require('path').join(config.home_folder, req.params.id, '/requestState.json');
 //    var path = '/Users/aambri/SWProjects/HammerTime/src/requestState.json';
     var json_output = '', resultMessage = '';
     try {
